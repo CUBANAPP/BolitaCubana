@@ -1,0 +1,71 @@
+<!--
+  ~ Copyright (c) CUBANAPP LLC 2019-2023 .
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.BolitaCubana" parent="Theme.Material3.DayNight">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/material_dynamic_primary40</item>
+        <item name="colorPrimaryVariant">@color/material_dynamic_primary20</item>
+        <item name="colorOnPrimary">@color/material_dynamic_primary100</item>
+        <item name="android:textColorPrimary">@color/material_dynamic_primary10</item>
+        <item name="textColorAlertDialogListItem">@color/material_dynamic_primary10</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/material_dynamic_primary80</item>
+        <item name="colorSecondaryVariant">@color/material_dynamic_primary60</item>
+        <item name="colorOnSecondary">@color/material_dynamic_primary10</item>
+
+        <item name="colorTertiary">@color/material_dynamic_neutral50</item>
+        <item name="colorTertiaryContainer">@color/material_dynamic_neutral50</item>
+
+        <item name="elevationOverlayColor">@color/light_blue</item>
+        <item name="colorPrimaryInverse">@color/red_500</item>
+
+        <item name="android:textColorHighlight">@color/material_dynamic_primary10</item>
+        <item name="android:textColorHighlightInverse">@color/material_dynamic_primary90</item>
+
+        <!-- Transparent system bars for edge-to-edge. -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="Theme.BolitaCubana.Full" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/material_dynamic_primary40</item>
+        <item name="colorPrimaryVariant">@color/material_dynamic_primary20</item>
+        <item name="colorOnPrimary">@color/material_dynamic_primary100</item>
+        <item name="android:textColorPrimary">@color/material_dynamic_primary10</item>
+        <item name="textColorAlertDialogListItem">@color/material_dynamic_primary10</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/material_dynamic_primary80</item>
+        <item name="colorSecondaryVariant">@color/material_dynamic_primary60</item>
+        <item name="colorOnSecondary">@color/material_dynamic_primary10</item>
+        <!-- Status bar color. -->
+
+        <item name="elevationOverlayColor">@color/light_blue</item>
+        <item name="colorPrimaryInverse">@color/red_500</item>
+
+        <item name="android:textColorHighlight">@color/material_dynamic_primary10</item>
+        <item name="android:textColorHighlightInverse">@color/material_dynamic_primary90</item>
+
+        <!-- Transparent system bars for edge-to-edge. -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Button.Green" parent="Theme.BolitaCubana.Full">
+        <item name="colorPrimary">@color/dark_green</item>
+        <item name="colorAccent">@android:color/holo_green_light</item>
+        <item name="colorPrimaryVariant">@android:color/holo_green_dark</item>
+    </style>
+    <style name="Button.Red" parent="Theme.BolitaCubana.Full">
+        <item name="colorPrimary">@color/red_700</item>
+        <item name="colorAccent">@android:color/holo_red_light</item>
+        <item name="colorPrimaryVariant">@android:color/holo_red_dark</item>
+    </style>
+</resources>
