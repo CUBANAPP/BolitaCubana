@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) CUBANAPP LLC 2019-2023 .
+  -->
+
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">cubanapp.info</domain>
+    </domain-config>
+</network-security-config>
