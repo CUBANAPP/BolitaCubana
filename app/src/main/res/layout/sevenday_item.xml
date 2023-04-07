@@ -4,6 +4,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sevenday_linear"
     android:orientation="horizontal"
     android:layout_width="match_parent"
@@ -22,28 +23,29 @@
         android:fontFamily="@font/burbank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textColor="@color/light_yellow"
         android:shadowColor="@color/black"
         android:shadowRadius="2"
         android:layout_weight="1"
         android:gravity="left|start"
         android:layout_gravity="center"
-        android:text="---------" />
+        android:text=""
+        tools:ignore="NestedWeights" />
 
     <TextView
         android:id="@+id/sD"
         android:fontFamily="@font/burbank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textColor="@color/light_yellow"
         android:shadowColor="@color/black"
         android:shadowRadius="2"
         android:layout_weight="1"
         android:gravity="right"
         android:layout_gravity="center"
-        android:text="Dia" />
+        android:text="" />
 </LinearLayout>
 
         <LinearLayout
@@ -63,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/burbank"
-                android:text="-" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/sF1_1"
@@ -74,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/burbank"
-                android:text="--" />
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -93,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/burbank"
-                android:text="--" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/sC1_2"
@@ -104,6 +106,6 @@
                 android:fontFamily="@font/burbank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="--" />
+                android:text="" />
         </LinearLayout>
 </LinearLayout>

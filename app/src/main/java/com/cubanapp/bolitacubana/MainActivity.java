@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             connection = bundle.getBoolean("connection");
             first = bundle.getBoolean("first");
             message = bundle.getString("msg");
-            if(message != null || !message.equals("")) {
+            if(message != null && !message.equals("")) {
                 if (message.contains("https://")) {
                     if (builder != null) {
                         builder.setTitle(getString(R.string.visitlink));
