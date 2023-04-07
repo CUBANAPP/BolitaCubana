@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) CUBANAPP LLC 2019-2023 .
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.cubanapp.bolitacubana.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_home_to_florida"
+            app:destination="@id/fragment_florida" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_florida"
+        android:name="com.cubanapp.bolitacubana.ui.home.Florida"
+        android:label="@string/florida"
+        tools:layout="@layout/fragment_florida">
+        <action
+            android:id="@+id/action_fragment_florida_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_fragment_florida_to_fragment_sevendays"
+            app:destination="@id/fragment_sevendays" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_sevendays"
+        android:name="com.cubanapp.bolitacubana.ui.home.SevenDays"
+        android:label="@string/sevenDays"
+        tools:layout="@layout/fragment_sevendays">
+        <action
+            android:id="@+id/action_fragment_sevendays_to_fragment_florida"
+            app:destination="@id/fragment_florida" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.cubanapp.bolitacubana.ui.dashboard.DashboardFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.cubanapp.bolitacubana.ui.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+</navigation>

@@ -1,0 +1,59 @@
+<!--
+  ~ Copyright (c) CUBANAPP LLC 2019-2023 .
+  -->
+
+<resources>
+    <string name="title_dashboard">Buscar</string>
+    <string name="title_activity_settings">Ajustes</string>
+    <string name="cancel">Cancelar</string>
+    <string name="open">Abrir</string>
+    <string name="dialog_permission">Permiso de internet necesario para funcionar</string>
+    <string name="dialog_permission2">Permiso de red necesario para funcionar</string>
+    <string name="retry">Reintentar</string>
+    <string name="dismiss">Cancelar</string>
+    <string name="update">Está disponible una nueva versión</string>
+    <string name="sevenDays">Tiradas Última Semana</string>
+    <string name="pickDate">Selecciona una fecha</string>
+
+    <!-- Preferencias -->
+    <string name="firebase">Informes de uso de Bolita Cubana</string>
+    <string name="firebaseData">Enviar datos Anónimos (Global)</string>
+    <string name="data_disabled">Están desabilitada la recogida de informes de uso para todos los servicios de Google</string>
+    <string name="data_enabled">Google puede recoger datos de uso de Bolita Cubana</string>
+    <string name="notification">Notificaciones</string>
+    <string name="notificaciontitle">Resultados de la Bolita</string>
+    <string name="notification_disabled">No informar de cada tirada</string>
+    <string name="notification_enabled">Recibir notificaciones de cada tirada de Bolita Cubana</string>
+    <string name="notificacionpromotional">Recibir notificaciones promocionales</string>
+    <string name="promotional">Promociones</string>
+    <string name="promotional_disabled">Notificaciones deshabilitades</string>
+    <string name="sdk19">Deshabilitado hasta Android 4.4 (KitKat)</string>
+    <string name="resourceManagement">Envío en primer plano</string>
+    <string name="analytics">Envío de estadísticas</string>
+    <string name="adstitle">Anuncios de Google</string>
+    <string name="adspersonal">Usar mi ID de publicidad</string>
+    <string name="messageDelegation">Permiso de notificaciones</string>
+    <string name="errorInformes">Generación de errores</string>
+    <string name="crashlytic">Enviar informe de errores</string>
+    <string name="firebaseperf">Send performance usage</string>
+    <string name="performance">Performance Settings</string>
+    <string name="exportBigQuery">Exportar métricas BigQuery</string>
+    <string name="dia">Día</string>
+    <string name="noche">Noche</string>
+    <string name="search_another">Buscar otra fecha</string>
+    <string name="last_seven">Ver los últimos 7 días</string>
+    <string name="resultados_florida">Resultados de Florida</string>
+    <string name="results_georgia">Próximamente meteremos Georgia</string>
+    <string name="accept">Aceptar</string>
+    <string name="notificationdgranted">Permiso de notificaciones concedido</string>
+    <string name="notificationdeclined">Bolita Cubana no puede recibir notificaciones</string>
+    <string name="msg_subscribed">Completado</string>
+    <string name="msg_subscribe_failed">Ha fallado</string>
+
+    <string name="default_notification_channel_name">Resultados</string>
+    <string name="link">"Bolita Cubana te sugiere visitar el siguiente enlace: \n\n"</string>
+    <string name="important">Importante</string>
+    <string name="obsolete">Descarga de Google Play</string>
+    <string name="visitlink">Mira esto</string>
+    <string name="connection">Es necesario tener una conexión Wifi o Datos activa</string>
+</resources>
