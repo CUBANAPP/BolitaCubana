@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) CUBANAPP LLC 2019-2023 .
+  -->
+<DatePicker
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/datepicker"
+    style="@android:style/Widget.DatePicker"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minDate="05/01/2016"
+    tools:context=".ui.dashboard.DashboardFragment"/>
