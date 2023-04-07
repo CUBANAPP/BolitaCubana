@@ -1,0 +1,175 @@
+plugins {
+    id 'com.android.application'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    // Make sure that you have the Google services Gradle plugin
+    id 'com.google.gms.google-services'
+    // Add the Performance Monitoring Gradle plugin
+    id 'com.google.firebase.firebase-perf'
+    // Add the Crashlytics Gradle plugin
+    id 'com.google.firebase.crashlytics'
+}
+def localPropertiesFile = rootProject.file("local.properties")
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(localPropertiesFile))
+
+android {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Users\\CUBANAPP\\.android\\debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+        release {
+            storeFile file(localProperties["KEYSTOREFILE"])
+            storePassword localProperties["KEYSTOREPSWD"]
+            keyAlias localProperties["ALIAS"]
+            keyPassword localProperties["ALIAS_KEY"]
+        }
+    }
+    namespace 'com.cubanapp.bolitacubana'
+    compileSdk 33
+
+    defaultConfig {
+        // should correspond to key/value pairs inside the file
+        buildConfigField("String", "ADS_KEY", localProperties['ADS_KEY'])
+        buildConfigField("String", "API_KEY", localProperties['API_KEY'])
+        applicationId "com.cubanapp.bolitacubana"
+        minSdk 16
+        targetSdk 33
+        versionCode 79
+        versionName "1.0.1"
+        resConfigs "en", "es"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        debug {
+            crunchPngs false
+            shrinkResources false
+            minifyEnabled false
+            firebaseCrashlytics {
+                mappingFileUploadEnabled false
+            }
+            debuggable true
+            jniDebuggable true
+            renderscriptDebuggable true
+            signingConfig signingConfigs.debug
+            multiDexEnabled true
+        }
+        release {
+            crunchPngs true
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            firebaseCrashlytics {
+                mappingFileUploadEnabled false
+            }
+            jniDebuggable false
+            debuggable false
+            renderscriptDebuggable false
+            signingConfig signingConfigs.release
+            multiDexEnabled true
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    // Instead, use the bundle block to control which types of configuration APKs
+    // you want your app bundle to support.
+    bundle {
+        language {
+            // Specifies that the app bundle should not support
+            // configuration APKs for language resources. These
+            // resources are instead packaged with each base and
+            // feature APK.
+            enableSplit = true
+        }
+        density {
+            // This property is set to true by default.
+            enableSplit = true
+        }
+        abi {
+            // This property is set to true by default.
+            enableSplit = true
+        }
+    }
+    splits{
+        // Configures multiple APKs based on screen density.
+        density {
+
+            // Configures multiple APKs based on screen density.
+            enable true
+
+            // Specifies a list of screen densities Gradle should not create multiple APKs for.
+            exclude "ldpi", "xxhdpi", "xxxhdpi"
+
+            // Specifies a list of compatible screen size settings for the manifest.
+            compatibleScreens 'small', 'normal', 'large', 'xlarge'
+        }
+        // Configures multiple APKs based on ABI.
+        abi {
+
+            // Enables building multiple APKs per ABI.
+            enable false
+
+            // By default all ABIs are included, so use reset() and include to specify that we only
+            // want APKs for x86 and x86_64.
+
+            // Resets the list of ABIs that Gradle should create APKs for to none.
+            //reset()
+
+            // Specifies a list of ABIs that Gradle should create APKs for.
+            //include "x86", "x86_64"
+
+            // Specifies that we do not want to also generate a universal APK that includes all ABIs.
+            universalApk true
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    dependenciesInfo {
+        includeInApk false
+        includeInBundle false
+    }
+    buildToolsVersion '33.0.2'
+}
+
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:31.4.0')
+    implementation "androidx.multidex:multidex:2.0.1"
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
+    implementation 'androidx.navigation:navigation-fragment:2.5.3'
+    implementation 'androidx.navigation:navigation-ui:2.5.3'
+    implementation 'androidx.preference:preference:1.2.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    implementation 'com.android.volley:volley:1.2.1'
+
+    implementation 'com.google.android.gms:play-services-ads:22.0.0'
+
+    // Firebase
+    //implementation 'com.google.firebase:firebase-appindexing'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-inappmessaging'
+    implementation 'com.google.firebase:firebase-inappmessaging-display'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-perf'
+}
