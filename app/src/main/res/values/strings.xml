@@ -63,5 +63,6 @@
     <string name="important" translatable="true">Important</string>
     <string name="obsolete" translatable="true">Google Play Update</string>
     <string name="visitlink" translatable="true">Look this</string>
-    <string name="connection">Es necesario tener una conexión Wifi o Datos activa</string>
+    <string name="connection" translatable="true">Es necesario tener una conexión Wifi o Datos activa</string>
+    <string name="launcherimage" translatable="true">Launcher Image</string>
 </resources>

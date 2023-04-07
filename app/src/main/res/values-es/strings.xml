@@ -10,7 +10,7 @@
     <string name="dialog_permission">Permiso de internet necesario para funcionar</string>
     <string name="dialog_permission2">Permiso de red necesario para funcionar</string>
     <string name="retry">Reintentar</string>
-    <string name="dismiss">Cancelar</string>
+    <string name="dismiss">Cerrar</string>
     <string name="update">Está disponible una nueva versión</string>
     <string name="sevenDays">Tiradas Última Semana</string>
     <string name="pickDate">Selecciona una fecha</string>
@@ -56,4 +56,5 @@
     <string name="obsolete">Descarga de Google Play</string>
     <string name="visitlink">Mira esto</string>
     <string name="connection">Es necesario tener una conexión Wifi o Datos activa</string>
+    <string name="launcherimage">Imagen de Inicio</string>
 </resources>

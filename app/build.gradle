@@ -38,7 +38,7 @@ android {
         minSdk 16
         targetSdk 33
         versionCode 80
-        versionName "1.0.2"
+        versionName "1.0.2 Alpha"
         resConfigs "en", "es"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
@@ -103,13 +103,13 @@ android {
         density {
 
             // Configures multiple APKs based on screen density.
-            enable true
+            enable false
 
             // Specifies a list of screen densities Gradle should not create multiple APKs for.
-            exclude "ldpi", "xxhdpi", "xxxhdpi"
+            //exclude "ldpi", "xxhdpi", "xxxhdpi"
 
             // Specifies a list of compatible screen size settings for the manifest.
-            compatibleScreens 'small', 'normal', 'large', 'xlarge'
+            //compatibleScreens 'small', 'normal', 'large', 'xlarge'
         }
         // Configures multiple APKs based on ABI.
         abi {

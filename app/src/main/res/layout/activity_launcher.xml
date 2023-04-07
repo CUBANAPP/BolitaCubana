@@ -15,7 +15,7 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="LauncherImage"
+        android:contentDescription="@string/launcherimage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +96,7 @@
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:text="@string/accept"
-        android:theme="@style/Button.Green"
+        android:textColor="@android:color/holo_green_dark"
         android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -107,14 +107,13 @@
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:text="@string/cancel"
-        android:theme="@style/Button.Red"
+        android:textColor="@android:color/holo_red_dark"
         android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"
-        style="?attr/progressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:max="100"
