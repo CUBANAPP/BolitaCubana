@@ -38,7 +38,7 @@ android {
         minSdk 16
         targetSdk 33
         versionCode 80
-        versionName "1.0.1 Debug"
+        versionName "1.0.0 fix"
         resConfigs "en", "es"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug

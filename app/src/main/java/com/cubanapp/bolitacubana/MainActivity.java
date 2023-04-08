@@ -50,7 +50,6 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -157,8 +156,8 @@ public class MainActivity extends AppCompatActivity {
             //FirebaseApp.initializeApp(this);
             //FirebaseOptions.Builder firebaseOptions = new FirebaseOptions.Builder();
             if(connection) {
-                FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
-                firebaseMessaging.getToken().addOnCompleteListener(v -> Log.d(DEBUG_TAG, "FCM Key: " + v.getResult()));
+                //FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
+                //firebaseMessaging.getToken().addOnCompleteListener(v -> Log.d(DEBUG_TAG, "FCM Key: " + v.getResult()));
             }
             //FirebaseMessaging.getInstance(FirebaseApp.initializeApp(this));
             MobileAds.initialize(this, initializationStatus -> {

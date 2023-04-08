@@ -239,7 +239,7 @@ public class Launcher extends AppCompatActivity {
             }
 
             progressBar.setProgress(20);
-            if (!firstTime && ConnSuccess) {
+            if (firstTime && ConnSuccess) {
                 if (Build.VERSION.SDK_INT >= 19) {
                     mFirebaseMessages = FirebaseMessaging.getInstance();
                     mFirebaseMessages.subscribeToTopic("Default");
@@ -252,7 +252,7 @@ public class Launcher extends AppCompatActivity {
                 else
                     myWebView.loadUrl("https://cubanapp.info/api/priv.html");
 
-            } else if (!firstTime) {
+            } else if (firstTime) {
                 if(builder != null) {
                     builder.setMessage(getString(R.string.connection));
                     builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.retry), (dialog, which) -> startSync());

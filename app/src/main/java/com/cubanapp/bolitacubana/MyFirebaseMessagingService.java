@@ -71,6 +71,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             // Since android Oreo notification channel is needed.
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(0, notificationBuilder.build());
+
             super.onMessageReceived(remoteMessage);
         }
     }
