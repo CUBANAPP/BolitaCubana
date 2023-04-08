@@ -6,50 +6,51 @@
     <!-- Base application theme. -->
     <style name="Theme.BolitaCubana" parent="Theme.Material3.DayNight">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/material_dynamic_primary40</item>
-        <item name="colorPrimaryVariant">@color/material_dynamic_primary20</item>
-        <item name="colorOnPrimary">@color/material_dynamic_primary100</item>
-        <item name="android:textColorPrimary">@color/material_dynamic_primary10</item>
-        <item name="textColorAlertDialogListItem">@color/material_dynamic_primary10</item>
-
+        <item name="colorPrimary">#00668B</item>
+        <item name="colorPrimaryVariant">#003549</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:textColorPrimary">#001E2C</item>
+        <item name="textColorAlertDialogListItem">#001E2C</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/material_dynamic_primary80</item>
-        <item name="colorSecondaryVariant">@color/material_dynamic_primary60</item>
-        <item name="colorOnSecondary">@color/material_dynamic_primary10</item>
+        <item name="colorSecondary">#76D1FF</item>
+        <item name="colorSecondaryVariant">#219BCC</item>
+        <item name="colorOnSecondary">#001E2C</item>
 
-        <item name="colorTertiary">@color/material_dynamic_neutral50</item>
-        <item name="colorTertiaryContainer">@color/material_dynamic_neutral50</item>
+        <item name="colorTertiary">#747679</item>
+        <item name="colorTertiaryContainer">#747679</item>
 
-        <item name="elevationOverlayColor">@color/light_blue</item>
-        <item name="colorPrimaryInverse">@color/red_500</item>
+        <!-- Status bar color. -->
+        <item name="elevationOverlayColor">#66FFFB</item>
+        <item name="colorPrimaryInverse">#A90000</item>
 
-        <item name="android:textColorHighlight">@color/material_dynamic_primary10</item>
-        <item name="android:textColorHighlightInverse">@color/material_dynamic_primary90</item>
+        <item name="android:textColorHighlight">#001E2C</item>
+        <item name="android:textColorHighlightInverse">#C1E8FF</item>
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="21">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-
-
     </style>
     <style name="Theme.BolitaCubana.Full" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/material_dynamic_primary40</item>
-        <item name="colorPrimaryVariant">@color/material_dynamic_primary20</item>
-        <item name="colorOnPrimary">@color/material_dynamic_primary100</item>
-        <item name="android:textColorPrimary">@color/material_dynamic_primary10</item>
-        <item name="textColorAlertDialogListItem">@color/material_dynamic_primary10</item>
+        <item name="colorPrimary">#00668B</item>
+        <item name="colorPrimaryVariant">#003549</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:textColorPrimary">#001E2C</item>
+        <item name="textColorAlertDialogListItem">#001E2C</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/material_dynamic_primary80</item>
-        <item name="colorSecondaryVariant">@color/material_dynamic_primary60</item>
-        <item name="colorOnSecondary">@color/material_dynamic_primary10</item>
+        <item name="colorSecondary">#76D1FF</item>
+        <item name="colorSecondaryVariant">#219BCC</item>
+        <item name="colorOnSecondary">#001E2C</item>
+
+        <item name="colorTertiary">#747679</item>
+        <item name="colorTertiaryContainer">#747679</item>
+
         <!-- Status bar color. -->
+        <item name="elevationOverlayColor">#66FFFB</item>
+        <item name="colorPrimaryInverse">#A90000</item>
 
-        <item name="elevationOverlayColor">@color/light_blue</item>
-        <item name="colorPrimaryInverse">@color/red_500</item>
-
-        <item name="android:textColorHighlight">@color/material_dynamic_primary10</item>
-        <item name="android:textColorHighlightInverse">@color/material_dynamic_primary90</item>
+        <item name="android:textColorHighlight">#001E2C</item>
+        <item name="android:textColorHighlightInverse">#C1E8FF</item>
 
         <item name="android:statusBarColor" tools:targetApi="21">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->

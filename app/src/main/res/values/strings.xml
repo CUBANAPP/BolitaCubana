@@ -65,4 +65,5 @@
     <string name="visitlink" translatable="true">Look this</string>
     <string name="connection" translatable="true">Es necesario tener una conexión Wifi o Datos activa</string>
     <string name="launcherimage" translatable="true">Launcher Image</string>
+    <string name="space" translatable="false"> </string>
 </resources>

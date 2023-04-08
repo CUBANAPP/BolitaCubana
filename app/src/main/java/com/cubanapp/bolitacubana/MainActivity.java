@@ -116,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
         else*/
         apiKey = BuildConfig.API_KEY;
 
-        AdView adView = (AdView) findViewById(R.id.adView);
         //adView.setVisibility(View.GONE);
 
         builder = new AlertDialog.Builder(this)
@@ -154,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(Build.VERSION.SDK_INT >= 19) {
+            AdView adView = (AdView) findViewById(R.id.adView);
             //FirebaseApp.initializeApp(this);
             //FirebaseOptions.Builder firebaseOptions = new FirebaseOptions.Builder();
             if(connection) {
@@ -208,9 +208,6 @@ public class MainActivity extends AppCompatActivity {
             adView.loadAd(adRequest);
             adView.setActivated(true);
             adView.setEnabled(true);
-        }else{
-            adView.setActivated(false);
-            adView.setEnabled(false);
         }
 
 

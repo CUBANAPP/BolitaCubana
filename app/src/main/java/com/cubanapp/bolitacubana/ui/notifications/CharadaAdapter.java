@@ -51,13 +51,13 @@ public class CharadaAdapter extends RecyclerView.Adapter<CharadaAdapter.ViewHold
         public TextView numero;
         public TextView primera;
         public TextView resto;
-        public LinearLayout relativeLayout;
+        //public LinearLayout relativeLayout;
         public ViewHolder(View itemView) {
             super(itemView);
             this.numero = (TextView) itemView.findViewById(R.id.numero);
             this.primera = (TextView) itemView.findViewById(R.id.pripalabra);
             this.resto = (TextView) itemView.findViewById(R.id.restopalabras);
-            relativeLayout = (LinearLayout) itemView.findViewById(R.id.charada_linear);
+            //relativeLayout = (LinearLayout) itemView.findViewById(R.id.charada_linear);
         }
     }
 }
