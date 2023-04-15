@@ -43,35 +43,34 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            int uniqueInt = (int) (System.currentTimeMillis() & 0xff);
+                int uniqueInt = (int) (System.currentTimeMillis() & 0xff);
 
-            PendingIntent pendingIntent = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                pendingIntent = PendingIntent.getActivity(getApplicationContext(), uniqueInt, intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT| PendingIntent.FLAG_IMMUTABLE);
-            }
+                PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), uniqueInt, intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            /*}
             else{
                 pendingIntent = PendingIntent.getActivity(getApplicationContext(), uniqueInt, intent,
                                 PendingIntent.FLAG_UPDATE_CURRENT);
+            }*/
+                NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "fcm_default_channel");
+                notificationBuilder.setSmallIcon(R.drawable.ic_notification)
+                        .setContentTitle(remoteMessage.getNotification().getTitle())
+                        .setContentText(remoteMessage.getNotification().getBody())
+                        .setColor(getResources().getColor(R.color.red_500, getTheme()))
+                        .setColorized(true)
+                        .setAutoCancel(true)
+                        .setContentIntent(pendingIntent);
+                // Also if you intend on generating your own notifications as a result of a received FCM
+                // message, here is where that should be initiated. See sendNotification method below.
+                // Since android Oreo notification channel is needed.
+                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(0, notificationBuilder.build());
             }
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "fcm_default_channel");
-            notificationBuilder.setSmallIcon(R.drawable.ic_notification)
-                    .setContentTitle(remoteMessage.getNotification().getTitle())
-                    .setContentText(remoteMessage.getNotification().getBody())
-                    .setColor(getResources().getColor(R.color.red_500))
-                    .setColorized(true)
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent);
-            // Also if you intend on generating your own notifications as a result of a received FCM
-            // message, here is where that should be initiated. See sendNotification method below.
-            // Since android Oreo notification channel is needed.
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(0, notificationBuilder.build());
-
             super.onMessageReceived(remoteMessage);
         }
     }

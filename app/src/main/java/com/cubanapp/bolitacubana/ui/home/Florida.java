@@ -91,18 +91,35 @@ public class Florida extends Fragment {
             String fijo2 = sharedPref.getString("F2", "---");
 
             binding.D1.setText(sharedPref.getString("D", "--/--/----"));
-            binding.D.setText("Día");
+            binding.D.setText(getString(R.string.dia));
             binding.SD.setText(sharedPref.getString("DS", "-"));
-            binding.F10.setText(fijo1.substring(0, 1));
-            binding.F11.setText(fijo1.substring(1, 3));
+            if (fijo1.length() < 3) {
+                binding.F11.setText(fijo1);
+            } else {
+                try {
+                    binding.F10.setText(fijo1.substring(0, 1));
+                    binding.F11.setText(fijo1.substring(1, 3));
+                } catch (StringIndexOutOfBoundsException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             binding.C11.setText(sharedPref.getString("CD1", "--"));
             binding.C12.setText(sharedPref.getString("CD2", "--"));
 
             binding.N1.setText(sharedPref.getString("N", "--/--/----"));
-            binding.N.setText("Noche");
+            binding.N.setText(getString(R.string.noche));
             binding.SN.setText(sharedPref.getString("NS", "-"));
-            binding.F20.setText(fijo2.substring(0, 1));
-            binding.F21.setText(fijo2.substring(1, 3));
+            if(fijo1.length() < 3){
+                binding.F21.setText(fijo2);
+            }
+            else {
+                try {
+                    binding.F20.setText(fijo2.substring(0, 1));
+                    binding.F21.setText(fijo2.substring(1, 3));
+                } catch (StringIndexOutOfBoundsException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             binding.C21.setText(sharedPref.getString("CN1", "--"));
             binding.C22.setText(sharedPref.getString("CN2", "--"));
         }
@@ -254,18 +271,36 @@ public class Florida extends Fragment {
                                         String fijo2 = (String) response.get("F2");
 
                                         binding.D1.setText(yearOut.format(yearText));
-                                        binding.D.setText("Día");
+                                        binding.D.setText(getString(R.string.dia));
                                         binding.SD.setText(diaSemana);
-                                        binding.F10.setText(fijo1.substring(0, 1));
-                                        binding.F11.setText(fijo1.substring(1, 3));
+                                        if(fijo1.length() < 3){
+                                            binding.F11.setText(fijo1);
+                                        }
+                                        else {
+                                            try {
+                                                binding.F10.setText(fijo1.substring(0, 1));
+                                                binding.F11.setText(fijo1.substring(1, 3));
+                                            } catch (StringIndexOutOfBoundsException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        }
                                         binding.C11.setText((String) response.get("CD1"));
                                         binding.C12.setText((String) response.get("CD2"));
 
                                         binding.N1.setText(yearOut.format(yearText2));
-                                        binding.N.setText("Noche");
+                                        binding.N.setText(getString(R.string.noche));
                                         binding.SN.setText(nocheSemana);
-                                        binding.F20.setText(fijo2.substring(0, 1));
-                                        binding.F21.setText(fijo2.substring(1, 3));
+                                        if(fijo1.length() < 3){
+                                            binding.F21.setText(fijo2);
+                                        }
+                                        else {
+                                            try {
+                                                binding.F20.setText(fijo2.substring(0, 1));
+                                                binding.F21.setText(fijo2.substring(1, 3));
+                                            } catch (StringIndexOutOfBoundsException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        }
                                         binding.C21.setText((String) response.get("CN1"));
                                         binding.C22.setText((String) response.get("CN2"));
                                     }

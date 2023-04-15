@@ -180,20 +180,40 @@ public class DashboardFragment extends Fragment {
                                     String corridos = (String) response.get("corridos");
 
                                     binding.D1s.setText((String) response.get("date"));
-                                    binding.Ds.setText("Día");
+                                    binding.Ds.setText(getString(R.string.dia));
                                     binding.SDs.setText((String) response.get("semana"));
-                                    binding.F10s.setText(fijos.substring(0, 1));
-                                    binding.F11s.setText(fijos.substring(1, 3));
-                                    binding.C11s.setText(corridos.substring(0, 2));
-                                    binding.C12s.setText(corridos.substring(2, 4));
+                                    try {
+                                        binding.F10s.setText(fijos.substring(0, 1));
+                                        binding.F11s.setText(fijos.substring(1, 3));
+                                    } catch (StringIndexOutOfBoundsException e) {
+                                        throw new RuntimeException(e);
+                                    }
+
+
+                                    try {
+                                        binding.C11s.setText(corridos.substring(0, 2));
+                                        binding.C12s.setText(corridos.substring(2, 4));
+                                    } catch (StringIndexOutOfBoundsException e) {
+                                        throw new RuntimeException(e);
+                                    }
 
                                     binding.N1s.setText((String) response.get("date"));
-                                    binding.Ns.setText("Noche");
+                                    binding.Ns.setText(getString(R.string.noche));
                                     binding.SNs.setText((String) response.get("semana"));
-                                    binding.F20s.setText(fijos.substring(3, 4));
-                                    binding.F21s.setText(fijos.substring(4, 6));
-                                    binding.C21s.setText(corridos.substring(4, 6));
-                                    binding.C22s.setText(corridos.substring(6, 8));
+
+                                    try {
+                                        binding.F20s.setText(fijos.substring(3, 4));
+                                        binding.F21s.setText(fijos.substring(4, 6));
+                                    } catch (StringIndexOutOfBoundsException e) {
+                                        throw new RuntimeException(e);
+                                    }
+
+                                    try {
+                                        binding.C21s.setText(corridos.substring(4, 6));
+                                        binding.C22s.setText(corridos.substring(6, 8));
+                                    } catch (StringIndexOutOfBoundsException e) {
+                                        throw new RuntimeException(e);
+                                    }
                                     binding.progressBar4.setVisibility(View.GONE);
                                 }
                             } else {

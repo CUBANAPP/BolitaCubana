@@ -21,10 +21,7 @@
             android:id="@+id/numero"
             android:textSize="26sp"
             android:textColor="@color/yellow"
-            android:shadowColor="@color/black"
-            android:shadowRadius="4"
             android:layout_marginEnd="10dp"
-            
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="" />
@@ -32,10 +29,7 @@
                     android:id="@+id/space"
                     android:textSize="26sp"
                     android:textColor="@color/yellow"
-                    android:shadowColor="@color/black"
-                    android:shadowRadius="4"
                     android:layout_marginEnd="10dp"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/space" />
@@ -43,10 +37,7 @@
         <TextView
             android:id="@+id/pripalabra"
             android:textSize="22sp"
-            android:shadowRadius="4"
-            android:shadowColor="@color/black"
             android:textColor="@color/yellow"
-            
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="" />
@@ -55,11 +46,8 @@
         <TextView
             android:id="@+id/restopalabras"
             android:textSize="18sp"
-            android:shadowRadius="4"
             android:breakStrategy="simple"
-            android:shadowColor="@color/black"
             android:textColor="@color/light_white"
-            
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="" />

@@ -114,8 +114,8 @@ public class SevenDays extends Fragment {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
             try {
                 Date fechaActual = fechaFormato.parse(fechaString);
-                String sDiaGuardado = sharedPref.getString("SevenUpdate", "2020-01-01");
-                saved = sharedPref.getStringSet("SevenDays", null);
+                String sDiaGuardado = sharedPref.getString("sevenDUpdate", "2020-01-01");
+                saved = sharedPref.getStringSet("ultimosSiete", null);
                 Calendar c = Calendar.getInstance();
                 c.setTime(fechaFormato.parse(sDiaGuardado));
                 c.add(Calendar.DATE, 1);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
@@ -209,8 +209,8 @@ public class SevenDays extends Fragment {
                                                 try {
                                                     SharedPreferences.Editor editor = sharedPref.edit();
                                                     JSONObject s = jsonArray.getJSONObject(0);
-                                                    editor.putString("SevenUpdate", (String) s.get("date"));
-                                                    editor.putStringSet("SevenDays", save);
+                                                    editor.putString("sevenDUpdate", (String) s.get("date"));
+                                                    editor.putStringSet("ultimosSiete", save);
                                                     editor.apply();
                                                 }
                                                 catch (JSONException e){
@@ -370,15 +370,29 @@ public class SevenDays extends Fragment {
                 fecha.setText(dSemana.format(d));
 
                 if (((String) s.get("hora")).equals("dia")) {
-                    hora.setText("Día");
+                    hora.setText(getString(R.string.dia));
                 } else {
-                    hora.setText("Noche");
-                    hora.setTextColor(getResources().getColor(R.color.navy_blue));
-                    fecha.setTextColor(getResources().getColor(R.color.navy_blue));
+                    hora.setText(getString(R.string.noche));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        hora.setTextColor(getResources().getColor(R.color.navy_blue, requireContext().getTheme()));
+                        fecha.setTextColor(getResources().getColor(R.color.navy_blue, requireContext().getTheme()));
+                    } else {
+                        hora.setTextColor(getResources().getColor(R.color.navy_blue));
+                        fecha.setTextColor(getResources().getColor(R.color.navy_blue));
+                    }
                 }
                 String s0 = (String) s.get("fijo");
-                fijo1.setText(s0.substring(0, 1));
-                fijo2.setText(s0.substring(1, 3));
+                if (s0.length() < 3) {
+                    fijo2.setText(s0);
+                } else {
+
+                    try {
+                        fijo1.setText(s0.substring(0, 1));
+                        fijo2.setText(s0.substring(1, 3));
+                    } catch (StringIndexOutOfBoundsException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 corrido1.setText((String) s.get("corrido1"));
                 corrido2.setText((String) s.get("corrido2"));
                 binding.linearSeven.addView(header);
