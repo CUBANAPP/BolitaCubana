@@ -23,8 +23,6 @@ import com.cubanapp.bolitacubana.R;
 import com.cubanapp.bolitacubana.databinding.FragmentNotificationsBinding;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.Arrays;
-
 public class NotificationsFragment extends Fragment {
 
     private FragmentNotificationsBinding binding;

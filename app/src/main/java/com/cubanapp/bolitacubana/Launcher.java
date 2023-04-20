@@ -39,9 +39,6 @@ import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.cubanapp.bolitacubana.databinding.ActivityLauncherBinding;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.security.ProviderInstaller;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -52,12 +49,7 @@ import com.google.firebase.perf.FirebasePerformance;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLEngine;
 
 public class Launcher extends AppCompatActivity {
     //DialogNew permissionDialog;
