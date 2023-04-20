@@ -6,6 +6,7 @@ package com.cubanapp.bolitacubana.ui.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.ArraySet;
@@ -85,8 +86,6 @@ public class SevenDays extends Fragment {
         if (getActivity() != null)
             sharedPref = getActivity().getSharedPreferences(
                     getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-
-        //lists = sharedPref.getStringSet("sevenDays", null);
         checkUpdate();
     }
 
@@ -164,8 +163,13 @@ public class SevenDays extends Fragment {
             }*/
             if (requestQueue != null && binding != null) {
                 binding.progressBar3.setVisibility(View.VISIBLE);
-
-                String url = "https://cubanapp.info/api/suserinfo.php";
+                String url;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    url = "https://cubanapp.info/api/suserinfo.php";
+                }else{
+                    url = "http://cubanapp.info/api/suserinfo.php";
+                }
+                //String url = "https://cubanapp.info/api/suserinfo.php";
                 JSONObject json = new JSONObject();
 
                 try {
@@ -175,7 +179,7 @@ public class SevenDays extends Fragment {
                     //try {
                     if (getActivity() != null) {
                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                "Ha ocurrido un error al generar los datos", Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
+                                getString(R.string.errorData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
                         mySnackbar.show();
                     }
                     //} catch (Exception ei) {
@@ -214,7 +218,7 @@ public class SevenDays extends Fragment {
                                                     editor.apply();
                                                 }
                                                 catch (JSONException e){
-                                                    throw new RuntimeException(e);
+                                                    //throw new RuntimeException(e);
                                                 }
                                             }
 
@@ -222,7 +226,7 @@ public class SevenDays extends Fragment {
                                         } else {
 
                                             mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                                    "Bolita Cubana encontró un error interno", Snackbar.LENGTH_LONG);
+                                                    getString(R.string.internalerror), Snackbar.LENGTH_LONG);
                                             mySnackbar.show();
 
                                         }
@@ -231,7 +235,7 @@ public class SevenDays extends Fragment {
                                     binding.progressBar3.setVisibility(View.GONE);
                                     if (getActivity() != null) {
                                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                                "Bolita Cubana encontró un error interno", Snackbar.LENGTH_LONG);
+                                                getString(R.string.internalerror), Snackbar.LENGTH_LONG);
                                         mySnackbar.show();
                                     }
                                 }
@@ -243,7 +247,7 @@ public class SevenDays extends Fragment {
                                 //try {
                                 if (getActivity() != null) {
                                     mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                            "Ha ocurrido un error al obtener los datos", Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
+                                            getString(R.string.generateData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
                                     mySnackbar.show();
                                 }
                                 // } catch (Exception ei) {
@@ -261,7 +265,7 @@ public class SevenDays extends Fragment {
                         //try {
                         if (getActivity() != null) {
                             mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                    "Parece que su conexión está lenta", Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
+                                    getString(R.string.slowconn), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
                             mySnackbar.show();
                         }
                         //} catch (Exception e) {
@@ -272,7 +276,7 @@ public class SevenDays extends Fragment {
                         //try {
                         if (getActivity() != null) {
                             mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                    "Se ha perdido la conexión con los servidores de Bolita Cubana", Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
+                                    getString(R.string.lostsvr), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
                             mySnackbar.show();
                         }
                         //} catch (Exception e) {
@@ -342,7 +346,7 @@ public class SevenDays extends Fragment {
 
         String root = json.toString();
         Log.d(DEBUG_TAG, "JSON: " + root);
-
+        Typeface font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
 
         for (int i = 0; i < json.length(); i++) {
             if (binding == null || getActivity() == null)
@@ -363,6 +367,13 @@ public class SevenDays extends Fragment {
                 TextView fijo2 = header.findViewById(R.id.sF1_1);
                 TextView corrido1 = header.findViewById(R.id.sC1_1);
                 TextView corrido2 = header.findViewById(R.id.sC1_2);
+
+                fecha.setTypeface(font);
+                hora.setTypeface(font);
+                fijo1.setTypeface(font);
+                fijo2.setTypeface(font);
+                corrido1.setTypeface(font);
+                corrido2.setTypeface(font);
 
                 SimpleDateFormat get = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 //get.parse((String) s.get("date"));

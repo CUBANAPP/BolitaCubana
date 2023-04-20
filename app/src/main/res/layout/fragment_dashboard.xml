@@ -40,7 +40,6 @@
                     android:id="@+id/Ds"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/burbank"
                     android:gravity="left|start"
                     android:text="@string/dia"
                     android:textColor="@color/light_yellow"
@@ -50,7 +49,6 @@
                     android:id="@+id/SDs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/burbank"
                     android:gravity="left|start"
                     android:text=""
                     android:textColor="@color/light_yellow"
@@ -60,7 +58,6 @@
                     android:id="@+id/D1s"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/burbank"
                     android:gravity="left|start"
                     android:text="@string/fechaempty"
                     android:textColor="@color/white"
@@ -85,7 +82,6 @@
                         android:id="@+id/F1_0s"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/burbank"
                         android:text=""
                         android:textColor="@color/black_yellow"
                         android:textSize="38sp" />
@@ -94,7 +90,6 @@
                         android:id="@+id/F1_1s"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/burbank"
                         android:text=""
                         android:textColor="@color/yellow"
                         android:textSize="38sp" />
@@ -111,7 +106,6 @@
                         android:id="@+id/C1_1s"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/burbank"
                         android:text=""
                         android:textColor="@color/light_blue"
                         android:textSize="38sp" />
@@ -120,7 +114,6 @@
                         android:id="@+id/C1_2s"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/burbank"
                         android:text=""
                         android:textColor="@color/holo_green"
                         android:textSize="38sp" />
@@ -144,7 +137,6 @@
                     android:id="@+id/Ns"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/burbank"
                     android:gravity="left|start"
                     android:text="@string/noche"
                     android:textColor="@color/navy_blue"
@@ -154,7 +146,6 @@
                     android:id="@+id/SNs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/burbank"
                     android:gravity="left|start"
                     android:text=""
                     android:textColor="@color/navy_blue"
@@ -164,7 +155,6 @@
                     android:id="@+id/N1s"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/burbank"
                     android:gravity="left|start"
                     android:text="@string/fechaempty"
                     android:textColor="@color/white"
@@ -189,7 +179,6 @@
                         android:id="@+id/F2_0s"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/burbank"
                         android:text=""
                         android:textColor="@color/black_yellow"
                         android:textSize="38sp" />
@@ -198,7 +187,6 @@
                         android:id="@+id/F2_1s"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/burbank"
                         android:text=""
                         android:textColor="@color/yellow"
                         android:textSize="38sp" />
@@ -215,7 +203,6 @@
                         android:id="@+id/C2_1s"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/burbank"
                         android:text=""
                         android:textColor="@color/light_blue"
                         android:textSize="38sp" />
@@ -224,7 +211,6 @@
                         android:id="@+id/C2_2s"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/burbank"
                         android:text=""
                         android:textColor="@color/holo_green"
                         android:textSize="38sp" />

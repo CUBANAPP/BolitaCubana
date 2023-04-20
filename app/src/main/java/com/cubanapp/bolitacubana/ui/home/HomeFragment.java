@@ -35,6 +35,7 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
         //binding.textDashboard;
         /*final Button b = root.findViewById(R.id.button);
         b.setOnClickListener(new View.OnClickListener() {

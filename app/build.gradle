@@ -37,8 +37,8 @@ android {
         applicationId "com.cubanapp.bolitacubana"
         minSdk 16
         targetSdk 33
-        versionCode 81
-        versionName "1.0.1"
+        versionCode 83
+        versionName "1.0.3 Test"
         resConfigs "en", "es"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
@@ -164,6 +164,8 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-ads:22.0.0'
 
+    implementation 'com.stripe:stripe-android:8.1.0'
+
     // Firebase
     //implementation 'com.google.firebase:firebase-appindexing'
     implementation 'com.google.firebase:firebase-analytics'
@@ -172,4 +174,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-perf'
+    implementation 'com.google.firebase:firebase-messaging-directboot'
 }

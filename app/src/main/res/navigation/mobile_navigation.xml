@@ -26,9 +26,6 @@
         android:label="@string/florida"
         tools:layout="@layout/fragment_florida">
         <action
-            android:id="@+id/action_fragment_florida_to_navigation_home"
-            app:destination="@id/navigation_home" />
-        <action
             android:id="@+id/action_fragment_florida_to_fragment_sevendays"
             app:destination="@id/fragment_sevendays" />
     </fragment>
@@ -37,11 +34,7 @@
         android:id="@+id/fragment_sevendays"
         android:name="com.cubanapp.bolitacubana.ui.home.SevenDays"
         android:label="@string/sevenDays"
-        tools:layout="@layout/fragment_sevendays">
-        <action
-            android:id="@+id/action_fragment_sevendays_to_fragment_florida"
-            app:destination="@id/fragment_florida" />
-    </fragment>
+        tools:layout="@layout/fragment_sevendays"/>
 
     <fragment
         android:id="@+id/navigation_dashboard"

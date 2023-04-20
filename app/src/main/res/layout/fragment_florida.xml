@@ -40,7 +40,6 @@
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/D"
-                    android:fontFamily="@font/burbank"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="26sp"
@@ -49,7 +48,6 @@
                     android:text="@string/dia" />
                 <TextView
                     android:id="@+id/SD"
-                    android:fontFamily="@font/burbank"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="24sp"
@@ -58,7 +56,6 @@
                     android:text="" />
                 <TextView
                     android:id="@+id/D1"
-                    android:fontFamily="@font/burbank"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
@@ -86,7 +83,6 @@
                         android:textColor="@color/black_yellow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/burbank"
                         android:text="" />
 
                     <TextView
@@ -95,7 +91,6 @@
                         android:textColor="@color/yellow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/burbank"
                         android:text="" />
                 </LinearLayout>
 
@@ -112,14 +107,12 @@
                         android:textColor="@color/light_blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/burbank"
                         android:text="" />
 
                     <TextView
                         android:id="@+id/C1_2"
                         android:textSize="38sp"
                         android:textColor="@color/holo_green"
-                        android:fontFamily="@font/burbank"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="" />
@@ -140,7 +133,6 @@
                 >
                 <TextView
                     android:id="@+id/N"
-                    android:fontFamily="@font/burbank"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="26sp"
@@ -153,7 +145,6 @@
                     android:textColor="@color/navy_blue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/burbank"
                     android:gravity="left|start"
                     android:text="" />
                 <TextView
@@ -162,7 +153,6 @@
                     android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/burbank"
                     android:gravity="left|start"
                     android:text="@string/noche" />
             </LinearLayout>
@@ -187,7 +177,6 @@
                         android:textColor="@color/black_yellow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/burbank"
                         android:text="" />
 
                     <TextView
@@ -196,7 +185,6 @@
                         android:textColor="@color/yellow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/burbank"
                         android:text="" />
                 </LinearLayout>
 
@@ -213,7 +201,6 @@
                         android:textColor="@color/light_blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/burbank"
                         android:text="" />
 
                     <TextView
@@ -222,7 +209,6 @@
                         android:textColor="@color/holo_green"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/burbank"
                         android:text="" />
                 </LinearLayout>
             </LinearLayout>

@@ -6,6 +6,8 @@ package com.cubanapp.bolitacubana.ui.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -86,6 +88,23 @@ public class Florida extends Fragment {
         binding.button3.setOnClickListener(view1 -> NavHostFragment.findNavController(Florida.this)
                 .navigate(R.id.action_fragment_florida_to_fragment_sevendays));
 
+        Typeface font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
+
+        binding.D1.setTypeface(font);
+        binding.D.setTypeface(font);
+        binding.SD.setTypeface(font);
+        binding.F10.setTypeface(font);
+        binding.F11.setTypeface(font);
+        binding.C11.setTypeface(font);
+        binding.C12.setTypeface(font);
+        binding.N1.setTypeface(font);
+        binding.N.setTypeface(font);
+        binding.SN.setTypeface(font);
+        binding.F20.setTypeface(font);
+        binding.F21.setTypeface(font);
+        binding.C21.setTypeface(font);
+        binding.C22.setTypeface(font);
+
         if (binding != null) {
             String fijo1 = sharedPref.getString("F1", "---");
             String fijo2 = sharedPref.getString("F2", "---");
@@ -109,10 +128,9 @@ public class Florida extends Fragment {
             binding.N1.setText(sharedPref.getString("N", "--/--/----"));
             binding.N.setText(getString(R.string.noche));
             binding.SN.setText(sharedPref.getString("NS", "-"));
-            if(fijo1.length() < 3){
+            if (fijo1.length() < 3) {
                 binding.F21.setText(fijo2);
-            }
-            else {
+            } else {
                 try {
                     binding.F20.setText(fijo2.substring(0, 1));
                     binding.F21.setText(fijo2.substring(1, 3));
@@ -208,7 +226,12 @@ public class Florida extends Fragment {
             }
 
             if (requestQueue != null) {
-                String url = "https://cubanapp.info/api/resultado.php";
+                String url;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    url = "https://cubanapp.info/api/resultado.php";
+                }else{
+                    url = "http://cubanapp.info/api/resultado.php";
+                }
                 JSONObject json = new JSONObject();
 
                 try {
@@ -217,7 +240,7 @@ public class Florida extends Fragment {
                     //try {
                     if (getActivity() != null) {
                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                "Ha ocurrido un error al generar los datos", Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
+                                getString(R.string.errorData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
                         mySnackbar.show();
                     }
                     //} catch (Exception ei) {
@@ -307,7 +330,7 @@ public class Florida extends Fragment {
                                 } else {
                                     if (getActivity() != null) {
                                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                                "Bolita Cubana encontró un error interno", Snackbar.LENGTH_LONG);
+                                                getString(R.string.internalerror), Snackbar.LENGTH_LONG);
                                         mySnackbar.show();
                                     }
                                 }
@@ -318,7 +341,7 @@ public class Florida extends Fragment {
                                 //try {
                                 if (getActivity() != null) {
                                     mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                            "Ha ocurrido un error al obtener los datos", Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
+                                            getString(R.string.generateData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
                                     mySnackbar.show();
                                 }
                                 // } catch (Exception ei) {
@@ -327,7 +350,7 @@ public class Florida extends Fragment {
                                 Log.e(DEBUG_TAG, "JSONException2 : " + e.getMessage());
                                 //throw new RuntimeException(e);
                             } catch (ParseException e) {
-                                throw new RuntimeException(e);
+                                //throw new RuntimeException(e);
                             }
 
                         }, error -> {
@@ -337,7 +360,7 @@ public class Florida extends Fragment {
                         //try {
                         if (getActivity() != null) {
                             mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                    "Parece que su conexión está lenta", Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
+                                    getString(R.string.slowconn), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
                             mySnackbar.show();
                         }
                         //} catch (Exception e) {
@@ -348,7 +371,7 @@ public class Florida extends Fragment {
                         //try {
                         if (getActivity() != null) {
                             mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                    "Se ha perdido la conexión con los servidores de Bolita Cubana", Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
+                                    getString(R.string.lostsvr), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
                             mySnackbar.show();
                         }
                         //} catch (Exception e) {

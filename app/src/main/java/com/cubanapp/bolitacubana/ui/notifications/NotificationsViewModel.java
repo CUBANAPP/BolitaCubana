@@ -7,6 +7,7 @@ package com.cubanapp.bolitacubana.ui.notifications;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class NotificationsViewModel extends ViewModel {
 
@@ -14,10 +15,11 @@ public class NotificationsViewModel extends ViewModel {
 
     public NotificationsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("");
     }
 
     public LiveData<String> getText() {
         return mText;
     }
+
 }

@@ -33,10 +33,10 @@
     <string name="adstitle">Anuncios de Google</string>
     <string name="adspersonal">Usar mi ID de publicidad</string>
     <string name="messageDelegation">Permiso de notificaciones</string>
-    <string name="errorInformes">Generación de errores</string>
-    <string name="crashlytic">Enviar informe de errores</string>
-    <string name="firebaseperf">Send performance usage</string>
-    <string name="performance">Performance Settings</string>
+    <string name="errorInformes">Recopilación automática de errores</string>
+    <string name="crashlytic">Notificar los errores de la APP</string>
+    <string name="firebaseperf">Enviar informes de rendimiento</string>
+    <string name="performance">Rendimiento</string>
     <string name="exportBigQuery">Exportar métricas BigQuery</string>
     <string name="dia">Día</string>
     <string name="noche">Noche</string>
@@ -57,4 +57,16 @@
     <string name="visitlink">Mira esto</string>
     <string name="connection">Es necesario tener una conexión Wifi o Datos activa</string>
     <string name="launcherimage">Imagen de Inicio</string>
+    <string name="optionsmenu">Opciones</string>
+    <string name="about">Información</string>
+    <string name="errorData">Ha ocurrido un error al obtener los datos</string>
+    <string name="erroSync">Ha ocurrido un error grave al sincronizar datos</string>
+    <string name="connslow">Su conexión está lenta, intente de nuevo.</string>
+    <string name="lostconn">Se ha perdido la conexión, intente de nuevo.</string>
+    <string name="lostsvr">Se ha perdido la conexión con los servidores de Bolita Cubana</string>
+    <string name="slowconn">Parece que su conexión está lenta</string>
+    <string name="generateData">Ha ocurrido un error al obtener los datos</string>
+    <string name="internalerror">Bolita Cubana encontró un error interno</string>
+    <string name="aboutinfo1">Versión: \n</string>
+    <string name="openprivacy">Ver Privacidad</string>
 </resources>

@@ -5,6 +5,7 @@
 package com.cubanapp.bolitacubana.ui.dashboard;
 
 import android.app.Dialog;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,6 +76,22 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Typeface font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
+
+        binding.D1s.setTypeface(font);
+        binding.Ds.setTypeface(font);
+        binding.SDs.setTypeface(font);
+        binding.F10s.setTypeface(font);
+        binding.F11s.setTypeface(font);
+        binding.C11s.setTypeface(font);
+        binding.C12s.setTypeface(font);
+        binding.N1s.setTypeface(font);
+        binding.Ns.setTypeface(font);
+        binding.SNs.setTypeface(font);
+        binding.F20s.setTypeface(font);
+        binding.F21s.setTypeface(font);
+        binding.C21s.setTypeface(font);
+        binding.C22s.setTypeface(font);
     }
 
     private void openDate(View v){
@@ -130,12 +147,18 @@ public class DashboardFragment extends Fragment {
                 Log.e(DEBUG_TAG, "Volley Error : " + e.getMessage());
                 //throw new RuntimeException(e);
             }*/
-        if (requestQueue != null) {
+        if (requestQueue != null && binding != null) {
+
             binding.progressBar4.setProgress(0);
 
             binding.progressBar4.setVisibility(View.VISIBLE);
-
-            String url = "https://cubanapp.info/api/searchcache/index.php";
+            String url;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                url = "https://cubanapp.info/api/searchcache/index.php";
+            }else{
+                url = "http://cubanapp.info/api/searchcache/index.php";
+            }
+            //String url = "https://cubanapp.info/api/searchcache/index.php";
             JSONObject json = new JSONObject();
 
             try {
@@ -146,7 +169,7 @@ public class DashboardFragment extends Fragment {
                 //try {
                 if (getActivity() != null) {
                     mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                            "Ha ocurrido un error al generar los datos", Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
+                            getString(R.string.errorData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
                     mySnackbar.show();
                 }
                 //} catch (Exception ei) {
@@ -221,7 +244,7 @@ public class DashboardFragment extends Fragment {
                                     binding.progressBar4.setVisibility(View.GONE);
                                 if (getActivity() != null) {
                                     mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                            "Bolita Cubana encontró un error interno", Snackbar.LENGTH_LONG);
+                                            getString(R.string.internalerror), Snackbar.LENGTH_LONG);
                                     mySnackbar.show();
                                 }
                             }
@@ -233,7 +256,7 @@ public class DashboardFragment extends Fragment {
                             //try {
                             if (getActivity() != null) {
                                 mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                        "Ha ocurrido un error al obtener los datos", Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
+                                        getString(R.string.generateData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
                                 mySnackbar.show();
                             }
                             // } catch (Exception ei) {
@@ -250,7 +273,7 @@ public class DashboardFragment extends Fragment {
                     //try {
                     if (getActivity() != null) {
                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                "Parece que su conexión está lenta", Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
+                                getString(R.string.slowconn), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
                         mySnackbar.show();
                     }
                     //} catch (Exception e) {
@@ -261,7 +284,7 @@ public class DashboardFragment extends Fragment {
                     //try {
                     if (getActivity() != null) {
                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                "Se ha perdido la conexión con los servidores de Bolita Cubana", Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
+                                getString(R.string.lostsvr), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
                         mySnackbar.show();
                     }
                     //} catch (Exception e) {

@@ -7,4 +7,5 @@
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">cubanapp.info</domain>
     </domain-config>
+    <base-config cleartextTrafficPermitted="false" />
 </network-security-config>

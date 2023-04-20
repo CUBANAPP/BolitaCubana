@@ -7,16 +7,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature android:name="android.hardware.screen.portrait" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
-    <uses-sdk tools:overrideLibrary="com.google.android.gms.ads.impl,com.google.android.gms.ads_base,com.google.android.gms.measurement.sdk.api,com.google.android.gms.measurement_base,com.google.firebase.firebase_analytics,com.google.firebase.measurement,com.google.firebase.messaging,com.google.firebase.measurement_impl,com.google.android.gms.measurement.api"/>
+    <uses-sdk tools:overrideLibrary="com.google.firebase.messaging.directboot,com.google.android.gms.ads.impl,com.google.android.gms.ads_base,com.google.android.gms.measurement.sdk.api,com.google.android.gms.measurement_base,com.google.firebase.firebase_analytics,com.google.firebase.measurement,com.google.firebase.messaging,com.google.firebase.measurement_impl,com.google.android.gms.measurement.api"/>
     <!-- android:name="androidx.multidex.MultiDexApplication"-->
     <application
         android:name="androidx.multidex.MultiDexApplication"
         android:allowBackup="true"
-		android:usesCleartextTraffic="false"
+		android:usesCleartextTraffic="true"
         android:enableOnBackInvokedCallback="true"
 		android:allowClearUserData="true"
         android:appCategory="news"
@@ -45,6 +46,7 @@
             android:exported="false"
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.cubanapp.bolitacubana.MainActivity"
+            android:excludeFromRecents="true"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
@@ -61,7 +63,7 @@
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SYNC" />
-
+                <action android:name=".MainActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -71,6 +73,7 @@
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:exported="true"
             android:theme="@style/Theme.BolitaCubana.Full"
+            android:excludeFromRecents="true"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -80,7 +83,8 @@
         </activity>
         <service
             android:name=".MyFirebaseMessagingService"
-            android:exported="false">
+            android:exported="false"
+            android:directBootAware="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -89,7 +93,7 @@
         <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 ${ADS_KEY}-->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-1133636137602889~7937801201" />
+            android:value="ca-app-pub-3940256099942544~3347511713" />
 
         <meta-data android:name="google_analytics_adid_collection_enabled"
             android:value="true" />

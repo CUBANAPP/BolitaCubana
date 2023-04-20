@@ -6,5 +6,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     android:onClick="screenTapped">
 
-    <item android:title="Options" android:id="@+id/options"/>
+    <item android:title="@string/optionsmenu" android:id="@+id/options"/>
+    <item android:title="@string/about" android:id="@+id/about"/>
 </menu>

@@ -63,7 +63,19 @@
     <string name="important" translatable="true">Important</string>
     <string name="obsolete" translatable="true">Google Play Update</string>
     <string name="visitlink" translatable="true">Look this</string>
-    <string name="connection" translatable="true">Es necesario tener una conexión Wifi o Datos activa</string>
+    <string name="connection" translatable="true">It is necessary to have an active Wifi or Data connection</string>
     <string name="launcherimage" translatable="true">Launcher Image</string>
     <string name="space" translatable="false"> </string>
+    <string name="optionsmenu" translatable="true">Options</string>
+    <string name="about" translatable="true">About</string>
+    <string name="errorData" translatable="true">An error occurred while getting the data</string>
+    <string name="erroSync" translatable="true">A fatal error has occurred while synchronizing data</string>
+    <string name="connslow" translatable="true">Your connection is slow, please try again.</string>
+    <string name="lostconn" translatable="true">The connection has been lost, please try again.</string>
+    <string name="lostsvr" translatable="true">The connection with the Bolita Cubana servers has been lost</string>
+    <string name="slowconn" translatable="true">It seems your connection is slow</string>
+    <string name="generateData" translatable="true">An error occurred while getting the data</string>
+    <string name="internalerror" translatable="true">Bolita Cubana found an internal error</string>
+    <string name="aboutinfo1" translatable="true">Version: \n</string>
+    <string name="openprivacy" translatable="true">View Privacy</string>
 </resources>
