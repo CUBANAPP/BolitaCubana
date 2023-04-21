@@ -71,6 +71,6 @@
     <string name="aboutinfo2">\n\nCorreo: \nayuda@cubanapp.info</string>
     <string name="openprivacy">Ver Privacidad</string>
     <string name="languageselector">Seleccionar Idioma</string>
-    <string name="language">Cambiar idioma</string>
+    <string name="language">Toca para cambiar idioma</string>
     <string name="loading">Cargando…</string>
 </resources>

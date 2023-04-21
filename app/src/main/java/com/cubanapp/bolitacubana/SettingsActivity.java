@@ -15,12 +15,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.LocaleListCompat;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -56,6 +60,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         private SwitchPreferenceCompat mpromoChannel;
         private SwitchPreferenceCompat mdefaultChannel;
+
+        private ListPreference listPreference;
         private final String TAG = "SettingsFragment";
 
 
@@ -82,9 +88,21 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-
+            listPreference = (ListPreference) getPreferenceManager().findPreference("languagepreference");
             mpromoChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference("promoChannel");
             mdefaultChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference("defaulChannel");
+            if(listPreference != null) {
+                listPreference.setOnPreferenceChangeListener((Preference.OnPreferenceChangeListener) (preference, newValue) -> {
+                    if(getActivity() != null) {
+                        Locale config = new Locale(newValue.toString());
+                        Locale.setDefault(config);
+                        LocaleListCompat appLocale = LocaleListCompat.forLanguageTags(newValue.toString());
+                        // Call this on the main thread as it may require Activity.restart()
+                        AppCompatDelegate.setApplicationLocales(appLocale);
+                    }
+                    return true;
+                });
+            }
             if (mdefaultChannel != null) {
                 mdefaultChannel.setOnPreferenceChangeListener((Preference.OnPreferenceChangeListener) (preference, newValue) -> {
 

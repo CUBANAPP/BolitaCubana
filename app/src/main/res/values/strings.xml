@@ -80,7 +80,7 @@
     <string name="aboutinfo2" translatable="true">\n\nEmail: \nhelp@cubanapp.info</string>
     <string name="openprivacy" translatable="true">View Privacy</string>
     <string name="languageselector" translatable="true">Language Selector</string>
-    <string name="language" translatable="true">Change language</string>
+    <string name="language" translatable="true">Touch to change language</string>
     <string name="copyright" translatable="false">\@CUBANAPPLLC Copyright 2019-2023</string>
     <string name="loading" translatable="true">Loading…</string>
 </resources>
