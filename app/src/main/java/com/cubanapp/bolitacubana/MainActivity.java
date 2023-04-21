@@ -536,7 +536,7 @@ public class MainActivity extends AppCompatActivity {
         else if (item.getItemId() == R.id.about) {
             if(builder != null) {
                 builder.setTitle(getString(R.string.app_name));
-                builder.setMessage(getString(R.string.aboutinfo1) + BuildConfig.VERSION_NAME);
+                builder.setMessage(getString(R.string.aboutinfo1) + BuildConfig.VERSION_NAME + getString(R.string.aboutinfo2));
                 builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> builder.dismiss());
                 builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.openprivacy), (dialog, which) -> loadToS());
                 builder.show();
@@ -553,8 +553,9 @@ public class MainActivity extends AppCompatActivity {
         //myWebView.loadData(privSpa, "text/html; charset=UTF-8;", "base64");
         Locale s = Locale.getDefault();
 
+        //Log.d(DEBUG_TAG, "Idioma: " + s.getDisplayLanguage());
 
-        if (s.getDisplayLanguage().equals("es"))
+        if (s.getLanguage().equals("es"))
             myWebView.loadData(privSpa, "text/html; charset=UTF-8;", "base64");
         else
             myWebView.loadData(privEng, "text/html; charset=UTF-8;", "base64");

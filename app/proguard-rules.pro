@@ -28,7 +28,7 @@
 -keep class com.google.firebase.** { *; }
 
 
--keep class com.stripe.android.** { *; }
+#-keep class com.stripe.android.** { *; }
 
 
 -keep class com.firebase.** { *; }

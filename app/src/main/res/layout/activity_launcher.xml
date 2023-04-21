@@ -29,7 +29,7 @@
         android:textSize="20dp"
         android:textColor="?attr/colorPrimary"
         android:gravity="center"
-        android:text="\@CUBANAPPLLC Copyright 2019-2023"
+        android:text="@string/copyright"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -42,7 +42,7 @@
         android:textSize="40dp"
         android:gravity="center"
         android:textColor="?attr/colorPrimaryVariant"
-        android:text="Cargando..."
+        android:text="@string/loading"
         app:layout_constraintBottom_toTopOf="@+id/textView7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

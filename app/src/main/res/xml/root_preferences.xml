@@ -3,7 +3,14 @@
   -->
 
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
-
+    <PreferenceCategory app:title="@string/languageselector">
+        <ListPreference
+            app:key="languagepreference"
+            app:title="@string/language"
+            app:defaultValue="es"
+            app:entries="@array/Language"
+            app:entryValues="@array/languageAlias"/>
+    </PreferenceCategory>
     <PreferenceCategory app:title="@string/notification">
         <SwitchPreferenceCompat
             app:defaultValue="true"

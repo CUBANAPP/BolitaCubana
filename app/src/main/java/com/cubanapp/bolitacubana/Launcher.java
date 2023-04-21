@@ -274,9 +274,22 @@ public class Launcher extends AppCompatActivity {
                 ConnSuccess = true;
             }
             firstTime = sharedPref.getBoolean("root", true);
+            Locale language = Locale.getDefault();
 
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            Locale english = Locale.US;
+            Locale spanish = new Locale("es","ES");
+            // TODO: finalizar q guarde las preferencias y lea y cambie correctamente el idioma de la app al cambiar los SettingsActivity
+            String idioma = "es";
+            if(language.getLanguage().equals("es")){
+                String idiomaSave = preferences.getString("languagepreference",idioma);
+            }else {
+                String idiomaSave = preferences.getString("languagepreference", english.getLanguage());
+            }
+            Log.d(DEBUG_TAG,"LanguageSave: " + idioma + " System: " + language + " ValueLanguage: " + english.getLanguage());
+            Locale.setDefault(spanish);
             if (Build.VERSION.SDK_INT >= 19) {
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
                 Boolean bool = preferences.getBoolean("dataCollection", true);
                 FirebaseApp firebaseApp = FirebaseApp.getInstance();
@@ -319,7 +332,7 @@ public class Launcher extends AppCompatActivity {
                 Locale s = Locale.getDefault();
 
 
-                if (s.getDisplayLanguage().equals("es"))
+                if (s.getLanguage().equals("es"))
                     myWebView.loadData(privSpa, "text/html; charset=UTF-8;", "base64");
                 else
                     myWebView.loadData(privEng, "text/html; charset=UTF-8;", "base64");
