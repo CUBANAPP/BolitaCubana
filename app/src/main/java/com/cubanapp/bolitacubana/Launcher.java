@@ -6,7 +6,6 @@ package com.cubanapp.bolitacubana;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.app.LocaleManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -31,9 +30,6 @@ import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.app.LocaleManagerCompat;
-import androidx.core.os.LocaleListCompat;
 import androidx.preference.PreferenceManager;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -70,7 +66,6 @@ public class Launcher extends AppCompatActivity {
 
     private String apiKey;
 
-    public static final String TAG = "FirstCheck";
     private JsonObjectRequest stringRequest; // Assume this exists.
     private RequestQueue requestQueue;  // Assume this exists.
 
