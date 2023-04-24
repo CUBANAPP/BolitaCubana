@@ -11,8 +11,7 @@ public class CharadaData {
     private String restWords;
     private String[] palabras;
 
-    public CharadaData(String[] palabra) {
-
+    public CharadaData(String[] palabra, int numero) {
         StringBuilder restwords = new StringBuilder();
         for(int i = 0; i < palabra.length; i++){
             if(i == 1){
@@ -24,7 +23,7 @@ public class CharadaData {
         }
 
         this.palabras = palabra;
-        this.number = "0";
+        this.number = String.valueOf(numero);
         this.firstWord = palabra[0];
         this.restWords = restwords.toString();
     }
@@ -33,26 +32,13 @@ public class CharadaData {
         return palabras;
     }
 
-    public void setPalabras(String[] palabra) {
-        this.palabras = palabra;
-    }
-
     public String getNumber() {
         return number;
-    }
-    public void setNumber(String number) {
-        this.number = number;
     }
     public String getFirstWord() {
         return firstWord;
     }
-    public void setFirstWord(String firstwd) {
-        this.firstWord = firstwd;
-    }
     public String getRestWords() {
         return restWords;
-    }
-    public void setRestWords(String restwords) {
-        this.restWords = restwords;
     }
 }
