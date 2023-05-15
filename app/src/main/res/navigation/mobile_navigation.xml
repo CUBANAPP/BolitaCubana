@@ -7,31 +7,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/navigation_home">
 
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.cubanapp.bolitacubana.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home">
-
         <action
             android:id="@+id/action_home_to_florida"
-            app:destination="@id/fragment_florida" />
+            app:destination="@id/navigation_florida" />
     </fragment>
 
     <fragment
-        android:id="@+id/fragment_florida"
+        android:id="@+id/navigation_florida"
         android:name="com.cubanapp.bolitacubana.ui.home.Florida"
         android:label="@string/florida"
         tools:layout="@layout/fragment_florida">
         <action
             android:id="@+id/action_fragment_florida_to_fragment_sevendays"
-            app:destination="@id/fragment_sevendays" />
+            app:destination="@id/navigation_sevendays" />
     </fragment>
 
     <fragment
-        android:id="@+id/fragment_sevendays"
+        android:id="@+id/navigation_sevendays"
         android:name="com.cubanapp.bolitacubana.ui.home.SevenDays"
         android:label="@string/sevenDays"
         tools:layout="@layout/fragment_sevendays"/>
@@ -47,4 +46,20 @@
         android:name="com.cubanapp.bolitacubana.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_adivinanza"
+        android:name="com.cubanapp.bolitacubana.ui.pronostico.Adivinanza"
+        android:label="@string/title_pronostico"
+        tools:layout="@layout/fragment_adivinanzas" >
+        <action
+            android:id="@+id/action_navigation_adivinanza_to_navigation_imagefullscreen"
+            app:destination="@id/navigation_imagefullscreen"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_imagefullscreen"
+        android:name="com.cubanapp.bolitacubana.ui.pronostico.ImageFragment"
+        android:label="@string/photo"
+        tools:layout="@layout/fragment_imageviewer" />
 </navigation>

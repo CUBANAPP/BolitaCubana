@@ -7,6 +7,7 @@ plugins {
     id 'com.google.firebase.firebase-perf'
     // Add the Crashlytics Gradle plugin
     id 'com.google.firebase.crashlytics'
+    id 'org.jetbrains.kotlin.android'
 }
 def localPropertiesFile = rootProject.file("local.properties")
 def localProperties = new Properties()
@@ -37,7 +38,7 @@ android {
         applicationId "com.cubanapp.bolitacubana"
         minSdk 16
         targetSdk 33
-        versionCode 85
+        versionCode 87
         versionName "1.0.5 Debug"
         resConfigs "en", "es"
         resourceConfigurations += ["en", "es"]
@@ -146,24 +147,29 @@ android {
 }
 
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:31.4.0')
+    implementation platform('com.google.firebase:firebase-bom:31.5.0')
     implementation "androidx.multidex:multidex:2.0.1"
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata:2.5.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.6.1'
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
     implementation 'androidx.navigation:navigation-ui:2.5.3'
     implementation 'androidx.preference:preference:1.2.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation 'androidx.core:core-ktx:1.10.0'
+    //testImplementation 'junit:junit:4.13.2'
+    //androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    //androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation 'com.android.volley:volley:1.2.1'
 
     implementation 'com.google.android.gms:play-services-ads:22.0.0'
+    implementation 'com.google.android.gms:play-services-base:18.2.0'
+    implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
+    //Chartboost
+    //implementation 'com.chartboost:chartboost-sdk:9.2.0'
 
     //implementation 'com.stripe:stripe-android:8.1.0'
 

@@ -62,22 +62,11 @@ public class SettingsActivity extends AppCompatActivity {
         private SwitchPreferenceCompat mdefaultChannel;
 
         private ListPreference listPreference;
-        private final String TAG = "SettingsFragment";
-
-
-        @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-        }
+        private static final String TAG = "SettingsFragment";
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
-        }
-
-        @Override
-        public void onConfigurationChanged(@NonNull Configuration newConfig) {
-            super.onConfigurationChanged(newConfig);
         }
 
         @Override

@@ -18,7 +18,6 @@ import android.widget.DatePicker;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -51,12 +50,12 @@ public class DashboardFragment extends Fragment {
 
     private Snackbar mySnackbar;
     private static final String DEBUG_TAG = "SearchDate";
-
+    
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
+        /*DashboardViewModel dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
-
+*/
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         apiKey = BuildConfig.API_KEY;
@@ -305,12 +304,8 @@ public class DashboardFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(DEBUG_TAG, "onDestroy()");
-        /*if (requestQueue != null) {
-            requestQueue.cancelAll(stringRequest);
-        }*/
+    public void onDestroyView() {
+        super.onDestroyView();
         if (mySnackbar != null) {
             if(mySnackbar.isShown())
                 mySnackbar.dismiss();
@@ -321,10 +316,6 @@ public class DashboardFragment extends Fragment {
                 stringRequest.cancel();
             }
         }
-    }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
         binding = null;
         if(builder != null){
             if(builder.isShowing())

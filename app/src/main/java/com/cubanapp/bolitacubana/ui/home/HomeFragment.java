@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.cubanapp.bolitacubana.R;
@@ -30,11 +29,13 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
+        /*HomeViewModel homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
-
+*/
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        binding.buttonFlorida.setOnClickListener(view1 -> NavHostFragment.findNavController(this)
+                .navigate(R.id.action_home_to_florida));
 
         //binding.textDashboard;
         /*final Button b = root.findViewById(R.id.button);
@@ -59,9 +60,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        binding.button.setOnClickListener(view1 -> NavHostFragment.findNavController(HomeFragment.this)
-                .navigate(R.id.action_home_to_florida));
     }
 
     @Override

@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -43,7 +42,6 @@ import java.util.TimeZone;
 
 public class Florida extends Fragment {
 
-    private FloridaViewModel mViewModel;
     private String apiKey;
     private FragmentFloridaBinding binding;
 
@@ -73,39 +71,41 @@ public class Florida extends Fragment {
         //firebaseMessaging.getToken().addOnCompleteListener(v -> Log.d(DEBUG_TAG, "FCM Key: " + v.getResult()));
     }
 
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel =
+        /*mViewModel =
                 new ViewModelProvider(this).get(FloridaViewModel.class);
+        */
         binding = FragmentFloridaBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+        binding.button3.setOnClickListener(view1 -> NavHostFragment.findNavController(this)
+                .navigate(R.id.action_fragment_florida_to_fragment_sevendays));
+        View root = binding.getRoot();
+        return root;
 
     }
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.button3.setOnClickListener(view1 -> NavHostFragment.findNavController(Florida.this)
-                .navigate(R.id.action_fragment_florida_to_fragment_sevendays));
 
         Typeface font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
-
-        binding.D1.setTypeface(font);
-        binding.D.setTypeface(font);
-        binding.SD.setTypeface(font);
-        binding.F10.setTypeface(font);
-        binding.F11.setTypeface(font);
-        binding.C11.setTypeface(font);
-        binding.C12.setTypeface(font);
-        binding.N1.setTypeface(font);
-        binding.N.setTypeface(font);
-        binding.SN.setTypeface(font);
-        binding.F20.setTypeface(font);
-        binding.F21.setTypeface(font);
-        binding.C21.setTypeface(font);
-        binding.C22.setTypeface(font);
-
         if (binding != null) {
+            if (font != null) {
+                binding.D1.setTypeface(font);
+                binding.D.setTypeface(font);
+                binding.SD.setTypeface(font);
+                binding.F10.setTypeface(font);
+                binding.F11.setTypeface(font);
+                binding.C11.setTypeface(font);
+                binding.C12.setTypeface(font);
+                binding.N1.setTypeface(font);
+                binding.N.setTypeface(font);
+                binding.SN.setTypeface(font);
+                binding.F20.setTypeface(font);
+                binding.F21.setTypeface(font);
+                binding.C21.setTypeface(font);
+                binding.C22.setTypeface(font);
+            }
+
             String fijo1 = sharedPref.getString("F1", "---");
             String fijo2 = sharedPref.getString("F2", "---");
 
@@ -149,6 +149,16 @@ public class Florida extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if(mySnackbar != null) {
+            if(mySnackbar.isShown())
+                mySnackbar.dismiss();
+        }
+        if (requestQueue != null) {
+            requestQueue.stop();
+            if (stringRequest != null) {
+                stringRequest.cancel();
+            }
+        }
         binding = null;
     }
 
@@ -216,7 +226,7 @@ public class Florida extends Fragment {
             throw new RuntimeException(e);
         }
         if(update) {
-            // TODO: Reconstruir del savegame si no hay q actualizar
+
             if (binding != null)
                 binding.progressBar2.setVisibility(View.VISIBLE);
 
@@ -387,25 +397,6 @@ public class Florida extends Fragment {
                 // Add the request to the RequestQueue.
                 requestQueue.add(stringRequest);
 
-            }
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(DEBUG_TAG, "onDestroy()");
-        /*if (requestQueue != null) {
-            requestQueue.cancelAll(stringRequest);
-        }*/
-        if(mySnackbar != null) {
-            if(mySnackbar.isShown())
-                mySnackbar.dismiss();
-        }
-        if (requestQueue != null) {
-            requestQueue.stop();
-            if (stringRequest != null) {
-                stringRequest.cancel();
             }
         }
     }

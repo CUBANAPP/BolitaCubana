@@ -20,4 +20,9 @@
         android:icon="@drawable/round_menu_book_24"
         android:title="@string/title_notifications" />
 
+    <item
+        android:id="@+id/navigation_adivinanza"
+        android:icon="@drawable/round_auto_awesome_24"
+        android:title="@string/title_pronostico" />
+
 </menu>

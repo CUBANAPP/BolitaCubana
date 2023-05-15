@@ -19,7 +19,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -58,7 +57,7 @@ public class SevenDays extends Fragment {
 
     private SharedPreferences sharedPref;
 
-    private final String DEBUG_TAG = "SevenDays";
+    private static final String DEBUG_TAG = "SevenDays";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,11 +65,12 @@ public class SevenDays extends Fragment {
         apiKey = BuildConfig.API_KEY;
     }
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SevenViewModel sevenViewModel =
+        /*SevenViewModel sevenViewModel =
                 new ViewModelProvider(this).get(SevenViewModel.class);
-
+*/
         binding = FragmentSevendaysBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -92,6 +92,16 @@ public class SevenDays extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (mySnackbar != null) {
+            if (mySnackbar.isShown())
+                mySnackbar.dismiss();
+        }
+        if (requestQueue != null) {
+            requestQueue.stop();
+            if (stringRequest != null) {
+                stringRequest.cancel();
+            }
+        }
         binding = null;
     }
 
@@ -150,7 +160,7 @@ public class SevenDays extends Fragment {
 
         if (update) {
 
-            // TODO: Aquí la comprobación
+
 
 
             if (getActivity() != null) {
@@ -209,7 +219,7 @@ public class SevenDays extends Fragment {
 
 
                                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                                Set<String> save = new ArraySet<String>(Collections.singleton(jsonArray.toString()));
+                                                Set<String> save = new ArraySet<>(Collections.singleton(jsonArray.toString()));
                                                 try {
                                                     SharedPreferences.Editor editor = sharedPref.edit();
                                                     JSONObject s = jsonArray.getJSONObject(0);
@@ -311,26 +321,6 @@ public class SevenDays extends Fragment {
                     if (binding != null)
                         binding.progressBar3.setVisibility(View.GONE);
                 }
-            }
-        }
-    }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(DEBUG_TAG, "onDestroy()");
-        /*if (requestQueue != null) {
-            requestQueue.cancelAll(stringRequest);
-        }*/
-        if (mySnackbar != null) {
-            if (mySnackbar.isShown())
-                mySnackbar.dismiss();
-        }
-        if (requestQueue != null) {
-            requestQueue.stop();
-            if (stringRequest != null) {
-                stringRequest.cancel();
             }
         }
     }

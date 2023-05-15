@@ -13,45 +13,23 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    android:id="@+id/charadaLayout"
-    tools:context=".ui.notifications.NotificationsFragment">
+    android:id="@+id/adivinanzaLayout"
+    tools:context=".ui.pronostico.Adivinanza">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/linearCharada"
-        android:background="#99000000"
+        android:id="@+id/recicleradivinanza"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="61dp"
-        app:layout_constraintBottom_toTopOf="@+id/edittextbox"
+        app:layout_constraintBottom_toBottom="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
     </androidx.recyclerview.widget.RecyclerView>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edittextbox"
-        android:background="#99000000"
-        android:visibility="visible"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edittext"
-            android:inputType="textAutoCorrect|textAutoComplete|textEnableTextConversionSuggestions"
-            android:textColor="@color/white"
-            android:maxLines="1"
-            android:visibility="visible"
-            android:textColorHint="@color/light_white"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/searchword" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <ProgressBar
-        android:id="@+id/progressbar5"
+        android:id="@+id/progressbar6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"

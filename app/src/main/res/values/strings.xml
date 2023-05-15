@@ -84,4 +84,7 @@
     <string name="copyright" translatable="false">\@CUBANAPPLLC Copyright 2019-2023</string>
     <string name="loading" translatable="true">Loading…</string>
     <string name="searchword" translatable="true">Write word or number…</string>
+    <string name="title_pronostico" translatable="true">Riddles</string>
+    <string name="image" translatable="false">ImageView</string>
+    <string name="photo" translatable="true">Content</string>
 </resources>

@@ -58,6 +58,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
             });
-    public static final String TAG = "Check";
     private static final String DEBUG_TAG = "MainActivity";
     private JsonObjectRequest stringRequest; // Assume this exists.
     private RequestQueue requestQueue;  // Assume this exists.
@@ -94,9 +94,7 @@ public class MainActivity extends AppCompatActivity {
     private String apiKey;
     private boolean first;
 
-    private boolean connection;
-
-    private InterstitialAd mInterstitialAd;
+    public InterstitialAd mInterstitialAd;
 
     private WebView myWebView;
 
@@ -202,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
         first = false;
         Bundle bundle = getIntent().getExtras();
 
+        boolean connection;
         if(bundle != null) {
             connection = bundle.getBoolean("connection");
             first = bundle.getBoolean("first");
@@ -233,7 +232,11 @@ public class MainActivity extends AppCompatActivity {
             connection = false;
         }
 
+
+
         if(Build.VERSION.SDK_INT >= 19) {
+            FirebaseAnalytics mFirebaseAnalytics= FirebaseAnalytics.getInstance(this);
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, bundle);
             AdView adView = (AdView) findViewById(R.id.adView);
             //FirebaseApp.initializeApp(this);
             //FirebaseOptions.Builder firebaseOptions = new FirebaseOptions.Builder();
@@ -248,30 +251,30 @@ public class MainActivity extends AppCompatActivity {
             });
             //RequestConfiguration.Builder adRequestBuilder = new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("27257B0AF4890D7241E824CB06C35D83"));
             AdRequest adRequest = new AdRequest.Builder().build();
-            Random r = new Random();
-            int randomInt = r.nextInt(10 - 1) + 1;
-            Log.i(TAG, "RANDOM: " + randomInt);
-            if (randomInt == 3) {
                 // ca-app-pub-3940256099942544/1033173712
                 InterstitialAd.load(this, "ca-app-pub-3940256099942544/1033173712", adRequest,
                         new InterstitialAdLoadCallback() {
+
                             @Override
                             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                                 // The mInterstitialAd reference will be null until
                                 // an ad is loaded.
                                 mInterstitialAd = interstitialAd;
-                                Log.i(TAG, "onAdLoaded");
-                                configureInterstitial();
+                                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.AD_IMPRESSION, bundle);
+                                Log.i(DEBUG_TAG, "onAdLoaded");
+                                if(getApplicationContext() != null && mInterstitialAd != null){
+                                    configureInterstitial();
+                                }
                             }
 
                             @Override
                             public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                                 // Handle the error
-                                Log.d(TAG, loadAdError.toString());
+                                Log.d(DEBUG_TAG, loadAdError.toString());
                                 mInterstitialAd = null;
                             }
                         });
-            }
+
             adView.setAdListener(new AdListener() {
                 @Override
                 public void onAdClicked() {
@@ -295,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onAdImpression() {
                     // Code to be executed when an impression is recorded
                     // for an ad.
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.AD_IMPRESSION, bundle);
                     Log.d(DEBUG_TAG, "Ads impression");
                 }
 
@@ -592,7 +596,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        Log.d(DEBUG_TAG, "onResume");
         if(builder != null) {
             bundle = getIntent().getExtras();
             if (bundle != null) {
@@ -707,39 +710,53 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onAdClicked() {
                     // Called when a click is recorded for an ad.
-                    Log.d(TAG, "Ad was clicked.");
+                    Log.d(DEBUG_TAG, "Ad was clicked.");
                 }
 
                 @Override
                 public void onAdDismissedFullScreenContent() {
                     // Called when ad is dismissed.
                     // Set the ad reference to null so you don't show the ad a second time.
-                    Log.d(TAG, "Ad dismissed fullscreen content.");
+                    Log.d(DEBUG_TAG, "Ad dismissed fullscreen content.");
                     mInterstitialAd = null;
                 }
 
                 @Override
                 public void onAdFailedToShowFullScreenContent(AdError adError) {
                     // Called when ad fails to show.
-                    Log.e(TAG, "Ad failed to show fullscreen content.");
+                    Log.e(DEBUG_TAG, "Ad failed to show fullscreen content.");
                     mInterstitialAd = null;
                 }
 
                 @Override
                 public void onAdImpression() {
                     // Called when an impression is recorded for an ad.
-                    Log.d(TAG, "Ad recorded an impression.");
+                    Log.d(DEBUG_TAG, "Ad recorded an impression.");
                 }
 
                 @Override
                 public void onAdShowedFullScreenContent() {
                     // Called when ad is shown.
-                    Log.d(TAG, "Ad showed fullscreen content.");
+                    Log.d(DEBUG_TAG, "Ad showed fullscreen content.");
                 }
             });
-            if (mInterstitialAd != null) {
-                mInterstitialAd.show(this);
+            Random r = new Random();
+            int randomInt = r.nextInt(20 - 1) + 1;
+            Log.i(DEBUG_TAG, "RANDOM: " + randomInt);
+            if (randomInt == 3) {
+                if (getApplicationContext() != null && mInterstitialAd != null) {
+                    mInterstitialAd.show(this);
+                }
             }
         }
     }
+    /*@Override
+    public void onBackPressed() {
+        // If an interstitial is on screen, close it.
+        if (Chartboost.onBackPressed()) {
+            return;
+        } else {
+            super.onBackPressed();
+        }
+    }*/
 }

@@ -74,4 +74,6 @@
     <string name="language">Toca para cambiar idioma</string>
     <string name="loading">Cargando…</string>
     <string name="searchword">Escriba para buscar…</string>
+    <string name="title_pronostico">Pronósticos</string>
+    <string name="photo">Contenido</string>
 </resources>

@@ -54,7 +54,6 @@ import java.util.Locale;
 public class Launcher extends AppCompatActivity {
     //DialogNew permissionDialog;
     private FirebaseAnalytics mFirebaseAnalytics;
-    private boolean error;
     private AlertDialog builder;
     //DialogNew2 permissionDialog2;
     private ProgressBar progressBar;
@@ -118,7 +117,7 @@ public class Launcher extends AppCompatActivity {
             notificationManager.createNotificationChannel(new NotificationChannel(channelId,
                     channelName, NotificationManager.IMPORTANCE_LOW));
         }
-        error = false;
+        boolean error = false;
         progressBar = findViewById(R.id.progressBar);
 
         Typeface typeface = Typeface.createFromAsset(getAssets(),"burbank_normal.otf");

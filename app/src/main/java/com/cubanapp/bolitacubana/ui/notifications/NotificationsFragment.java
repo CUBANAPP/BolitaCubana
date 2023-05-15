@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,18 +33,16 @@ public class NotificationsFragment extends Fragment {
 
     private CharadaAdapter adapter;
 
-    private final String DEBUG_TAG = "Charada";
+    private static final String DEBUG_TAG = "Charada";
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
-
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextInputEditText edittext = binding.edittext;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), edittext::setText);
+        TextInputEditText edittext = binding.edittext;
+        //notificationsViewModel.getText().observe(getViewLifecycleOwner(), edittext::setText);
         edittext.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -199,17 +196,74 @@ public class NotificationsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+
     }
 
     private void searchWord(CharSequence s) {
-        s = s.toString().toLowerCase();
+        String compare = s.toString().toLowerCase();
+        //s = compare.toLowerCase();
+        String comp1 = null;
+        String comp2 = null;
+        String comp3 = null;
+        String comp4 = null;
+        String comp5 = null;
+        String comp6 = null;
+        String comp7 = null;
+        String comp8 = null;
+        String comp9 = null;
+        String comp10 = null;
+        String comp11 = null;
+        String comp12 = null;
+        String comp13 = null;
+        String comp14 = null;
+        String comp15 = null;
+        if(compare.contains("o")){
+            comp1 = compare.replaceFirst("o","ó");
+        }
+        if(compare.contains("i")){
+            comp2 = compare.replaceFirst("i","í");
+        }
+        if(compare.contains("e")){
+            comp3 = compare.replaceFirst("e","é");
+        }
+        if(compare.contains("a")){
+            comp4 = compare.replaceFirst("a","á");
+        }
+        if(compare.contains("u")){
+            comp5 = compare.replaceFirst("u","ú");
+        }
+        if(compare.contains("s")){
+            comp6 = compare.replaceFirst("s","c");
+            comp11 = compare.replaceFirst("s","z");
+        }
+        if(compare.contains("c")){
+            comp7 = compare.replaceFirst("c","s");
+            comp12 = compare.replaceFirst("c","z");
+        }
+        if(compare.contains("z")){
+            comp8 = compare.replaceFirst("z","s");
+            comp13 = compare.replaceFirst("z","c");
+        }
+        if(compare.contains("v")){
+            comp9 = compare.replaceFirst("v","b");
+        }
+        if(compare.contains("b")){
+            comp10 = compare.replaceFirst("b","v");
+        }
+        if(compare.contains("g")){
+            comp14 = compare.replaceFirst("g","j");
+        }
+        if(compare.contains("j")){
+            comp15 = compare.replaceFirst("j","g");
+        }
+
         // empezar a contar
         int indice = 0;
         // Crear lista dinámica
         ArrayList<Integer> sws = new ArrayList<>();
         // Comprobar si el carácter es un numero (Si puede convertirse a entero)
         try {
-            Integer number = Integer.valueOf(s.toString());
+            Integer number = Integer.valueOf(compare);
             sws.add(number);
             // generar la tabla con el numero
             recyclerView.setAdapter(new CharadaAdapter(charada(sws)));
@@ -223,10 +277,55 @@ public class NotificationsFragment extends Fragment {
                     // hacerlo minúsculas
                     String lowecase = palabra.toLowerCase();
                     // Cada palabra individual (de la cadena)
-                    boolean coincidencia = lowecase.contains(s);
-                    //Log.d(DEBUG_TAG, "Palabra: " + palabra);
-                    if (coincidencia) {
-                        //Log.d(DEBUG_TAG, "Numero dónde coincide: " + indice);
+                    boolean coincidencia = lowecase.contains(compare);
+                    boolean c1 = false;
+                    boolean c2 = false;
+                    boolean c3 = false;
+                    boolean c4 = false;
+                    boolean c5 = false;
+                    boolean c6 = false;
+                    boolean c7 = false;
+                    boolean c8 = false;
+                    boolean c9 = false;
+                    boolean c10 = false;
+                    boolean c11 = false;
+                    boolean c12 = false;
+                    boolean c13 = false;
+                    boolean c14 = false;
+                    boolean c15 = false;
+                    if(comp1 != null)
+                        c1 = lowecase.contains(comp1);
+                    if(comp2 != null)
+                        c2 = lowecase.contains(comp2);
+                    if(comp3 != null)
+                        c3 = lowecase.contains(comp3);
+                    if(comp4 != null)
+                        c4 = lowecase.contains(comp4);
+                    if(comp5 != null)
+                        c5 = lowecase.contains(comp5);
+                    if(comp6 != null)
+                        c6 = lowecase.contains(comp6);
+                    if(comp7 != null)
+                        c7 = lowecase.contains(comp7);
+                    if(comp8 != null)
+                        c8 = lowecase.contains(comp8);
+                    if(comp9 != null)
+                        c9 = lowecase.contains(comp9);
+                    if(comp10 != null)
+                        c10 = lowecase.contains(comp10);
+                    if(comp11 != null)
+                        c11 = lowecase.contains(comp11);
+                    if(comp12 != null)
+                        c12 = lowecase.contains(comp12);
+                    if(comp13 != null)
+                        c13 = lowecase.contains(comp13);
+                    if(comp14 != null)
+                        c14 = lowecase.contains(comp14);
+                    if(comp15 != null)
+                        c15 = lowecase.contains(comp15);
+
+
+                    if (coincidencia|| c1 || c2 || c3 || c4 || c5 || c6 || c7 || c8 || c9 || c10 || c11 || c12 || c13 || c14 || c15) {
                         sws.add(indice);
                         break;
                     }
