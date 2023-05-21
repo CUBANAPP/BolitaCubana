@@ -305,7 +305,7 @@ public class SevenDays extends Fragment {
                     binding.progressBar3.setProgress(20);
             }
         } else{
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 
                 if (saved != null) {
                     try {
@@ -350,7 +350,7 @@ public class SevenDays extends Fragment {
 
                 //editor.putString(String.valueOf(i), s.toString());
 
-                View header = getLayoutInflater().inflate(R.layout.sevenday_item, null);
+                View header = getLayoutInflater().inflate(R.layout.sevenday_item, null,false);
                 TextView fecha = header.findViewById(R.id.sFecha);
                 TextView hora = header.findViewById(R.id.sD);
                 TextView fijo1 = header.findViewById(R.id.sF1_0);
@@ -384,6 +384,7 @@ public class SevenDays extends Fragment {
                 }
                 String s0 = (String) s.get("fijo");
                 if (s0.length() < 3) {
+                    fijo1.setText("0");
                     fijo2.setText(s0);
                 } else {
 
@@ -394,8 +395,14 @@ public class SevenDays extends Fragment {
                         throw new RuntimeException(e);
                     }
                 }
-                corrido1.setText((String) s.get("corrido1"));
-                corrido2.setText((String) s.get("corrido2"));
+                String co1 = (String) s.get("corrido1");
+                String co2 = (String) s.get("corrido2");
+                if(co1.length() != 2)
+                    co1 = "0" + co1;
+                corrido1.setText(co1);
+                if(co2.length() != 2)
+                    co2 = "0" + co2;
+                corrido2.setText(co2);
                 binding.linearSeven.addView(header);
 
 

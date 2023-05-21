@@ -69,12 +69,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
+        <!-- <activity
             android:name="com.chartboost.sdk.view.CBImpressionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true"
             android:hardwareAccelerated="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" /> -->
         <activity
             android:name=".Launcher"
             android:screenOrientation="portrait"

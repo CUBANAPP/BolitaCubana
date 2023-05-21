@@ -61,5 +61,9 @@
         android:id="@+id/navigation_imagefullscreen"
         android:name="com.cubanapp.bolitacubana.ui.pronostico.ImageFragment"
         android:label="@string/photo"
-        tools:layout="@layout/fragment_imageviewer" />
+        tools:layout="@layout/fragment_imageviewer" >
+        <action
+            android:id="@+id/action_to_navigation_back"
+            app:destination="@id/navigation_adivinanza" />
+    </fragment>
 </navigation>

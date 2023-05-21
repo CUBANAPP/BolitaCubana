@@ -35,6 +35,7 @@
         android:id="@+id/nestcontainer2"
         android:background="#99000000"
         android:orientation="vertical"
+        android:scrollIndicators="right"
         android:isScrollContainer="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,9 +43,10 @@
         app:layout_constraintTop_toTopOf="parent">
         <TextView
             android:gravity="center"
-            android:padding="5dp"
             android:textSize="24sp"
+            android:padding="5dp"
             android:text=""
+            android:breakStrategy="simple"
             android:textColor="@android:color/background_light"
             android:id="@+id/textFragmentViewer"
             android:layout_width="match_parent"

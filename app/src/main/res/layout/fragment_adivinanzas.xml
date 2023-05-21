@@ -17,11 +17,11 @@
     tools:context=".ui.pronostico.Adivinanza">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:isScrollContainer="true"
         android:id="@+id/recicleradivinanza"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="61dp"
-        app:layout_constraintBottom_toBottom="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
