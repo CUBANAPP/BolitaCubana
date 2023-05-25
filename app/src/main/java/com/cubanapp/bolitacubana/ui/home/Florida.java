@@ -87,7 +87,10 @@ public class Florida extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Typeface font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
+        Typeface font = Typeface.create(Typeface.DEFAULT,Typeface.NORMAL);
+        if (binding != null && getActivity() != null)
+            font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
+
         if (binding != null) {
             if (font != null) {
                 binding.D1.setTypeface(font);

@@ -31,6 +31,7 @@ import com.cubanapp.bolitacubana.MainActivity;
 import com.cubanapp.bolitacubana.R;
 import com.cubanapp.bolitacubana.databinding.FragmentAdivinanzasBinding;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.type.DateTime;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,9 +39,14 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 public class Adivinanza extends Fragment implements AdivinanzaAdapter.AdivinanzaView.PhotoListener {
 
@@ -148,7 +154,6 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
             } catch (UnsupportedEncodingException e) {
                 //throw new RuntimeException(e);
             }
-            downloadData();
         }
 
     }
@@ -173,6 +178,19 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
             catch (UnsupportedEncodingException e0){}
             catch (JSONException e1){}
         }
+
+        TimeZone tz = TimeZone.getTimeZone("America/New_York");
+        TimeZone.setDefault(tz);
+
+        Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone(TimeZone.getDefault().getID()), Locale.US);
+
+        long i = sharedPref.getLong("checkUpdateImages",0);
+        if(fecha.getTimeInMillis() > i) {
+            Log.e(DEBUG_TAG, "YA PASO 5m");
+            downloadData();
+        }else{
+            Log.e(DEBUG_TAG, "NO PASO 5m");
+        }
     }
     private void setSaves(JSONObject files) throws UnsupportedEncodingException {
         SharedPreferences.Editor edit = sharedPref.edit();
@@ -185,8 +203,17 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
             byte[] data = text.getBytes("UTF-8");
             base64 = Base64.encodeToString(data, Base64.DEFAULT);
         }
-        filenames = files;
+        //filenames = files;
         edit.putString("filenames", base64);
+
+        TimeZone tz = TimeZone.getTimeZone("America/New_York");
+        TimeZone.setDefault(tz);
+
+        Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone(TimeZone.getDefault().getID()), Locale.US);
+
+        fecha.add(Calendar.MINUTE, 5);
+
+        edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
         edit.apply();
     }
 
@@ -239,6 +266,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
         //mInterstitialAd = null;
     }
     private void downloadData(){
+
         if (getActivity() != null) {
             keyNames.clear();
             requestQueue = Volley.newRequestQueue(getActivity());
@@ -317,7 +345,19 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                                         if(keyNames.size() > 0) {
                                             Log.e(DEBUG_TAG, "Descarga nueva");
                                             // TODO: Guardar sólo los archivos descargados correctamente si no se omite.
-                                            setSaves(response);
+                                            filenames = response;
+                                            String msg = getString(R.string.filesdownload)+ "0 / " + keyNames.size();
+                                            if(getActivity() != null) {
+
+                                                if (mySnackbar != null)
+                                                    if (mySnackbar.isShown())
+                                                        mySnackbar.dismiss();
+
+                                                mySnackbar = Snackbar.make(getActivity().findViewById(R.id.adivinanzaLayout), msg, Snackbar.LENGTH_LONG);
+                                                mySnackbar.show();
+
+                                            }
+
                                             downloadFiles(keyNames);
                                         }else{ // Nada nuevo que descargar
                                             Log.i(DEBUG_TAG, "Nada nuevo que descargar");
@@ -330,11 +370,11 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                                     //Log.d(DEBUG_TAG, "Response is: " + response);
 
                                 } else {
-                                    if (getActivity() != null) {
+                                    /*if (getActivity() != null) {
                                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                                 getString(R.string.internalerror), Snackbar.LENGTH_LONG);
                                         mySnackbar.show();
-                                    }
+                                    }*/
                                     if (binding != null) {
                                         binding.progressbar6.setVisibility(View.GONE);
                                     }
@@ -366,22 +406,22 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
 
                 if (error instanceof TimeoutError) {
                     //try {
-                    if (getActivity() != null) {
+                    /*if (getActivity() != null) {
                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                 getString(R.string.slowconn), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> downloadData());
                         mySnackbar.show();
-                    }
+                    }*/
                     //} catch (Exception e) {
                     //  Log.e(DEBUG_TAG, "SnackbarError4 : " + e.getMessage());
                     //}
 
                 } else {
                     //try {
-                    if (getActivity() != null) {
+                    /*if (getActivity() != null) {
                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                 getString(R.string.lostsvr), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> downloadData());
                         mySnackbar.show();
-                    }
+                    }*/
                     //} catch (Exception e) {
                     //   Log.e(DEBUG_TAG, "SnackbarError5 : " + e.getMessage());
                     //}
@@ -397,7 +437,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                 binding.progressbar6.setProgress(20);
         }
     }
-    private void downloadFiles(ArrayList<String> files) {
+    private void downloadFiles(ArrayList<String> files) throws UnsupportedEncodingException {
         if (getActivity() != null) {
             requestQueue = Volley.newRequestQueue(getActivity());
         }
@@ -407,7 +447,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                 //throw new RuntimeException(e);
             }*/
         if (requestQueue != null && binding != null) {
-            binding.progressbar6.setVisibility(View.GONE);
+            //binding.progressbar6.setVisibility(View.GONE);
             String url;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 url = "https://cubanapp.info/api/photo/index.php";
@@ -439,6 +479,18 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                                             Log.e(DEBUG_TAG, base64);
                                             byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
 
+                                            String msg = getString(R.string.filesdownload) + (d + 1) + " / " + keyNames.size();
+                                            if(getActivity() != null) {
+
+                                                if (mySnackbar != null)
+                                                    if (mySnackbar.isShown())
+                                                        mySnackbar.dismiss();
+
+                                                mySnackbar = Snackbar.make(getActivity().findViewById(R.id.adivinanzaLayout), msg, Snackbar.LENGTH_LONG);
+                                                mySnackbar.show();
+
+                                            }
+
                                             filesSuccess.add(files.get(d));
 
                                             saveFile(files.get(d), response);
@@ -448,20 +500,44 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                                                 buildAdapter(files.get(d), type, decodedString);
                                             }
 
+                                            if (d == (files.size() - 1))
+                                                if (binding != null)
+                                                    binding.progressbar6.setVisibility(View.GONE);
+
                                         }
 
                                     } else {
+                                        if (d == (files.size() - 1))
+                                            if (binding != null)
+                                                binding.progressbar6.setVisibility(View.GONE);
+
+                                        //filesSuccess.remove(files.get(d));
                                         Log.e(DEBUG_TAG, "No response");
                                     }
                                 }
                             } catch (JSONException e) {
-                                Log.e(DEBUG_TAG, "JSONException2 : " + e.getMessage());
+
+                                if (d == (files.size() - 1))
+                                    if (binding != null)
+                                        binding.progressbar6.setVisibility(View.GONE);
+
+                                //filesSuccess.remove(files.get(d));
+                                Log.e(DEBUG_TAG, "JSONException2: " + e.getMessage());
                             } catch (UnsupportedEncodingException e) {
-                                filesSuccess.remove(files.get(d));
+                                if (d == (files.size() - 1))
+                                    if (binding != null)
+                                        binding.progressbar6.setVisibility(View.GONE);
+
+                                Log.e(DEBUG_TAG, "UnsupportedEncodingException: " + e.getMessage());
                                 //throw new RuntimeException(e);
                             }
 
-                        }, error -> Log.e(DEBUG_TAG, "ERROR"));
+                        }, error -> {
+                    Log.e(DEBUG_TAG, "ERROR");
+                    if (d == (files.size() - 1))
+                        if (binding != null)
+                            binding.progressbar6.setVisibility(View.GONE);
+                });
 
                 stringRequest.setRetryPolicy(new DefaultRetryPolicy(60000,
                         1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
@@ -469,12 +545,23 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                 jsonObjectRequestArrayList.add(stringRequest);
 
             }
-            for (JsonObjectRequest s : jsonObjectRequestArrayList) {
-                requestQueue.add(s);
+
+            if(filenames != null) {
+                Iterator<String> keys = filenames.keys();
+
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    if (filesSuccess.contains(key))
+                        filenames.remove(key);
+                }
+                setSaves(filenames);
             }
 
-            if (binding != null)
-                binding.progressbar6.setVisibility(View.GONE);
+            if (jsonObjectRequestArrayList.size() > 0)
+                for (JsonObjectRequest s : jsonObjectRequestArrayList) {
+                    requestQueue.add(s);
+                }
+
         }
     }
 
@@ -514,20 +601,6 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
         edit.putString(filename, base64);
         edit.apply();
 
-        /*SharedPreferences.Editor edit = sharedPref.edit();
-        String text = files.toString();
-        String base64;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            byte[] data = text.getBytes(StandardCharsets.UTF_8);
-            base64 = Base64.encodeToString(data, Base64.DEFAULT);
-        } else {
-            byte[] data = text.getBytes("UTF-8");
-            base64 = Base64.encodeToString(data, Base64.DEFAULT);
-        }
-        filenames = files;
-        edit.putString("filenames", base64);
-        edit.apply();*/
-
     }
     private void loadFile(JSONObject file) throws UnsupportedEncodingException, JSONException {
 
@@ -546,39 +619,19 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             byte[] data = Base64.decode(saves, Base64.DEFAULT);
                             String text = new String(data, StandardCharsets.UTF_8);
-                            //Log.d(DEBUG_TAG, "FILE SAVED: " + text);
                             jsonFile = new JSONObject(text);
                         } else {
                             byte[] data = Base64.decode(saves, Base64.DEFAULT);
                             String text = new String(data, "UTF-8");
-                            //Log.d(DEBUG_TAG, "FILE SAVED: " + text);
                             jsonFile = new JSONObject(text);
                         }
 
-                        // TODO: añadir los jsonFile a un array a convertir
-
-
                         String type = jsonFile.getString("type");
-                        //Log.e(DEBUG_TAG, type);
                         String base64 = jsonFile.getString("base64");
-                        //Log.e(DEBUG_TAG, base64);
                         byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
-
                         tempData.add(new PronosticoData(key, type, decodedString));
                     }
-
-
-                    /*if(Objects.equals(x, key)) {
-                        if (z != null) {
-                            int value = file.getInt(key);
-                            if (value < z) {
-                                res = true;
-                                break;
-                            }
-                        }
-                    }*/
                 }
-                //TODO: Aqui cargar todos los adaptadores
 
                 if(tempData.size() > 0 && recyclerView != null && getActivity() != null) {
                     myListData = tempData.toArray(new PronosticoData[0]);

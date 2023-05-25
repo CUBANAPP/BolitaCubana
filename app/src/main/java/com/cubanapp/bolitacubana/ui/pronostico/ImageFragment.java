@@ -62,8 +62,8 @@ public class ImageFragment extends Fragment {
                             if (text != null) {
                                 binding.nestcontainer2.setVisibility(View.VISIBLE);
                                 binding.textFragmentViewer.setText(text);
-                                Typeface font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
-                                binding.textFragmentViewer.setTypeface(font);
+                                //Typeface font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
+                                //binding.textFragmentViewer.setTypeface(font);
                             }
                         }
                     }

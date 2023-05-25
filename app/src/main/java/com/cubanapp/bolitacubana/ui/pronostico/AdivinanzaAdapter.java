@@ -4,8 +4,10 @@
 
 package com.cubanapp.bolitacubana.ui.pronostico;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,16 +40,24 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
         return new AdivinanzaView(listItem, photoList);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(AdivinanzaView holder, int position) {
         holder.linkAdapter(this);
-        holder.type.setText(listdata[position].getType());
         holder.name.setText(listdata[position].getNameid());
+        holder.type.setText(listdata[position].getType());
         holder.setBytes(listdata[position].getBytes());
 
         if(Objects.equals(listdata[position].getType(), "jpg")){
+            //holder.type.setText("Image");
+            holder.name.setTextColor(Color.DKGRAY);
+            holder.type.setTextColor(Color.BLACK);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(holder.getBytes(), 0, holder.getBytes().length);
             holder.image.setImageBitmap(decodedByte);
+        }else{
+            holder.name.setTextColor(Color.LTGRAY);
+            holder.type.setTextColor(Color.WHITE);
+            //holder.type.setText("Texto");
         }
     }
 

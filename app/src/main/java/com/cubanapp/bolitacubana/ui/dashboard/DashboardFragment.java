@@ -75,22 +75,31 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Typeface font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
+        Typeface font = null;
+        if (binding != null && getActivity() != null) {
 
-        binding.D1s.setTypeface(font);
-        binding.Ds.setTypeface(font);
-        binding.SDs.setTypeface(font);
-        binding.F10s.setTypeface(font);
-        binding.F11s.setTypeface(font);
-        binding.C11s.setTypeface(font);
-        binding.C12s.setTypeface(font);
-        binding.N1s.setTypeface(font);
-        binding.Ns.setTypeface(font);
-        binding.SNs.setTypeface(font);
-        binding.F20s.setTypeface(font);
-        binding.F21s.setTypeface(font);
-        binding.C21s.setTypeface(font);
-        binding.C22s.setTypeface(font);
+            try {
+                font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
+            }
+            catch (IllegalStateException e){
+                font = Typeface.create(Typeface.DEFAULT,Typeface.NORMAL);
+            }
+
+            binding.D1s.setTypeface(font);
+            binding.Ds.setTypeface(font);
+            binding.SDs.setTypeface(font);
+            binding.F10s.setTypeface(font);
+            binding.F11s.setTypeface(font);
+            binding.C11s.setTypeface(font);
+            binding.C12s.setTypeface(font);
+            binding.N1s.setTypeface(font);
+            binding.Ns.setTypeface(font);
+            binding.SNs.setTypeface(font);
+            binding.F20s.setTypeface(font);
+            binding.F21s.setTypeface(font);
+            binding.C21s.setTypeface(font);
+            binding.C22s.setTypeface(font);
+        }
     }
 
     private void openDate(View v){

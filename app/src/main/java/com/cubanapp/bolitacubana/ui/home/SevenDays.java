@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.ArraySet;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -106,7 +109,7 @@ public class SevenDays extends Fragment {
     }
 
     private void checkUpdate() {
-        Set<String> saved = null;
+        String saved = null;
 
         TimeZone tz = TimeZone.getTimeZone("America/New_York");
         TimeZone.setDefault(tz);
@@ -120,36 +123,29 @@ public class SevenDays extends Fragment {
         String fechaString = fechaFormato.format(currentTimes);
 
         boolean update = false;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-            try {
-                Date fechaActual = fechaFormato.parse(fechaString);
-                String sDiaGuardado = sharedPref.getString("sevenDUpdate", "2020-01-01");
-                saved = sharedPref.getStringSet("ultimosSiete", null);
-                Calendar c = Calendar.getInstance();
-                c.setTime(fechaFormato.parse(sDiaGuardado));
-                c.add(Calendar.DATE, 1);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
-                String diaMas = fechaFormato.format(c.getTime());
-                Date diaMasSaved = fechaFormato.parse(diaMas);
+
+        try {
+            Date fechaActual = fechaFormato.parse(fechaString);
+            String sDiaGuardado = sharedPref.getString("sevenDUpdate", "2020-01-01");
+            saved = sharedPref.getString("lastSevenDays", null);
+            Calendar c = Calendar.getInstance();
+            c.setTime(fechaFormato.parse(sDiaGuardado));
+            c.add(Calendar.DATE, 1);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+            String diaMas = fechaFormato.format(c.getTime());
+            Date diaMasSaved = fechaFormato.parse(diaMas);
 
 
-                if (!sDiaGuardado.equals(fechaActual) && diaMasSaved.before(fechaActual)) {
+            if (!sDiaGuardado.equals(fechaActual) && diaMasSaved.before(fechaActual)) {
+                update = true;
+            } else {
+                if (saved == null) {
                     update = true;
-                } else {
-                    if (saved == null) {
-                        update = true;
-                    }
                 }
-
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
             }
+
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
-        else{
-            update = true;
-        }
-        /*if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q) {
-            update = true;
-        }*/
 
 
         if (binding != null) {
@@ -159,8 +155,6 @@ public class SevenDays extends Fragment {
 
 
         if (update) {
-
-
 
 
             if (getActivity() != null) {
@@ -176,7 +170,7 @@ public class SevenDays extends Fragment {
                 String url;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     url = "https://cubanapp.info/api/suserinfo.php";
-                }else{
+                } else {
                     url = "http://cubanapp.info/api/suserinfo.php";
                 }
                 //String url = "https://cubanapp.info/api/suserinfo.php";
@@ -218,7 +212,7 @@ public class SevenDays extends Fragment {
                                             Log.d(DEBUG_TAG, "Response is: " + error);
 
 
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                                                 Set<String> save = new ArraySet<>(Collections.singleton(jsonArray.toString()));
                                                 try {
                                                     SharedPreferences.Editor editor = sharedPref.edit();
@@ -230,8 +224,31 @@ public class SevenDays extends Fragment {
                                                 catch (JSONException e){
                                                     //throw new RuntimeException(e);
                                                 }
-                                            }
+                                            }*/
 
+                                            String text = jsonArray.toString();
+                                            String base64 = null;
+                                            byte[] data = new byte[0];
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                                data = text.getBytes(StandardCharsets.UTF_8);
+                                                base64 = Base64.encodeToString(data, Base64.DEFAULT);
+                                            } else {
+                                                try {
+                                                    data = text.getBytes("UTF-8");
+                                                } catch (UnsupportedEncodingException e) {
+                                                    //throw new RuntimeException(e);
+                                                }
+                                                if (data != null)
+                                                    base64 = Base64.encodeToString(data, Base64.DEFAULT);
+                                            }
+                                            if (base64 != null) {
+                                                SharedPreferences.Editor editor = sharedPref.edit();
+                                                JSONObject s = jsonArray.getJSONObject(0);
+
+                                                editor.putString("sevenDUpdate", (String) s.get("date"));
+                                                editor.putString("lastSevenDays", base64);
+                                                editor.apply();
+                                            }
                                             buildSevenItems(jsonArray);
                                         } else {
 
@@ -304,23 +321,41 @@ public class SevenDays extends Fragment {
                 if (binding != null)
                     binding.progressBar3.setProgress(20);
             }
-        } else{
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-
-                if (saved != null) {
+        } else {
+            if (saved != null) {
+                JSONArray formatted = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    byte[] data = Base64.decode(saved, Base64.DEFAULT);
+                    String text = new String(data, StandardCharsets.UTF_8);
+                    //Log.d(DEBUG_TAG, "SAVED: " + text);
                     try {
-                        JSONArray jsonSaved = new JSONArray(saved.toArray());
-                        String s = (String) jsonSaved.get(0);
-                        JSONArray formatted = new JSONArray(s);
+                        formatted = new JSONArray(text);
+                    } catch (JSONException e) {
+                        //throw new RuntimeException(e);
+                    }
+                    if (formatted != null)
                         buildSevenItems(formatted);
-                    }
-                    catch (JSONException e){
-                        throw new RuntimeException(e);
-                    }
                 } else {
-                    if (binding != null)
-                        binding.progressBar3.setVisibility(View.GONE);
+                    byte[] data = Base64.decode(saved, Base64.DEFAULT);
+                    String text = null;
+                    try {
+                        text = new String(data, "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        //throw new RuntimeException(e);
+                    }
+                    if (text != null) {
+                        try {
+                            formatted = new JSONArray(text);
+                        } catch (JSONException e) {
+                            //throw new RuntimeException(e);
+                        }
+                        if (formatted != null)
+                            buildSevenItems(formatted);
+                    }
                 }
+            } else {
+                if (binding != null)
+                    binding.progressBar3.setVisibility(View.GONE);
             }
         }
     }
@@ -336,7 +371,10 @@ public class SevenDays extends Fragment {
 
         String root = json.toString();
         Log.d(DEBUG_TAG, "JSON: " + root);
-        Typeface font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
+
+        Typeface font = Typeface.create(Typeface.DEFAULT,Typeface.NORMAL);
+        if (binding != null && getActivity() != null)
+            font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
 
         for (int i = 0; i < json.length(); i++) {
             if (binding == null || getActivity() == null)
@@ -408,9 +446,14 @@ public class SevenDays extends Fragment {
 
             } catch (JSONException e) {
                 Log.e(DEBUG_TAG, "Error Building");
-                throw new RuntimeException(e);
+                //throw new RuntimeException(e);
+                break;
             } catch (ParseException e) {
-                throw new RuntimeException(e);
+                //throw new RuntimeException(e);
+                break;
+            }
+            catch (IllegalStateException e) {
+                break;
             }
         }
         if (binding != null && getActivity() != null) {

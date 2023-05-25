@@ -87,4 +87,5 @@
     <string name="title_pronostico" translatable="true">Riddles</string>
     <string name="image" translatable="false">ImageView</string>
     <string name="photo" translatable="true">Content</string>
+    <string name="filesdownload" translatable="true">"Downloaded Files: "</string>
 </resources>
