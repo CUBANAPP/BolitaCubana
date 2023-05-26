@@ -200,7 +200,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
             Log.e(DEBUG_TAG, "NO PASO 5m");
             if(nFiles != null)
             {
-                downloadData();
+                //downloadData();
                 Log.e(DEBUG_TAG, "Pero hay descargas pendientes, nFiles no NULL");
             }
         }

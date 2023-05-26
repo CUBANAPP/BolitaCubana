@@ -90,4 +90,5 @@
     <string name="filesdownload" translatable="true">Downloaded: </string>
     <string name="leyendo_archivos" translatable="true">Checking Files: …</string>
     <string name="finished" translatable="true">Files Updated</string>
+    <string name="updatedate">Last check:</string>
 </resources>

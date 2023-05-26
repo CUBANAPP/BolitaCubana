@@ -36,8 +36,8 @@ android {
         applicationId "com.cubanapp.bolitacubana"
         minSdk 16
         targetSdk 33
-        versionCode 92
-        versionName "1.1.3 Debug"
+        versionCode 96
+        versionName "1.1.4 Debug"
         resourceConfigurations += ['en', 'es']
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug

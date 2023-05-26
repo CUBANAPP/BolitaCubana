@@ -92,6 +92,9 @@ public class Florida extends Fragment {
             font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
 
         if (binding != null) {
+            String savedFechaString = sharedPref.getString("updateCheckDate", null);
+            if(savedFechaString != null)
+                binding.updateDate.setText(savedFechaString);
             if (font != null) {
                 binding.D1.setTypeface(font);
                 binding.D.setTypeface(font);
@@ -186,7 +189,7 @@ public class Florida extends Fragment {
             String sDiaGuardado = sharedPref.getString("D", "01/01/2006");
             String sNocheGuardado = sharedPref.getString("N", "01/01/2006");
             Date fechaDiaSaved = fechaFormato.parse(sDiaGuardado);
-            Date fechaNocheSaved = fechaFormato.parse(sNocheGuardado);
+            //Date fechaNocheSaved = fechaFormato.parse(sNocheGuardado);
 
             //Log.e(DEBUG_TAG, "fechaDiaSaved : " + fechaDiaSaved);
             //Log.e(DEBUG_TAG, "fechaNocheSaved : " + fechaNocheSaved);
@@ -401,6 +404,20 @@ public class Florida extends Fragment {
                 requestQueue.add(stringRequest);
 
             }
+            TimeZone tzone = TimeZone.getTimeZone("America/New_York");
+            TimeZone.setDefault(tzone);
+
+            Calendar fechaz = Calendar.getInstance(TimeZone.getTimeZone(TimeZone.getDefault().getID()), Locale.US);
+
+            Date currentTimesz = fechaz.getTime();
+
+            SimpleDateFormat fechaFormatoz = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US);
+
+            String fechaStringz = fechaFormatoz.format(currentTimesz);
+            binding.updateDate.setText(fechaStringz);
+            SharedPreferences.Editor edit = sharedPref.edit();
+            edit.putString("updateCheckDate", fechaStringz);
+            edit.apply();
         }
     }
 

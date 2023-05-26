@@ -79,4 +79,5 @@
     <string name="filesdownload">Descargados: </string>
     <string name="leyendo_archivos">Comprobando archivos: …</string>
     <string name="finished">Archivos Actualizados</string>
+    <string name="updatedate">Última comprobación:</string>
 </resources>
