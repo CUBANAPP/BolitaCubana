@@ -87,5 +87,7 @@
     <string name="title_pronostico" translatable="true">Riddles</string>
     <string name="image" translatable="false">ImageView</string>
     <string name="photo" translatable="true">Content</string>
-    <string name="filesdownload" translatable="true">"Downloaded Files: "</string>
+    <string name="filesdownload" translatable="true">Downloaded: </string>
+    <string name="leyendo_archivos" translatable="true">Checking Files: …</string>
+    <string name="finished" translatable="true">Files Updated</string>
 </resources>

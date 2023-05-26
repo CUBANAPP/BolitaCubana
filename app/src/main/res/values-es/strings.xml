@@ -76,5 +76,7 @@
     <string name="searchword">Escriba para buscar…</string>
     <string name="title_pronostico">Pronósticos</string>
     <string name="photo">Contenido</string>
-    <string name="filesdownload">"Archivos descargados: "</string>
+    <string name="filesdownload">Descargados: </string>
+    <string name="leyendo_archivos">Comprobando archivos: …</string>
+    <string name="finished">Archivos Actualizados</string>
 </resources>

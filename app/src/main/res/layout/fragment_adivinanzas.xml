@@ -41,4 +41,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textViewProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:textSize="24sp"
+        android:shadowColor="@color/black"
+        android:shadowRadius="6"
+        android:text="@string/leyendo_archivos"
+        android:textColor="@color/red_200"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressbar6"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
