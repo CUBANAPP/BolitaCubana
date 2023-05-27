@@ -63,10 +63,13 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity {
@@ -547,6 +550,24 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         }
+        else if (item.getItemId() == R.id.clear) {
+            deleteCache(this);
+            SharedPreferences sharedPreferences = getSharedPreferences(
+                    getString(R.string.preference_file_key2), Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit = sharedPreferences.edit();
+            edit.clear();
+
+            TimeZone tz = TimeZone.getTimeZone("America/New_York");
+            TimeZone.setDefault(tz);
+
+            Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone(TimeZone.getDefault().getID()), Locale.US);
+
+            fecha.add(Calendar.MINUTE, 1);
+
+            edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
+            edit.apply();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -740,14 +761,36 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(DEBUG_TAG, "Ad showed fullscreen content.");
                 }
             });
-            Random r = new Random();
+            /*Random r = new Random();
             int randomInt = r.nextInt(20 - 1) + 1;
             Log.i(DEBUG_TAG, "RANDOM: " + randomInt);
             if (randomInt == 3) {
                 if (getApplicationContext() != null && mInterstitialAd != null) {
                     mInterstitialAd.show(this);
                 }
+            }*/
+        }
+    }
+    public static void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) {}
+    }
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
             }
+            return dir.delete();
+        } else if (dir != null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
         }
     }
     /*@Override

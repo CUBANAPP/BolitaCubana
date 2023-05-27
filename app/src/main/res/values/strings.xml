@@ -14,6 +14,7 @@
     <string name="open" translatable="true">Open</string>
     <string name="dialog_permission" translatable="true">Internet Permission is needed to work</string>
     <string name="preference_file_key" translatable="false">com.cubanapp.bolitacubana.shared_preferences</string>
+    <string name="preference_file_key2" translatable="false">com.cubanapp.bolitacubana.adivinanza_preferences</string>
     <string name="dialog_permission2" translatable="true">Network permission is needed to work</string>
     <string name="retry" translatable="true">Retry</string>
     <string name="dismiss" translatable="true">Dismiss</string>
@@ -68,6 +69,7 @@
     <string name="space" translatable="false"> </string>
     <string name="optionsmenu" translatable="true">Options</string>
     <string name="about" translatable="true">About</string>
+    <string name="clearm" translatable="true">Clear Cache</string>
     <string name="errorData" translatable="true">An error occurred while getting the data</string>
     <string name="erroSync" translatable="true">A fatal error has occurred while synchronizing data</string>
     <string name="connslow" translatable="true">Your connection is slow, please try again.</string>

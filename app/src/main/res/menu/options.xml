@@ -8,4 +8,5 @@
 
     <item android:title="@string/optionsmenu" android:id="@+id/options"/>
     <item android:title="@string/about" android:id="@+id/about"/>
+    <item android:title="@string/clearm" android:id="@+id/clear"/>
 </menu>

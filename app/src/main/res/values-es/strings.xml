@@ -59,6 +59,7 @@
     <string name="launcherimage">Imagen de Inicio</string>
     <string name="optionsmenu">Ajustes</string>
     <string name="about">Información</string>
+    <string name="clearm">Limpiar Caché</string>
     <string name="errorData">Ha ocurrido un error al obtener los datos</string>
     <string name="erroSync">Ha ocurrido un error grave al sincronizar datos</string>
     <string name="connslow">Su conexión está lenta, intente de nuevo.</string>
@@ -76,7 +77,7 @@
     <string name="searchword">Escriba para buscar…</string>
     <string name="title_pronostico">Pronósticos</string>
     <string name="photo">Contenido</string>
-    <string name="filesdownload">Descargados: </string>
+    <string name="filesdownload">Descargado: </string>
     <string name="leyendo_archivos">Comprobando archivos: …</string>
     <string name="finished">Archivos Actualizados</string>
     <string name="updatedate">Última comprobación:</string>
