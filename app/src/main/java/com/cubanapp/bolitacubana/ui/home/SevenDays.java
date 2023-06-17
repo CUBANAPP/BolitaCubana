@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.ArraySet;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,10 +39,8 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Set;
 import java.util.TimeZone;
 
 public class SevenDays extends Fragment {
