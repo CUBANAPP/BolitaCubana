@@ -235,7 +235,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
 
         Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone(TimeZone.getDefault().getID()), Locale.US);
 
-        fecha.add(Calendar.MINUTE, 15);
+        fecha.add(Calendar.SECOND, 10);
 
         edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
         edit.apply();
@@ -400,7 +400,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
 
                                             Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone(TimeZone.getDefault().getID()), Locale.US);
 
-                                            fecha.add(Calendar.MINUTE, 5);
+                                            fecha.add(Calendar.MINUTE, 30);
 
                                             edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
                                             edit.apply();
@@ -496,6 +496,12 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                 //throw new RuntimeException(e);
             }*/
         if (requestQueue != null && binding != null) {
+            SharedPreferences.Editor edit = sharedPref.edit();
+            TimeZone tz = TimeZone.getTimeZone("America/New_York");
+            TimeZone.setDefault(tz);
+
+            Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone(TimeZone.getDefault().getID()), Locale.US);
+
             //binding.progressbar6.setVisibility(View.GONE);
             String url;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -546,6 +552,13 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
 
                                             if (d == (files.size() - 1)) {
                                                 saveFile(files.get(d), response, true);
+
+
+                                                fecha.add(Calendar.MINUTE, 30);
+
+                                                edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
+                                                edit.apply();
+
                                                 if (binding != null) {
                                                     binding.progressbar6.setVisibility(View.GONE);
                                                     binding.textViewProgress.setVisibility(View.GONE);
@@ -557,22 +570,32 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                                         }
 
                                     } else {
-                                        if (d == (files.size() - 1))
+                                        if (d == (files.size() - 1)) {
+                                            fecha.add(Calendar.SECOND, 5);
+
+                                            edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
+                                            edit.apply();
+
                                             if (binding != null) {
                                                 binding.progressbar6.setVisibility(View.GONE);
                                                 binding.textViewProgress.setVisibility(View.GONE);
                                             }
+                                        }
                                         //filesSuccess.remove(files.get(d));
                                         Log.e(DEBUG_TAG, "No response");
                                     }
                                 }
                             } catch (JSONException e) {
+                                if (d == (files.size() - 1)) {
+                                    fecha.add(Calendar.SECOND, 5);
 
-                                if (d == (files.size() - 1))
+                                    edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
+                                    edit.apply();
                                     if (binding != null) {
                                         binding.progressbar6.setVisibility(View.GONE);
                                         binding.textViewProgress.setVisibility(View.GONE);
                                     }
+                                }
                                 //filesSuccess.remove(files.get(d));
                                 Log.e(DEBUG_TAG, "JSONException2: " + e.getMessage());
                             } catch (UnsupportedEncodingException e) {
@@ -596,11 +619,16 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
 
                         }, error -> {
                     Log.e(DEBUG_TAG, "ERROR");
-                    if (d == (files.size() - 1))
-                        if (binding != null){
+                    if (d == (files.size() - 1)) {
+                        fecha.add(Calendar.SECOND, 5);
+
+                        edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
+                        edit.apply();
+                        if (binding != null) {
                             binding.progressbar6.setVisibility(View.GONE);
                             binding.textViewProgress.setVisibility(View.GONE);
                         }
+                    }
                 });
 
                 stringRequest.setRetryPolicy(new DefaultRetryPolicy(60000,

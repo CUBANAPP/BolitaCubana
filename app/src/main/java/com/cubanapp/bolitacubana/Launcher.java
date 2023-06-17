@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -120,10 +119,6 @@ public class Launcher extends AppCompatActivity {
         boolean error = false;
         progressBar = findViewById(R.id.progressBar);
 
-        Typeface typeface = Typeface.createFromAsset(getAssets(),"burbank_normal.otf");
-        binding.textView7.setTypeface(typeface);
-        binding.textView40.setTypeface(typeface);
-        binding.textView41.setTypeface(typeface);
 
         context = getApplicationContext();
 

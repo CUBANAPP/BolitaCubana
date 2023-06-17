@@ -4,9 +4,9 @@
 
 package com.cubanapp.bolitacubana.ui.home;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +33,7 @@ import com.google.android.material.snackbar.Snackbar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -87,15 +88,15 @@ public class Florida extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Typeface font = Typeface.create(Typeface.DEFAULT,Typeface.NORMAL);
+        /*Typeface font = Typeface.create(Typeface.DEFAULT,Typeface.NORMAL);
         if (binding != null && getActivity() != null)
-            font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
+            font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");*/
 
         if (binding != null) {
             String savedFechaString = sharedPref.getString("updateCheckDate", null);
             if(savedFechaString != null)
                 binding.updateDate.setText(savedFechaString);
-            if (font != null) {
+            /*if (font != null) {
                 binding.D1.setTypeface(font);
                 binding.D.setTypeface(font);
                 binding.SD.setTypeface(font);
@@ -110,7 +111,7 @@ public class Florida extends Fragment {
                 binding.F21.setTypeface(font);
                 binding.C21.setTypeface(font);
                 binding.C22.setTypeface(font);
-            }
+            }*/
 
             String fijo1 = sharedPref.getString("F1", "---");
             String fijo2 = sharedPref.getString("F2", "---");
@@ -183,6 +184,7 @@ public class Florida extends Fragment {
         String horaString = horaFormato.format(currentTimes);
 
         boolean update = false;
+
         try {
             Date fechaActual = fechaFormato.parse(fechaString);
             Date horaActual = horaFormato.parse(horaString);
@@ -420,6 +422,7 @@ public class Florida extends Fragment {
             edit.apply();
         }
     }
+
 
     @Override
     public void onPause() {

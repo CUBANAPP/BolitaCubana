@@ -4,11 +4,27 @@
 
 <resources>
     <string-array name="Language">
-        <item>English</item>
-        <item>Español</item>
+        <item>@string/english</item>
+        <item>@string/spanish</item>
     </string-array>
     <string-array name="languageAlias">
         <item>en</item>
         <item>es</item>
+    </string-array>
+    <string-array name="delete">
+        <item>@string/sure</item>
+    </string-array>
+    <string-array name="deletea">
+        <item>0</item>
+    </string-array>
+    <string-array name="thememodes">
+        <item>@string/light</item>
+        <item>@string/dark</item>
+        <item>@string/system</item>
+    </string-array>
+    <string-array name="themekey">
+        <item>light</item>
+        <item>dark</item>
+        <item>system</item>
     </string-array>
 </resources>

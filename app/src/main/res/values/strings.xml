@@ -25,6 +25,17 @@
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="default_notification_channel_name" translatable="true">Results</string>
 
+    <string name="dia" translatable="true">Day</string>
+    <string name="noche" translatable="true">Night</string>
+    <string name="pick3" translatable="true">Pick 3</string>
+    <string name="pick4" translatable="true">Pick 4</string>
+    <string name="fechaempty" translatable="false">--/--/----</string>
+    <string name="search_another" translatable="true">Search another date</string>
+    <string name="last_seven" translatable="true">See last 7 Days</string>
+    <string name="resultados_florida" translatable="true">Florida Lottery Results</string>
+    <string name="results_georgia" translatable="true">Next Update: Georgia</string>
+
+
     <!-- Preferencias -->
     <string name="firebase" translatable="true">Bolita Cubana Data Usage</string>
     <string name="firebaseData" translatable="true">Anonimous Data Collection (Global)</string>
@@ -48,18 +59,15 @@
     <string name="firebaseperf" translatable="true">Send performance statistics</string>
     <string name="performance" translatable="true">Performance Statistics</string>
     <string name="exportBigQuery" translatable="true">Export BigQuery metrics</string>
-    <string name="dia" translatable="true">Day</string>
-    <string name="noche" translatable="true">Night</string>
-    <string name="fechaempty" translatable="false">--/--/----</string>
-    <string name="search_another" translatable="true">Search another date</string>
-    <string name="last_seven" translatable="true">See last 7 Days</string>
-    <string name="resultados_florida" translatable="true">Florida Lottery Results</string>
-    <string name="results_georgia" translatable="true">Next Update: Georgia</string>
-    <string name="accept" translatable="true">Accept</string>
     <string name="notificationdgranted" translatable="true">Notifications permission granted</string>
     <string name="notificationdeclined" translatable="true">Bolita Cubana can\'t post notifications without permission</string>
     <string name="msg_subscribed" translatable="true">Updated!</string>
     <string name="msg_subscribe_failed" translatable="true">Failed</string>
+    <string name="english" translatable="true">English</string>
+    <string name="spanish" translatable="true">Spanish</string>
+
+    <string name="accept" translatable="true">Accept</string>
+
     <string name="link" translatable="true">"Bolita Cubana suggests you visit the following link: \n\n"</string>
     <string name="important" translatable="true">Important</string>
     <string name="obsolete" translatable="true">Google Play Update</string>
@@ -82,7 +90,6 @@
     <string name="aboutinfo2" translatable="true">\n\nEmail: \nhelp@cubanapp.info</string>
     <string name="openprivacy" translatable="true">View Privacy</string>
     <string name="languageselector" translatable="true">Language Selector</string>
-    <string name="language" translatable="true">Touch to change language</string>
     <string name="copyright" translatable="false">\@CUBANAPPLLC Copyright 2019-2023</string>
     <string name="loading" translatable="true">Loading…</string>
     <string name="searchword" translatable="true">Write word or number…</string>
@@ -92,5 +99,15 @@
     <string name="filesdownload" translatable="true">Downloaded: </string>
     <string name="leyendo_archivos" translatable="true">Checking Files: …</string>
     <string name="finished" translatable="true">Files Updated</string>
-    <string name="updatedate">Last check:</string>
+    <string name="updatedate"  translatable="true">Last check:</string>
+    <string name="erase"  translatable="true">Erase Data (Reset App)</string>
+    <string name="apptitle"  translatable="true">Application Config</string>
+    <string name="sure" translatable="true">Touch for reset data</string>
+    <string name="sdk17" translatable="true">Disabled until Android 4.2 (Jelly Bean)</string>
+    <string name="darkmode" translatable="true">Change Dark Theme</string>
+    <string name="dark" translatable="true">Dark</string>
+    <string name="system" translatable="true">Same as System</string>
+    <string name="light" translatable="true">Light</string>
+    <string name="error" translatable="false">Error</string>
+    <string name="completed" translatable="true">Restored!</string>
 </resources>

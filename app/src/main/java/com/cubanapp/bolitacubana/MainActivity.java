@@ -5,6 +5,7 @@
 package com.cubanapp.bolitacubana;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -33,6 +34,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -58,13 +60,21 @@ import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.ump.ConsentForm;
+import com.google.android.ump.ConsentInformation;
+import com.google.android.ump.ConsentRequestParameters;
+import com.google.android.ump.FormError;
+import com.google.android.ump.UserMessagingPlatform;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -104,6 +114,9 @@ public class MainActivity extends AppCompatActivity {
     private String message;
 
     private Bundle bundle;
+
+    private ConsentInformation consentInformation;
+    private ConsentForm consentForm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -238,6 +251,28 @@ public class MainActivity extends AppCompatActivity {
 
 
         if(Build.VERSION.SDK_INT >= 19) {
+// Set tag for under age of consent. false means users are not under
+            // age.
+            ConsentRequestParameters params = new ConsentRequestParameters
+                    .Builder()
+                    .setTagForUnderAgeOfConsent(false)
+                    .build();
+
+            consentInformation = UserMessagingPlatform.getConsentInformation(this);
+            consentInformation.requestConsentInfoUpdate(
+                    this,
+                    params,
+                    () -> {
+                        // The consent information state was updated.
+                        // You are now ready to check if a form is available.
+                        if (consentInformation.isConsentFormAvailable()) {
+                            loadForm();
+                        }
+                    },
+                    formError -> {
+                        // Handle the error.
+                    });
+
             FirebaseAnalytics mFirebaseAnalytics= FirebaseAnalytics.getInstance(this);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, bundle);
             AdView adView = (AdView) findViewById(R.id.adView);
@@ -345,7 +380,88 @@ public class MainActivity extends AppCompatActivity {
         callback.setEnabled(false);
 
         askNotificationPermission();
+
+
+        TimeZone tz = TimeZone.getTimeZone("America/New_York");
+        TimeZone.setDefault(tz);
+
+        Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone(TimeZone.getDefault().getID()), Locale.US);
+
+        Date currentTimes = fecha.getTime();
+
+        SimpleDateFormat fechaFormato = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        SimpleDateFormat horaFormato = new SimpleDateFormat("HH:mm:ss", Locale.US);
+
+        String fechaString = fechaFormato.format(currentTimes);
+        String horaString = horaFormato.format(currentTimes);
+
+        boolean night = false;
+
+        try {
+            Date fechaActual = fechaFormato.parse(fechaString);
+            Date horaActual = horaFormato.parse(horaString);
+            String sDiaGuardado = sharedPref.getString("removeTemp", "01/01/2006");
+            Date fechaDiaSaved = fechaFormato.parse(sDiaGuardado);
+
+            Calendar c = Calendar.getInstance();
+            c.setTime(fechaFormato.parse(sDiaGuardado));
+            c.add(Calendar.DATE, 1);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+            String diaMas = fechaFormato.format(c.getTime());
+            Date diaMasSaved = fechaFormato.parse(diaMas);
+
+            //Log.e(DEBUG_TAG, "nocheMasSaved : " + nocheMasSaved);
+
+            //Date fechaDiaFicticia = fechaFormato.parse("02/04/2023");
+            //Date fechaNocheFicticia = fechaFormato.parse("04/04/2023");
+            //Date horaFicticia = horaFormato.parse("22:00:00");
+
+            Date horaDia = horaFormato.parse("13:46:00");
+            Date horaNoche = horaFormato.parse("21:56:00");
+
+
+            if ((!fechaActual.equals(fechaDiaSaved) && diaMasSaved.before(fechaActual)) || (fechaActual.equals(diaMasSaved) && horaActual.after(horaDia))) {
+                //Log.e(DEBUG_TAG, "UPDATE DIA");
+                if (!fechaActual.equals(fechaDiaSaved) && diaMasSaved.before(fechaActual))
+                    night = true;
+            } else {
+                if (diaMasSaved.before(fechaActual) || (fechaActual.equals(diaMasSaved) && horaActual.after(horaNoche))) {
+                    //Log.e(DEBUG_TAG, "UPDATE NOCHE");
+                    night = true;
+                }
+            }
+            if(night)
+                clearTempData(fechaString);
+        }
+        catch (ParseException e){}
+        catch (NullPointerException e){}
+
     }
+
+    public void loadForm() {
+        // Loads a consent form. Must be called on the main thread.
+        UserMessagingPlatform.loadConsentForm(
+                this,
+                consentForm -> {
+                    MainActivity.this.consentForm = consentForm;
+                    if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.REQUIRED) {
+                        consentForm.show(
+                                MainActivity.this,
+                                formError -> {
+                                    if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.OBTAINED) {
+                                        // App can start requesting ads.
+                                    }
+
+                                    // Handle dismissal by reloading form.
+                                    loadForm();
+                                });
+                    }
+                },
+                formError -> {
+                    // Handle Error.
+                }
+        );
+    }
+
     private void startSync() {
         if (builder != null) {
             if (builder.isShowing())
@@ -548,24 +664,6 @@ public class MainActivity extends AppCompatActivity {
                 builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.openprivacy), (dialog, which) -> loadToS());
                 builder.show();
             }
-            return true;
-        }
-        else if (item.getItemId() == R.id.clear) {
-            deleteCache(this);
-            SharedPreferences sharedPreferences = getSharedPreferences(
-                    getString(R.string.preference_file_key2), Context.MODE_PRIVATE);
-            SharedPreferences.Editor edit = sharedPreferences.edit();
-            edit.clear();
-
-            TimeZone tz = TimeZone.getTimeZone("America/New_York");
-            TimeZone.setDefault(tz);
-
-            Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone(TimeZone.getDefault().getID()), Locale.US);
-
-            fecha.add(Calendar.MINUTE, 1);
-
-            edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
-            edit.apply();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -771,17 +869,45 @@ public class MainActivity extends AppCompatActivity {
             }*/
         }
     }
-    public static void deleteCache(Context context) {
+
+    private boolean clearTempData(String dateString){
+        if(context.getCacheDir() != null) {
+            deleteTempCache(context);
+            SharedPreferences sharedPreferences = getSharedPreferences(
+                    getString(R.string.preference_file_key2), Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit = sharedPreferences.edit();
+            edit.clear();
+
+            TimeZone tz = TimeZone.getTimeZone("America/New_York");
+            TimeZone.setDefault(tz);
+
+            Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone(TimeZone.getDefault().getID()), Locale.US);
+
+            fecha.add(Calendar.SECOND, 5);
+
+            edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
+            edit.apply();
+            SharedPreferences.Editor ditor = sharedPref.edit();
+            ditor.putString("removeTemp",dateString);
+            ditor.apply();
+            Log.d(DEBUG_TAG, "clearTempData: Success");
+            return true;
+        }else{
+            Log.d(DEBUG_TAG, "clearTempData: FAIL");
+            return false;
+        }
+    }
+    private static void deleteTempCache(Context context) {
         try {
             File dir = context.getCacheDir();
-            deleteDir(dir);
+            deleteTempDir(dir);
         } catch (Exception e) {}
     }
-    public static boolean deleteDir(File dir) {
+    private static boolean deleteTempDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
             for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
+                boolean success = deleteTempDir(new File(dir, children[i]));
                 if (!success) {
                     return false;
                 }

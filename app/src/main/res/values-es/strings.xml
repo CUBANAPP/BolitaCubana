@@ -40,6 +40,8 @@
     <string name="exportBigQuery">Exportar métricas BigQuery</string>
     <string name="dia">Día</string>
     <string name="noche">Noche</string>
+    <string name="pick3">Fijo</string>
+    <string name="pick4">Corridos</string>
     <string name="search_another">Buscar otra fecha</string>
     <string name="last_seven">Ver los últimos 7 días</string>
     <string name="resultados_florida">Resultados de Florida</string>
@@ -72,7 +74,6 @@
     <string name="aboutinfo2">\n\nCorreo: \nayuda@cubanapp.info</string>
     <string name="openprivacy">Ver Privacidad</string>
     <string name="languageselector">Seleccionar Idioma</string>
-    <string name="language">Toca para cambiar idioma</string>
     <string name="loading">Cargando…</string>
     <string name="searchword">Escriba para buscar…</string>
     <string name="title_pronostico">Pronósticos</string>
@@ -81,4 +82,15 @@
     <string name="leyendo_archivos">Comprobando archivos: …</string>
     <string name="finished">Archivos Actualizados</string>
     <string name="updatedate">Última comprobación:</string>
+    <string name="erase">Eliminar datos (Restablecer)</string>
+    <string name="apptitle">Configuración de Aplicación</string>
+    <string name="sure">Toca para restablecer datos</string>
+    <string name="english">Inglés</string>
+    <string name="spanish">Español</string>
+    <string name="sdk17">Deshabilitado hasta Android 4.2 (Jelly Bean)</string>
+    <string name="darkmode">Cambiar Tema Oscuro</string>
+    <string name="dark">Oscuro</string>
+    <string name="system">Config. del Sistema</string>
+    <string name="light">Claro</string>
+    <string name="completed">¡Completado!</string>
 </resources>

@@ -5,7 +5,6 @@
 package com.cubanapp.bolitacubana.ui.dashboard;
 
 import android.app.Dialog;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,8 +74,7 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Typeface font = null;
-        if (binding != null && getActivity() != null) {
+        /*if (binding != null && getActivity() != null) {
 
             try {
                 font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
@@ -99,7 +97,7 @@ public class DashboardFragment extends Fragment {
             binding.F21s.setTypeface(font);
             binding.C21s.setTypeface(font);
             binding.C22s.setTypeface(font);
-        }
+        }*/
     }
 
     private void openDate(View v){

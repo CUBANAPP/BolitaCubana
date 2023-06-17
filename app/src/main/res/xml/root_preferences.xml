@@ -3,14 +3,27 @@
   -->
 
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
-    <PreferenceCategory app:title="@string/languageselector">
+    <PreferenceCategory app:title="@string/apptitle">
         <ListPreference
             app:key="languagepreference"
-            app:title="@string/language"
+            app:title="@string/languageselector"
             app:defaultValue="es"
             app:entries="@array/Language"
             app:entryValues="@array/languageAlias"/>
+        <ListPreference
+            app:key="thememodeselector"
+            app:title="@string/darkmode"
+            app:defaultValue="system"
+            app:entries="@array/thememodes"
+            app:entryValues="@array/themekey"/>
+        <ListPreference
+            app:key="erase"
+            app:title="@string/erase"
+            app:defaultValue="0"
+            app:entries="@array/delete"
+            app:entryValues="@array/deletea"/>
     </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/notification">
         <SwitchPreferenceCompat
             app:defaultValue="true"
@@ -69,5 +82,4 @@
             app:key="performance"
             app:title="@string/firebaseperf" />
     </PreferenceCategory>
-
 </PreferenceScreen>
