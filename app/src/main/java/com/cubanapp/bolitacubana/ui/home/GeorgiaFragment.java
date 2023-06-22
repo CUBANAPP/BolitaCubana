@@ -39,7 +39,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class Florida extends Fragment {
+public class GeorgiaFragment extends Fragment {
 
     private String apiKey;
     private FragmentFloridaBinding binding;
@@ -51,10 +51,10 @@ public class Florida extends Fragment {
     private SharedPreferences sharedPref;
 
     private Snackbar mySnackbar;
-    private static final String DEBUG_TAG = "FloridaFragment";
+    private static final String DEBUG_TAG = "GeorgiaFragment";
 
-    /*public static Florida newInstance() {
-        return new Florida();
+    /*public static FloridaFragment newInstance() {
+        return new FloridaFragment();
     }*/
 
     @Override
@@ -77,7 +77,7 @@ public class Florida extends Fragment {
         */
         binding = FragmentFloridaBinding.inflate(inflater, container, false);
         binding.button3.setOnClickListener(view1 -> NavHostFragment.findNavController(this)
-                .navigate(R.id.action_fragment_florida_to_fragment_sevendays));
+                .navigate(R.id.action_fragment_georgia_to_fragment_sevendays));
         View root = binding.getRoot();
         return root;
 
@@ -181,11 +181,13 @@ public class Florida extends Fragment {
         String fechaString = fechaFormato.format(currentTimes);
         String horaString = horaFormato.format(currentTimes);
 
+
         boolean update = false;
 
         try {
             Date fechaActual = fechaFormato.parse(fechaString);
             Date horaActual = horaFormato.parse(horaString);
+
             String sDiaGuardado = sharedPref.getString("D", "01/01/2006");
             String sNocheGuardado = sharedPref.getString("N", "01/01/2006");
             Date fechaDiaSaved = fechaFormato.parse(sDiaGuardado);

@@ -43,7 +43,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class SevenDays extends Fragment {
+public class SevenDaysFragment extends Fragment {
 
     private FragmentSevendaysBinding binding;
     private Snackbar mySnackbar;
@@ -56,7 +56,7 @@ public class SevenDays extends Fragment {
 
     private SharedPreferences sharedPref;
 
-    private static final String DEBUG_TAG = "SevenDays";
+    private static final String DEBUG_TAG = "SevenDaysFragment";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

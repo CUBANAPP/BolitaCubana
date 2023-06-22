@@ -15,7 +15,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     android:id="@+id/SevenDays_container"
-    tools:context=".ui.home.SevenDays">
+    tools:context=".ui.home.SevenDaysFragment">
 
 <ScrollView
     android:layout_width="match_parent"

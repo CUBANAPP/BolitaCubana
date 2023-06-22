@@ -9,4 +9,4 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:minDate="05/01/2016"
-    tools:context=".ui.dashboard.DashboardFragment"/>
+    tools:context=".ui.search.SearchFragment"/>

@@ -17,35 +17,59 @@
         <action
             android:id="@+id/action_home_to_florida"
             app:destination="@id/navigation_florida" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_georgia"
+            app:destination="@id/navigation_georgia" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_newyork"
+            app:destination="@id/navigation_newyork" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_florida"
-        android:name="com.cubanapp.bolitacubana.ui.home.Florida"
+        android:name="com.cubanapp.bolitacubana.ui.home.FloridaFragment"
         android:label="@string/florida"
         tools:layout="@layout/fragment_florida">
         <action
             android:id="@+id/action_fragment_florida_to_fragment_sevendays"
             app:destination="@id/navigation_sevendays" />
     </fragment>
+    <fragment
+        android:id="@+id/navigation_georgia"
+        android:name="com.cubanapp.bolitacubana.ui.home.GeorgiaFragment"
+        android:label="@string/georgia"
+        tools:layout="@layout/fragment_georgia">
+        <action
+            android:id="@+id/action_fragment_georgia_to_fragment_sevendays"
+            app:destination="@id/navigation_sevendays" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_newyork"
+        android:name="com.cubanapp.bolitacubana.ui.home.NewYorkFragment"
+        android:label="@string/newyork"
+        tools:layout="@layout/fragment_florida">
+        <action
+            android:id="@+id/action_fragment_newyork_to_fragment_sevendays"
+            app:destination="@id/navigation_sevendays" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_sevendays"
-        android:name="com.cubanapp.bolitacubana.ui.home.SevenDays"
+        android:name="com.cubanapp.bolitacubana.ui.home.SevenDaysFragment"
         android:label="@string/sevenDays"
         tools:layout="@layout/fragment_sevendays"/>
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.cubanapp.bolitacubana.ui.dashboard.DashboardFragment"
+        android:name="com.cubanapp.bolitacubana.ui.search.SearchFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.cubanapp.bolitacubana.ui.notifications.NotificationsFragment"
+        android:name="com.cubanapp.bolitacubana.ui.charada.CharadaFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_charada" />
 
     <fragment
         android:id="@+id/navigation_adivinanza"

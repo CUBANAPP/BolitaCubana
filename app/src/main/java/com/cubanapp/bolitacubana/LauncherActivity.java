@@ -50,7 +50,7 @@ import org.json.JSONObject;
 
 import java.util.Locale;
 
-public class Launcher extends AppCompatActivity {
+public class LauncherActivity extends AppCompatActivity {
     //DialogNew permissionDialog;
     private FirebaseAnalytics mFirebaseAnalytics;
     private AlertDialog builder;
@@ -80,7 +80,7 @@ public class Launcher extends AppCompatActivity {
 
     private String notifMsg;
 
-    private static final String DEBUG_TAG = "Launcher";
+    private static final String DEBUG_TAG = "LauncherActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +108,7 @@ public class Launcher extends AppCompatActivity {
             FirebaseApp.initializeApp(this);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create channel to show notifications.
+            // Create channel to show charada.
             String channelId  = getString(R.string.default_notification_channel_id);
             String channelName = getString(R.string.default_notification_channel_name);
             NotificationManager notificationManager =
@@ -478,7 +478,7 @@ public class Launcher extends AppCompatActivity {
         }
     }
     private void startLaunch(boolean connection, boolean first, String msg){
-        Intent myIntent = new Intent(Launcher.this, MainActivity.class);
+        Intent myIntent = new Intent(LauncherActivity.this, MainActivity.class);
 
         if(first)
             myIntent.putExtra("first", first); //Optional parameters

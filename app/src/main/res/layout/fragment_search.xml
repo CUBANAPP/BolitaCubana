@@ -12,7 +12,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    tools:context=".ui.dashboard.DashboardFragment">
+    tools:context=".ui.search.SearchFragment">
     <LinearLayout
         android:id="@+id/sevencontainer"
         android:background="#99000000"

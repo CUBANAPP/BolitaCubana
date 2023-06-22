@@ -2,7 +2,7 @@
  * Copyright (c) CUBANAPP LLC 2019-2023 .
  */
 
-package com.cubanapp.bolitacubana.ui.notifications;
+package com.cubanapp.bolitacubana.ui.charada;
 
 public class CharadaData {
 

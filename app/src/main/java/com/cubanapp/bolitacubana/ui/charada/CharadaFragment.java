@@ -2,7 +2,7 @@
  * Copyright (c) CUBANAPP LLC 2019-2023 .
  */
 
-package com.cubanapp.bolitacubana.ui.notifications;
+package com.cubanapp.bolitacubana.ui.charada;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -19,14 +19,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cubanapp.bolitacubana.R;
-import com.cubanapp.bolitacubana.databinding.FragmentNotificationsBinding;
+import com.cubanapp.bolitacubana.databinding.FragmentCharadaBinding;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
-public class NotificationsFragment extends Fragment {
+public class CharadaFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private FragmentCharadaBinding binding;
 
     private RecyclerView recyclerView;
     private CharadaData[] myListData;
@@ -38,7 +38,7 @@ public class NotificationsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentCharadaBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         TextInputEditText edittext = binding.edittext;

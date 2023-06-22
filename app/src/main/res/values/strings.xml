@@ -20,6 +20,8 @@
     <string name="dismiss" translatable="true">Dismiss</string>
     <string name="update" translatable="true">A newer version is available to download</string>
     <string name="florida" translatable="false">Florida Pick3 &amp; Pick4</string>
+    <string name="newyork" translatable="false">NewYork Pick3 &amp; Pick4</string>
+    <string name="georgia" translatable="false">Georgia Pick3 &amp; Pick4</string>
     <string name="sevenDays" translatable="true">Last Week Results</string>
     <string name="pickDate" translatable="true">Pick a Date</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
@@ -33,7 +35,8 @@
     <string name="search_another" translatable="true">Search another date</string>
     <string name="last_seven" translatable="true">See last 7 Days</string>
     <string name="resultados_florida" translatable="true">Florida Lottery Results</string>
-    <string name="results_georgia" translatable="true">Next Update: Georgia</string>
+    <string name="results_georgia" translatable="true">Georgia Lottery Results</string>
+    <string name="results_newyork" translatable="true">NewYork Lottery Results</string>
 
 
     <!-- Preferencias -->

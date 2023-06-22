@@ -2,7 +2,7 @@
  * Copyright (c) CUBANAPP LLC 2019-2023 .
  */
 
-package com.cubanapp.bolitacubana.ui.dashboard;
+package com.cubanapp.bolitacubana.ui.search;
 
 import android.app.Dialog;
 import android.os.Build;
@@ -26,7 +26,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.cubanapp.bolitacubana.BuildConfig;
 import com.cubanapp.bolitacubana.R;
-import com.cubanapp.bolitacubana.databinding.FragmentDashboardBinding;
+import com.cubanapp.bolitacubana.databinding.FragmentSearchBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
@@ -37,9 +37,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class DashboardFragment extends Fragment {
+public class SearchFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentSearchBinding binding;
     private AlertDialog builder;
     private String apiKey;
 
@@ -55,7 +55,7 @@ public class DashboardFragment extends Fragment {
         /*DashboardViewModel dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
 */
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         apiKey = BuildConfig.API_KEY;
         binding.button4.setOnClickListener(this::openDate);

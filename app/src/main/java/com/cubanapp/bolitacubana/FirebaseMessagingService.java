@@ -22,10 +22,9 @@ import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-public class MyFirebaseMessagingService extends FirebaseMessagingService {
+public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
 
     private PendingIntent pendingIntent;
@@ -95,7 +94,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .setAutoCancel(true)
                         .setContentIntent(pendingIntent);
             }
-            // Also if you intend on generating your own notifications as a result of a received FCM
+            // Also if you intend on generating your own charada as a result of a received FCM
             // message, here is where that should be initiated. See sendNotification method below.
             // Since android Oreo notification channel is needed.
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

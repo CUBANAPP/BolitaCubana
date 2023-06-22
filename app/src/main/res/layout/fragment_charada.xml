@@ -14,7 +14,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     android:id="@+id/charadaLayout"
-    tools:context=".ui.notifications.NotificationsFragment">
+    tools:context=".ui.charada.CharadaFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/linearCharada"

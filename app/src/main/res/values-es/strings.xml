@@ -45,7 +45,9 @@
     <string name="search_another">Buscar otra fecha</string>
     <string name="last_seven">Ver los últimos 7 días</string>
     <string name="resultados_florida">Resultados de Florida</string>
-    <string name="results_georgia">Próximamente meteremos Georgia</string>
+    <string name="results_georgia">Resultados de Georgia</string>
+    <string name="results_newyork">Resultados de NewYork</string>
+
     <string name="accept">Aceptar</string>
     <string name="notificationdgranted">Permiso de notificaciones concedido</string>
     <string name="notificationdeclined">Bolita Cubana no puede recibir notificaciones</string>

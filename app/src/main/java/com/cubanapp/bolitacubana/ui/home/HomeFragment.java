@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 Log.d(DEBUG_TAG, "Clicked Button1");
-                Florida nextFrag= new Florida();
+                FloridaFragment nextFrag= new FloridaFragment();
                 requireActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.homelayout, nextFrag, "findThisFragment")
                         .addToBackStack(null)
