@@ -43,7 +43,7 @@
         android:gravity="center"
         android:textColor="?attr/colorPrimaryVariant"
         android:text="@string/loading"
-        app:layout_constraintBottom_toTopOf="@+id/textView7"
+        app:layout_constraintBottom_toTopOf="@id/textView7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
     <TextView
@@ -75,8 +75,8 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="80dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_accept"
+        android:layout_marginBottom="70dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_accept"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

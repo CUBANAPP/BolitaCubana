@@ -372,7 +372,8 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                                         }
                                     }
                                     if(!error) {
-                                        showAds();
+                                        if(Build.VERSION.SDK_INT >= 19)
+                                            showAds();
                                         if(keyNames.size() > 0) {
                                             Log.e(DEBUG_TAG, "Descarga nueva");
                                             // TODO: Guardar sólo los archivos descargados correctamente si no se omite.

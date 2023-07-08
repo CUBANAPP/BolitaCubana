@@ -29,7 +29,6 @@
         android:id="@+id/buttonGeorgia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="false"
         android:visibility="visible"
         android:text="@string/results_georgia"
         app:layout_constraintBottom_toTopOf="@id/buttonNewYork"
@@ -40,11 +39,11 @@
         android:id="@+id/buttonNewYork"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="false"
         android:visibility="visible"
         android:text="@string/results_newyork"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonGeorgia" />
+        app:layout_constraintTop_toBottomOf="@id/buttonGeorgia"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

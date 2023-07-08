@@ -41,7 +41,7 @@
                     android:id="@+id/D"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="26sp"
+                    android:textSize="24sp"
                     android:textColor="@color/light_yellow"
                     android:gravity="left|start"
                     android:text="@string/dia" />
@@ -49,7 +49,7 @@
                     android:id="@+id/SD"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     android:textColor="@color/light_yellow"
                     android:gravity="left|start"
                     android:text="" />
@@ -61,6 +61,14 @@
                     android:textSize="14sp"
                     android:gravity="left|start"
                     android:text="@string/fechaempty" />
+                <TextView
+                    android:id="@+id/dpm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:gravity="left|start"
+                    android:text="@string/s2pm" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,7 +86,7 @@
 
                     <TextView
                         android:id="@+id/F1_0"
-                        android:textSize="38sp"
+                        android:textSize="34sp"
                         android:textColor="@color/black_yellow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -86,7 +94,7 @@
 
                     <TextView
                         android:id="@+id/F1_1"
-                        android:textSize="38sp"
+                        android:textSize="34sp"
                         android:textColor="@color/yellow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -102,7 +110,7 @@
 
                     <TextView
                         android:id="@+id/C1_1"
-                        android:textSize="38sp"
+                        android:textSize="34sp"
                         android:textColor="@color/light_blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -110,7 +118,7 @@
 
                     <TextView
                         android:id="@+id/C1_2"
-                        android:textSize="38sp"
+                        android:textSize="34sp"
                         android:textColor="@color/holo_green"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -134,13 +142,13 @@
                     android:id="@+id/N"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="26sp"
+                    android:textSize="24sp"
                     android:textColor="@color/navy_blue"
                     android:gravity="left|start"
                     android:text="@string/noche" />
                 <TextView
                     android:id="@+id/SN"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     android:textColor="@color/navy_blue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -154,6 +162,14 @@
                     android:layout_height="wrap_content"
                     android:gravity="left|start"
                     android:text="@string/fechaempty" />
+                <TextView
+                    android:id="@+id/npm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:gravity="left|start"
+                    android:text="@string/s10pm" />
             </LinearLayout>
 
             <LinearLayout
@@ -172,7 +188,7 @@
 
                     <TextView
                         android:id="@+id/F2_0"
-                        android:textSize="38sp"
+                        android:textSize="34sp"
                         android:textColor="@color/black_yellow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -180,7 +196,7 @@
 
                     <TextView
                         android:id="@+id/F2_1"
-                        android:textSize="38sp"
+                        android:textSize="34sp"
                         android:textColor="@color/yellow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -196,7 +212,7 @@
 
                     <TextView
                         android:id="@+id/C2_1"
-                        android:textSize="38sp"
+                        android:textSize="34sp"
                         android:textColor="@color/light_blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -204,7 +220,7 @@
 
                     <TextView
                         android:id="@+id/C2_2"
-                        android:textSize="38sp"
+                        android:textSize="34sp"
                         android:textColor="@color/holo_green"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -215,7 +231,7 @@
         <TextView
             android:layout_marginTop="10dp"
             android:id="@+id/update"
-            android:textSize="14sp"
+            android:textSize="11sp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -223,7 +239,7 @@
             android:text="@string/updatedate" />
         <TextView
             android:id="@+id/updateDate"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -239,7 +255,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/maincontainer"
+        app:layout_constraintTop_toBottomOf="@id/maincontainer"
         />
 
 

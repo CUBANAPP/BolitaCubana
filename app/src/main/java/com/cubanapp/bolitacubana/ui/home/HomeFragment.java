@@ -36,6 +36,10 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
         binding.buttonFlorida.setOnClickListener(view1 -> NavHostFragment.findNavController(this)
                 .navigate(R.id.action_home_to_florida));
+        binding.buttonGeorgia.setOnClickListener(view1 -> NavHostFragment.findNavController(this)
+                .navigate(R.id.action_navigation_home_to_navigation_georgia));
+        binding.buttonNewYork.setOnClickListener(view1 -> NavHostFragment.findNavController(this)
+                .navigate(R.id.action_navigation_home_to_navigation_newyork));
 
         //binding.textDashboard;
         /*final Button b = root.findViewById(R.id.button);

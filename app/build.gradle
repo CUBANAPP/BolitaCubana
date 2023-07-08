@@ -29,13 +29,13 @@ android {
         }
     }
     namespace 'com.cubanapp.bolitacubana'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         // should correspond to key/value pairs inside the file
         applicationId "com.cubanapp.bolitacubana"
         minSdk 16
-        targetSdk 33
+        targetSdk 34
         versionCode 98
         versionName "1.2.0 Develop"
         resourceConfigurations += ['en', 'es']
@@ -144,7 +144,7 @@ android {
         includeInApk false
         includeInBundle false
     }
-    buildToolsVersion '33.0.2'
+    buildToolsVersion '34.0.0'
 }
 
 dependencies {
@@ -166,7 +166,7 @@ dependencies {
 
     implementation 'com.android.volley:volley:1.2.1'
 
-    implementation 'com.google.android.gms:play-services-ads:22.1.0'
+    implementation 'com.google.android.gms:play-services-ads:22.2.0'
     implementation 'com.google.android.gms:play-services-base:18.2.0'
     implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
     //Chartboost
@@ -175,7 +175,8 @@ dependencies {
     //implementation 'com.stripe:stripe-android:8.1.0'
 
     //Guava
-    implementation 'com.google.guava:guava:32.0.1-android'
+    //implementation 'com.google.guava:guava:32.0.1-android'
+    implementation group: 'com.google.guava', name: 'guava', version: '32.0.1-android'
 
     implementation 'com.google.android.ump:user-messaging-platform:2.0.0'
     // Firebase

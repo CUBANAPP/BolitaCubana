@@ -3,7 +3,12 @@
   -->
 
 <resources>
+    <string name="app_name">Bolita Cubana</string>
+    <string name="title_activity_main">Bolita Cubana</string>
+    <string name="title_home">Bolita</string>
+    <string name="fragmentHome">Resultados de la Bolita</string>
     <string name="title_dashboard">Buscar</string>
+    <string name="fragmentSearch" translatable="true">Buscar por Fecha</string>
     <string name="title_activity_settings">Ajustes</string>
     <string name="cancel">Cancelar</string>
     <string name="open">Abrir</string>
@@ -32,7 +37,7 @@
     <string name="analytics">Envío de estadísticas</string>
     <string name="adstitle">Anuncios de Google</string>
     <string name="adspersonal">Usar mi ID de publicidad</string>
-    <string name="messageDelegation">Permiso de notificaciones</string>
+    <string name="messageDelegation">Autoresolver Permiso</string>
     <string name="errorInformes">Recopilación automática de errores</string>
     <string name="crashlytic">Notificar los errores de la APP</string>
     <string name="firebaseperf">Enviar informes de rendimiento</string>
@@ -40,13 +45,14 @@
     <string name="exportBigQuery">Exportar métricas BigQuery</string>
     <string name="dia">Día</string>
     <string name="noche">Noche</string>
+    <string name="tarde">Tarde</string>
     <string name="pick3">Fijo</string>
     <string name="pick4">Corridos</string>
     <string name="search_another">Buscar otra fecha</string>
     <string name="last_seven">Ver los últimos 7 días</string>
     <string name="resultados_florida">Resultados de Florida</string>
     <string name="results_georgia">Resultados de Georgia</string>
-    <string name="results_newyork">Resultados de NewYork</string>
+    <string name="results_newyork">Resultados de New York</string>
 
     <string name="accept">Aceptar</string>
     <string name="notificationdgranted">Permiso de notificaciones concedido</string>

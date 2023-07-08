@@ -7,11 +7,12 @@ buildscript {
         jcenter()
         gradlePluginPortal()
         google()
-        mavenLocal()
         mavenCentral()
+        mavenLocal()
         maven { url 'https://repo.spring.io/plugins-release' }
         maven { url 'https://jitpack.io' }
         maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://mvnrepository.com/artifact/com.google.guava/guava" }
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.15'

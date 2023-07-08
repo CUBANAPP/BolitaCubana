@@ -21,7 +21,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintBottom_toTopOf="@id/button4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -43,7 +43,7 @@
                     android:gravity="left|start"
                     android:text="@string/dia"
                     android:textColor="@color/light_yellow"
-                    android:textSize="26sp" />
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/SDs"
@@ -52,7 +52,7 @@
                     android:gravity="left|start"
                     android:text=""
                     android:textColor="@color/light_yellow"
-                    android:textSize="24sp" />
+                    android:textSize="22sp" />
 
                 <TextView
                     android:id="@+id/D1s"
@@ -84,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textColor="@color/black_yellow"
-                        android:textSize="38sp" />
+                        android:textSize="34sp" />
 
                     <TextView
                         android:id="@+id/F1_1s"
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textColor="@color/yellow"
-                        android:textSize="38sp" />
+                        android:textSize="34sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -108,7 +108,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textColor="@color/light_blue"
-                        android:textSize="38sp" />
+                        android:textSize="34sp" />
 
                     <TextView
                         android:id="@+id/C1_2s"
@@ -116,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textColor="@color/holo_green"
-                        android:textSize="38sp" />
+                        android:textSize="34sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -140,7 +140,7 @@
                     android:gravity="left|start"
                     android:text="@string/noche"
                     android:textColor="@color/navy_blue"
-                    android:textSize="26sp" />
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/SNs"
@@ -149,7 +149,7 @@
                     android:gravity="left|start"
                     android:text=""
                     android:textColor="@color/navy_blue"
-                    android:textSize="24sp" />
+                    android:textSize="22sp" />
 
                 <TextView
                     android:id="@+id/N1s"
@@ -181,7 +181,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textColor="@color/black_yellow"
-                        android:textSize="38sp" />
+                        android:textSize="34sp" />
 
                     <TextView
                         android:id="@+id/F2_1s"
@@ -189,7 +189,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textColor="@color/yellow"
-                        android:textSize="38sp" />
+                        android:textSize="34sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -205,7 +205,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textColor="@color/light_blue"
-                        android:textSize="38sp" />
+                        android:textSize="34sp" />
 
                     <TextView
                         android:id="@+id/C2_2s"
@@ -213,7 +213,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textColor="@color/holo_green"
-                        android:textSize="38sp" />
+                        android:textSize="34sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -228,7 +228,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sevencontainer"/>
+        app:layout_constraintTop_toBottomOf="@id/sevencontainer"/>
     <ProgressBar
         android:id="@+id/progressBar4"
         android:layout_width="wrap_content"

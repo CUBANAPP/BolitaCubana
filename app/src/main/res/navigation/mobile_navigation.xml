@@ -12,7 +12,7 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.cubanapp.bolitacubana.ui.home.HomeFragment"
-        android:label="@string/title_home"
+        android:label="@string/fragmentHome"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_home_to_florida"
@@ -47,7 +47,7 @@
         android:id="@+id/navigation_newyork"
         android:name="com.cubanapp.bolitacubana.ui.home.NewYorkFragment"
         android:label="@string/newyork"
-        tools:layout="@layout/fragment_florida">
+        tools:layout="@layout/fragment_newyork">
         <action
             android:id="@+id/action_fragment_newyork_to_fragment_sevendays"
             app:destination="@id/navigation_sevendays" />
@@ -62,7 +62,7 @@
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.cubanapp.bolitacubana.ui.search.SearchFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/fragmentSearch"
         tools:layout="@layout/fragment_search" />
 
     <fragment

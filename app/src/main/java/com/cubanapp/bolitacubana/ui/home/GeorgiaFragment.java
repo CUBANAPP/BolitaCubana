@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.cubanapp.bolitacubana.BuildConfig;
 import com.cubanapp.bolitacubana.R;
 import com.cubanapp.bolitacubana.databinding.FragmentFloridaBinding;
+import com.cubanapp.bolitacubana.databinding.FragmentGeorgiaBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
@@ -42,7 +43,7 @@ import java.util.TimeZone;
 public class GeorgiaFragment extends Fragment {
 
     private String apiKey;
-    private FragmentFloridaBinding binding;
+    private FragmentGeorgiaBinding binding;
 
     private JsonObjectRequest stringRequest;
 
@@ -75,7 +76,7 @@ public class GeorgiaFragment extends Fragment {
         /*mViewModel =
                 new ViewModelProvider(this).get(FloridaViewModel.class);
         */
-        binding = FragmentFloridaBinding.inflate(inflater, container, false);
+        binding = FragmentGeorgiaBinding.inflate(inflater, container, false);
         binding.button3.setOnClickListener(view1 -> NavHostFragment.findNavController(this)
                 .navigate(R.id.action_fragment_georgia_to_fragment_sevendays));
         View root = binding.getRoot();

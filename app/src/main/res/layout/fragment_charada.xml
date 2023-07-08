@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="61dp"
-        app:layout_constraintBottom_toTopOf="@+id/edittextbox"
+        app:layout_constraintBottom_toTopOf="@id/edittextbox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
