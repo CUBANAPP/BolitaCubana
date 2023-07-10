@@ -14,6 +14,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -130,6 +131,14 @@ public class MainActivity extends AppCompatActivity {
         Button button = binding.btnAccept2;
         Button button2 = binding.btnCancel2;
 
+        Typeface font = Typeface.create(Typeface.DEFAULT,Typeface.NORMAL);
+        if (binding != null && getAssets() != null)
+            font = Typeface.createFromAsset(getAssets(), "burbank_normal.otf");
+
+        if(font != null){
+            binding.btnAccept2.setTypeface(font);
+            binding.btnCancel2.setTypeface(font);
+        }
         BottomNavigationView navigationView = binding.navView;
 
         ImageView imageView = binding.imageViewBackground2;

@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -103,6 +104,18 @@ public class LauncherActivity extends AppCompatActivity {
         } catch (KeyManagementException e) {
             throw new RuntimeException(e);
         }*/
+
+        Typeface font = Typeface.create(Typeface.DEFAULT,Typeface.NORMAL);
+        if (binding != null && getAssets() != null)
+            font = Typeface.createFromAsset(getAssets(), "burbank_normal.otf");
+
+        if(font != null){
+            binding.btnAccept.setTypeface(font);
+            binding.btnCancel.setTypeface(font);
+            binding.textView7.setTypeface(font);
+            binding.textView40.setTypeface(font);
+            binding.textView41.setTypeface(font);
+        }
 
         if(Build.VERSION.SDK_INT >= 19) {
             FirebaseApp.initializeApp(this);

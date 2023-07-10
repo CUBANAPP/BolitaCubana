@@ -4,6 +4,7 @@
 
 package com.cubanapp.bolitacubana.ui.home;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,16 @@ public class HomeFragment extends Fragment {
                 .navigate(R.id.action_navigation_home_to_navigation_georgia));
         binding.buttonNewYork.setOnClickListener(view1 -> NavHostFragment.findNavController(this)
                 .navigate(R.id.action_navigation_home_to_navigation_newyork));
+
+        Typeface font = Typeface.create(Typeface.DEFAULT,Typeface.NORMAL);
+        if (binding != null && getActivity() != null)
+            font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
+
+        if(font != null){
+            binding.buttonNewYork.setTypeface(font);
+            binding.buttonGeorgia.setTypeface(font);
+            binding.buttonFlorida.setTypeface(font);
+        }
 
         //binding.textDashboard;
         /*final Button b = root.findViewById(R.id.button);
