@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         Button button = binding.btnAccept2;
         Button button2 = binding.btnCancel2;
 
-        Typeface font = Typeface.create(Typeface.DEFAULT,Typeface.NORMAL);
+        Typeface font = null;
         if (binding != null && getAssets() != null)
             font = Typeface.createFromAsset(getAssets(), "burbank_normal.otf");
 

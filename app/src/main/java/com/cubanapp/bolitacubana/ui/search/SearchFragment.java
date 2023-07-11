@@ -5,6 +5,7 @@
 package com.cubanapp.bolitacubana.ui.search;
 
 import android.app.Dialog;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +33,7 @@ import com.google.android.material.snackbar.Snackbar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -74,30 +76,28 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        /*if (binding != null && getActivity() != null) {
 
-            try {
-                font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
-            }
-            catch (IllegalStateException e){
-                font = Typeface.create(Typeface.DEFAULT,Typeface.NORMAL);
-            }
+        Typeface font = null;
+        if (binding != null && getActivity() != null) {
 
-            binding.D1s.setTypeface(font);
-            binding.Ds.setTypeface(font);
-            binding.SDs.setTypeface(font);
-            binding.F10s.setTypeface(font);
-            binding.F11s.setTypeface(font);
-            binding.C11s.setTypeface(font);
-            binding.C12s.setTypeface(font);
-            binding.N1s.setTypeface(font);
-            binding.Ns.setTypeface(font);
-            binding.SNs.setTypeface(font);
-            binding.F20s.setTypeface(font);
-            binding.F21s.setTypeface(font);
-            binding.C21s.setTypeface(font);
-            binding.C22s.setTypeface(font);
-        }*/
+            font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
+            if (font != null) {
+                binding.D1s.setTypeface(font);
+                binding.Ds.setTypeface(font);
+                binding.SDs.setTypeface(font);
+                /*binding.F10s.setTypeface(font);
+                binding.F11s.setTypeface(font);
+                binding.C11s.setTypeface(font);
+                binding.C12s.setTypeface(font);*/
+                binding.N1s.setTypeface(font);
+                binding.Ns.setTypeface(font);
+                binding.SNs.setTypeface(font);
+                /*binding.F20s.setTypeface(font);
+                binding.F21s.setTypeface(font);
+                binding.C21s.setTypeface(font);
+                binding.C22s.setTypeface(font);*/
+            }
+        }
     }
 
     private void openDate(View v){

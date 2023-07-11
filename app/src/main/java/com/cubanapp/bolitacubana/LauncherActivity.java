@@ -105,7 +105,7 @@ public class LauncherActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }*/
 
-        Typeface font = Typeface.create(Typeface.DEFAULT,Typeface.NORMAL);
+        Typeface font = null;
         if (binding != null && getAssets() != null)
             font = Typeface.createFromAsset(getAssets(), "burbank_normal.otf");
 

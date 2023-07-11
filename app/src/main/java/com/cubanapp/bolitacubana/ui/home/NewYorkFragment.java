@@ -6,6 +6,7 @@ package com.cubanapp.bolitacubana.ui.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -88,30 +89,22 @@ public class NewYorkFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        /*Typeface font = Typeface.create(Typeface.DEFAULT,Typeface.NORMAL);
+        Typeface font = null;
         if (binding != null && getActivity() != null)
-            font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");*/
+            font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
 
         if (binding != null) {
-            String savedFechaString = sharedPref.getString("updateCheckDate", null);
+            String savedFechaString = sharedPref.getString("updateCheckDate3", null);
             if(savedFechaString != null)
                 binding.updateDate.setText(savedFechaString);
-            /*if (font != null) {
+            if (font != null) {
                 binding.D1.setTypeface(font);
                 binding.D.setTypeface(font);
                 binding.SD.setTypeface(font);
-                binding.F10.setTypeface(font);
-                binding.F11.setTypeface(font);
-                binding.C11.setTypeface(font);
-                binding.C12.setTypeface(font);
                 binding.N1.setTypeface(font);
                 binding.N.setTypeface(font);
                 binding.SN.setTypeface(font);
-                binding.F20.setTypeface(font);
-                binding.F21.setTypeface(font);
-                binding.C21.setTypeface(font);
-                binding.C22.setTypeface(font);
-            }*/
+            }
 
             String fijo1 = sharedPref.getString("F1", "---");
             String fijo2 = sharedPref.getString("F2", "---");

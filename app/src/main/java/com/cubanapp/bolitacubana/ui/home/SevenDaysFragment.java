@@ -6,6 +6,7 @@ package com.cubanapp.bolitacubana.ui.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
@@ -368,9 +369,9 @@ public class SevenDaysFragment extends Fragment {
         String root = json.toString();
         Log.d(DEBUG_TAG, "JSON: " + root);
 
-        /*Typeface font = Typeface.create(Typeface.DEFAULT,Typeface.NORMAL);
+        Typeface font = null;
         if (binding != null && getActivity() != null)
-            font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");*/
+            font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
 
         for (int i = 0; i < json.length(); i++) {
             if (binding == null || getActivity() == null)
@@ -392,9 +393,9 @@ public class SevenDaysFragment extends Fragment {
                 TextView corrido1 = header.findViewById(R.id.sC1_1);
                 TextView corrido2 = header.findViewById(R.id.sC1_2);
 
-                /*fecha.setTypeface(font);
+                fecha.setTypeface(font);
                 hora.setTypeface(font);
-                fijo1.setTypeface(font);
+                /*fijo1.setTypeface(font);
                 fijo2.setTypeface(font);
                 corrido1.setTypeface(font);
                 corrido2.setTypeface(font);*/
