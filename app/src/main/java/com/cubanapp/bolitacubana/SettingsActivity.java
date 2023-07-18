@@ -65,6 +65,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         private SwitchPreferenceCompat mpromoChannel;
         private SwitchPreferenceCompat mdefaultChannel;
+        private SwitchPreferenceCompat mnewyorkChannel;
+        private SwitchPreferenceCompat mgeorgiaChannel;
 
         private ListPreference listPreference;
 
@@ -92,6 +94,8 @@ public class SettingsActivity extends AppCompatActivity {
             listPreference = (ListPreference) getPreferenceManager().findPreference("languagepreference");
             mpromoChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference("promoChannel");
             mdefaultChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference("defaulChannel");
+            mnewyorkChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference("newyorkChannel");
+            mgeorgiaChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference("georgiaChannel");
             mdarkmode = (ListPreference) getPreferenceManager().findPreference("thememodeselector");
             if(erase != null){
                 erase.setOnPreferenceChangeListener((preference, newvelue) -> {
@@ -169,6 +173,78 @@ public class SettingsActivity extends AppCompatActivity {
                                 });
                             } else {
                                 mFirebaseMessages.subscribeToTopic("Promo").addOnCompleteListener(task -> {
+                                    String msg = getString(R.string.msg_subscribed);
+                                    if (!task.isSuccessful()) {
+                                        msg = getString(R.string.msg_subscribe_failed);
+                                    }
+                                    Log.d(TAG, msg);
+                                    //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                                });
+                            }
+                        }
+                        Log.d(TAG, "oOnfig Changed: " + preference.getKey());
+                        return true;
+
+                    } else {
+                        if (getActivity() != null) {
+                            Toast.makeText(getActivity(), R.string.sdk19, Toast.LENGTH_LONG).show();
+                        }
+                        return false;
+                    }
+                });
+            }
+            if (mgeorgiaChannel != null) {
+                mgeorgiaChannel.setOnPreferenceChangeListener((Preference.OnPreferenceChangeListener) (preference, newValue) -> {
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
+                        if (Objects.equals(preference.getKey(), "georgiaChannel")) {
+                            if (newValue.equals(false)) {
+                                mFirebaseMessages.unsubscribeFromTopic("Georgia").addOnCompleteListener(task -> {
+                                    String msg = getString(R.string.msg_subscribed);
+                                    if (!task.isSuccessful()) {
+                                        msg = getString(R.string.msg_subscribe_failed);
+                                    }
+                                    Log.d(TAG, msg);
+                                    //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                                });
+                            } else {
+                                mFirebaseMessages.subscribeToTopic("Georgia").addOnCompleteListener(task -> {
+                                    String msg = getString(R.string.msg_subscribed);
+                                    if (!task.isSuccessful()) {
+                                        msg = getString(R.string.msg_subscribe_failed);
+                                    }
+                                    Log.d(TAG, msg);
+                                    //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                                });
+                            }
+                        }
+                        Log.d(TAG, "oOnfig Changed: " + preference.getKey());
+                        return true;
+
+                    } else {
+                        if (getActivity() != null) {
+                            Toast.makeText(getActivity(), R.string.sdk19, Toast.LENGTH_LONG).show();
+                        }
+                        return false;
+                    }
+                });
+            }
+            if (mnewyorkChannel != null) {
+                mnewyorkChannel.setOnPreferenceChangeListener((Preference.OnPreferenceChangeListener) (preference, newValue) -> {
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
+                        if (Objects.equals(preference.getKey(), "newyorkChannel")) {
+                            if (newValue.equals(false)) {
+                                mFirebaseMessages.unsubscribeFromTopic("NewYork").addOnCompleteListener(task -> {
+                                    String msg = getString(R.string.msg_subscribed);
+                                    if (!task.isSuccessful()) {
+                                        msg = getString(R.string.msg_subscribe_failed);
+                                    }
+                                    Log.d(TAG, msg);
+                                    //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                                });
+                            } else {
+                                mFirebaseMessages.subscribeToTopic("NewYork").addOnCompleteListener(task -> {
                                     String msg = getString(R.string.msg_subscribed);
                                     if (!task.isSuccessful()) {
                                         msg = getString(R.string.msg_subscribe_failed);

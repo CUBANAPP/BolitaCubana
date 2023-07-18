@@ -26,9 +26,13 @@
     <string name="data_disabled">Están desabilitada la recogida de informes de uso para todos los servicios de Google</string>
     <string name="data_enabled">Google puede recoger datos de uso de Bolita Cubana</string>
     <string name="notification">Notificaciones</string>
-    <string name="notificaciontitle">Resultados de la Bolita</string>
+    <string name="notificaciontitle">Resultados de la Florida</string>
     <string name="notification_disabled">No informar de cada tirada</string>
-    <string name="notification_enabled">Recibir notificaciones de cada tirada de Bolita Cubana</string>
+    <string name="notification_enabled">Recibir tiradas de Florida</string>
+    <string name="notificaciontitle1">Resultados de Georgia</string>
+    <string name="notification1_enabled">Recibir tiradas de Georgia</string>
+    <string name="notificaciontitle2">Resultados de New York</string>
+    <string name="notification2_enabled">Recibir tiradas de New York</string>
     <string name="notificacionpromotional">Recibir notificaciones promocionales</string>
     <string name="promotional">Promociones</string>
     <string name="promotional_disabled">Notificaciones deshabilitades</string>

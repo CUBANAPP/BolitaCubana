@@ -40,6 +40,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.cubanapp.bolitacubana.databinding.ActivityLauncherBinding;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.ump.ConsentForm;
+import com.google.android.ump.ConsentInformation;
+import com.google.android.ump.ConsentRequestParameters;
+import com.google.android.ump.UserMessagingPlatform;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
@@ -71,6 +75,10 @@ public class LauncherActivity extends AppCompatActivity {
     private FirebaseMessaging mFirebaseMessages;
 
     private ActivityLauncherBinding binding;
+
+    private ConsentInformation consentInformation;
+
+    private ConsentForm consentForm;
 
     private WebView myWebView;
     private ImageView imageView;
@@ -315,6 +323,26 @@ public class LauncherActivity extends AppCompatActivity {
                     mFirebaseMessages = FirebaseMessaging.getInstance();
                     mFirebaseMessages.subscribeToTopic("Default");
                     mFirebaseMessages.subscribeToTopic("Promo");
+
+                    ConsentRequestParameters params = new ConsentRequestParameters
+                            .Builder()
+                            .setTagForUnderAgeOfConsent(false)
+                            .build();
+
+                    consentInformation = UserMessagingPlatform.getConsentInformation(this);
+                    consentInformation.requestConsentInfoUpdate(
+                            this,
+                            params,
+                            () -> {
+                                // The consent information state was updated.
+                                // You are now ready to check if a form is available.
+                                if (consentInformation.isConsentFormAvailable()) {
+                                    loadForm();
+                                }
+                            },
+                            formError -> {
+                                // Handle the error.
+                            });
                 }
                 Locale language = Locale.getDefault();
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -507,6 +535,30 @@ public class LauncherActivity extends AppCompatActivity {
         }
         startActivity(myIntent);
         finish();
+    }
+    public void loadForm() {
+        // Loads a consent form. Must be called on the main thread.
+        UserMessagingPlatform.loadConsentForm(
+                this,
+                consentForm -> {
+                    LauncherActivity.this.consentForm = consentForm;
+                    if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.REQUIRED) {
+                        consentForm.show(
+                                LauncherActivity.this,
+                                formError -> {
+                                    if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.OBTAINED) {
+                                        // App can start requesting ads.
+                                    }
+
+                                    // Handle dismissal by reloading form.
+                                    loadForm();
+                                });
+                    }
+                },
+                formError -> {
+                    // Handle Error.
+                }
+        );
     }
     private boolean internetPermission()
     {

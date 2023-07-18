@@ -55,9 +55,13 @@
     <string name="data_disabled" translatable="true">Data Collection is disabled for all Google services</string>
     <string name="data_enabled" translatable="true">Data Collection is enabled for all Google services</string>
     <string name="notification" translatable="true">Notifications</string>
-    <string name="notificaciontitle" translatable="true">Bolita Cubana Results</string>
+    <string name="notificaciontitle" translatable="true">Florida Results</string>
     <string name="notification_disabled" translatable="true">You will not receive results</string>
-    <string name="notification_enabled" translatable="true">Receive Pick3&amp;4 Results</string>
+    <string name="notification_enabled" translatable="true">Receive Pick3 &amp; Pick4 Results</string>
+    <string name="notificaciontitle1" translatable="true">Georgia Results</string>
+    <string name="notification1_enabled" translatable="true">Receive Cash3 &amp; Cash4 Results</string>
+    <string name="notificaciontitle2" translatable="true">New York Results</string>
+    <string name="notification2_enabled" translatable="true">Receive Numbers &amp; Win4 Results</string>
     <string name="notificacionpromotional" translatable="true">Receive Promotion Notifications</string>
     <string name="promotional" translatable="true">Promotions</string>
     <string name="promotional_disabled" translatable="true">Notifications disabled</string>

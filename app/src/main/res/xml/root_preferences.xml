@@ -32,6 +32,18 @@
             app:summaryOn="@string/notification_enabled"
             app:title="@string/notificaciontitle" />
         <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="georgiaChannel"
+            app:summaryOff="@string/notification_disabled"
+            app:summaryOn="@string/notification1_enabled"
+            app:title="@string/notificaciontitle1" />
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="newyorkChannel"
+            app:summaryOff="@string/notification_disabled"
+            app:summaryOn="@string/notification2_enabled"
+            app:title="@string/notificaciontitle2" />
+        <SwitchPreferenceCompat
             app:defaultValue="true"
             app:key="promoChannel"
             app:summaryOff="@string/promotional_disabled"

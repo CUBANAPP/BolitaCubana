@@ -148,7 +148,7 @@ android {
 }
 
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:32.1.1')
+    implementation platform('com.google.firebase:firebase-bom:32.2.0')
     implementation "androidx.multidex:multidex:2.0.1"
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
@@ -175,7 +175,7 @@ dependencies {
     //implementation 'com.stripe:stripe-android:8.1.0'
 
     //Guava
-    //implementation 'com.google.guava:guava:32.0.1-android'
+    //implementation 'com.google.guava:guava:32.1.1-android'
     implementation group: 'com.google.guava', name: 'guava', version: '32.0.1-android'
 
     implementation 'com.google.android.ump:user-messaging-platform:2.0.0'
