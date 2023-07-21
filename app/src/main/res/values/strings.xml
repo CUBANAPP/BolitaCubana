@@ -6,7 +6,7 @@
     <string name="app_name" translatable="true">Bolita Cubana</string>
     <string name="title_activity_main" translatable="true">Popular Lotteries</string>
     <string name="title_home" translatable="true">Lottery</string>
-    <string name="fragmentHome">Lottery Results</string>
+    <string name="fragmentHome">Lottery Drawings</string>
     <string name="title_dashboard" translatable="true">Search</string>
     <string name="fragmentSearch" translatable="true">Search in a Date </string>
     <string name="title_notifications" translatable="false">Charada</string>
@@ -24,29 +24,29 @@
     <string name="florida" translatable="false">Pick3 &amp; Pick4</string>
     <string name="newyork" translatable="false">NUMBERS &amp; Win4</string>
     <string name="georgia" translatable="false">Cash3 &amp; Cash4</string>
-    <string name="sevenDays" translatable="true">Last Week Results</string>
+    <string name="sevenDays" translatable="true">Last Drawings</string>
     <string name="pickDate" translatable="true">Pick a Date</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
-    <string name="default_notification_channel_name" translatable="true">Results</string>
+    <string name="default_notification_channel_name" translatable="true">Drawings</string>
 
     <string name="dia" translatable="true">Day</string>
     <string name="noche" translatable="true">Night</string>
     <string name="tarde" translatable="true">Evening</string>
     <string name="s2pm" translatable="false">2:00 pm</string>
     <string name="s10pm" translatable="false">10:00 pm</string>
-    <string name="s23pm" translatable="false">2:30 pm</string>
-    <string name="s103pm" translatable="false">10:30 pm</string>
-    <string name="s123pm" translatable="false">12:30 pm</string>
-    <string name="s73pm" translatable="false">7:00 pm</string>
-    <string name="s113pm" translatable="false">11:35 pm</string>
+    <string name="s23pm" translatable="false">2:45 pm</string>
+    <string name="s103pm" translatable="false">10:45 pm</string>
+    <string name="s123pm" translatable="false">12:45 pm</string>
+    <string name="s73pm" translatable="false">7:15 pm</string>
+    <string name="s113pm" translatable="false">11:45 pm</string>
     <string name="pick3" translatable="true">Pick 3</string>
     <string name="pick4" translatable="true">Pick 4</string>
     <string name="fechaempty" translatable="false">--/--/----</string>
     <string name="search_another" translatable="true">Search another date</string>
-    <string name="last_seven" translatable="true">See last 7 Days</string>
-    <string name="resultados_florida" translatable="true">Florida Lottery Results</string>
-    <string name="results_georgia" translatable="true">Georgia Lottery Results</string>
-    <string name="results_newyork" translatable="true">New York Lottery Results</string>
+    <string name="last_seven" translatable="true">Last drawings</string>
+    <string name="resultados_florida" translatable="true">Florida Lottery Drawings</string>
+    <string name="results_georgia" translatable="true">Georgia Lottery Drawings</string>
+    <string name="results_newyork" translatable="true">New York Lottery Drawings</string>
 
 
     <!-- Preferencias -->
@@ -55,13 +55,13 @@
     <string name="data_disabled" translatable="true">Data Collection is disabled for all Google services</string>
     <string name="data_enabled" translatable="true">Data Collection is enabled for all Google services</string>
     <string name="notification" translatable="true">Notifications</string>
-    <string name="notificaciontitle" translatable="true">Florida Results</string>
-    <string name="notification_disabled" translatable="true">You will not receive results</string>
-    <string name="notification_enabled" translatable="true">Receive Pick3 &amp; Pick4 Results</string>
-    <string name="notificaciontitle1" translatable="true">Georgia Results</string>
-    <string name="notification1_enabled" translatable="true">Receive Cash3 &amp; Cash4 Results</string>
-    <string name="notificaciontitle2" translatable="true">New York Results</string>
-    <string name="notification2_enabled" translatable="true">Receive Numbers &amp; Win4 Results</string>
+    <string name="notificaciontitle" translatable="true">Florida Drawings</string>
+    <string name="notification_disabled" translatable="true">You will not receive drawings</string>
+    <string name="notification_enabled" translatable="true">Receive Pick3 &amp; Pick4 Drawings</string>
+    <string name="notificaciontitle1" translatable="true">Georgia Drawings</string>
+    <string name="notification1_enabled" translatable="true">Receive Cash3 &amp; Cash4 Drawings</string>
+    <string name="notificaciontitle2" translatable="true">New York Drawings</string>
+    <string name="notification2_enabled" translatable="true">Receive Numbers &amp; Win4 Drawings</string>
     <string name="notificacionpromotional" translatable="true">Receive Promotion Notifications</string>
     <string name="promotional" translatable="true">Promotions</string>
     <string name="promotional_disabled" translatable="true">Notifications disabled</string>
@@ -127,4 +127,9 @@
     <string name="light" translatable="true">Light</string>
     <string name="error" translatable="false">Error</string>
     <string name="completed" translatable="true">Restored!</string>
+    <string name="nytittle" translatable="false">New York</string>
+    <string name="getittle" translatable="false">Georgia</string>
+    <string name="fltittle" translatable="false">Florida</string>
+    <string name="copied" translatable="true">ID copied into clipboard</string>
+    <string name="copyid" translatable="true">Copy ID to Clipboard</string>
 </resources>

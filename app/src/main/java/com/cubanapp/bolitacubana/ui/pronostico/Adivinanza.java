@@ -4,6 +4,8 @@
 
 package com.cubanapp.bolitacubana.ui.pronostico;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -706,8 +708,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                     String saves = readData(key);
 
                     if(saves != null) {
-                        JSONObject jsonFile;
-                        jsonFile = new JSONObject(saves);
+                        JSONObject jsonFile = new JSONObject(saves);
 
                         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             byte[] data = Base64.decode(saves, Base64.DEFAULT);
@@ -845,5 +846,13 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
         }
         else
             return 0;
+    }
+    public void copyName(String text) {
+        if (getActivity() != null) {
+            ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Bolita Cubana ID", text);
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(getContext(), getString(R.string.copied), Toast.LENGTH_SHORT).show();
+        }
     }
 }

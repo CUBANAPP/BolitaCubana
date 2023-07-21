@@ -93,5 +93,9 @@
             app:defaultValue="true"
             app:key="performance"
             app:title="@string/firebaseperf" />
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="copyID"
+            app:title="@string/copyid" />
     </PreferenceCategory>
 </PreferenceScreen>

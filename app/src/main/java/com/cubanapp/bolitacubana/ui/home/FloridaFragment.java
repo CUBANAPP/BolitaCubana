@@ -96,6 +96,7 @@ public class FloridaFragment extends Fragment {
             if(savedFechaString != null)
                 binding.updateDate.setText(savedFechaString);
             if (font != null) {
+                binding.titlefl.setTypeface(font);
                 binding.D1.setTypeface(font);
                 binding.D.setTypeface(font);
                 binding.SD.setTypeface(font);
@@ -126,7 +127,7 @@ public class FloridaFragment extends Fragment {
             binding.N1.setText(sharedPref.getString("N", "--/--/----"));
             binding.N.setText(getString(R.string.noche));
             binding.SN.setText(sharedPref.getString("NS", "-"));
-            if (fijo1.length() < 3) {
+            if (fijo2.length() < 3) {
                 binding.F21.setText(fijo2);
             } else {
                 try {
@@ -207,8 +208,8 @@ public class FloridaFragment extends Fragment {
             //Date fechaNocheFicticia = fechaFormato.parse("04/04/2023");
             //Date horaFicticia = horaFormato.parse("22:00:00");
 
-            Date horaDia = horaFormato.parse("13:46:00");
-            Date horaNoche = horaFormato.parse("21:56:00");
+            Date horaDia = horaFormato.parse("13:31:00");
+            Date horaNoche = horaFormato.parse("21:46:00");
 
 
             if ((!fechaActual.equals(fechaDiaSaved) && diaMasSaved.before(fechaActual)) || (fechaActual.equals(diaMasSaved) && horaActual.after(horaDia))){
@@ -322,7 +323,7 @@ public class FloridaFragment extends Fragment {
                                         binding.N1.setText(yearOut.format(yearText2));
                                         binding.N.setText(getString(R.string.noche));
                                         binding.SN.setText(nocheSemana);
-                                        if(fijo1.length() < 3){
+                                        if(fijo2.length() < 3){
                                             binding.F21.setText(fijo2);
                                         }
                                         else {

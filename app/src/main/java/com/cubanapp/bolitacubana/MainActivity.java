@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                         // Handle the error.
                     });
 
-            FirebaseAnalytics mFirebaseAnalytics= FirebaseAnalytics.getInstance(this);
+            FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, bundle);
             AdView adView = (AdView) findViewById(R.id.adView);
             //FirebaseApp.initializeApp(this);
@@ -294,29 +294,30 @@ public class MainActivity extends AppCompatActivity {
             });
             //RequestConfiguration.Builder adRequestBuilder = new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("27257B0AF4890D7241E824CB06C35D83"));
             AdRequest adRequest = new AdRequest.Builder().build();
-                // ca-app-pub-3940256099942544/1033173712
-                InterstitialAd.load(this, "ca-app-pub-3940256099942544/1033173712", adRequest,
-                        new InterstitialAdLoadCallback() {
+            String adUnitID = BuildConfig.INTERSTICIAL_ID;
+            String adUnitIDTest = "ca-app-pub-3940256099942544/1033173712";
+            InterstitialAd.load(this, adUnitIDTest, adRequest,
+                    new InterstitialAdLoadCallback() {
 
-                            @Override
-                            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                                // The mInterstitialAd reference will be null until
-                                // an ad is loaded.
-                                mInterstitialAd = interstitialAd;
-                                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.AD_IMPRESSION, bundle);
-                                Log.i(DEBUG_TAG, "onAdLoaded");
-                                if(getApplicationContext() != null && mInterstitialAd != null){
-                                    configureInterstitial();
-                                }
+                        @Override
+                        public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                            // The mInterstitialAd reference will be null until
+                            // an ad is loaded.
+                            mInterstitialAd = interstitialAd;
+                            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.AD_IMPRESSION, bundle);
+                            Log.i(DEBUG_TAG, "onAdLoaded");
+                            if (getApplicationContext() != null && mInterstitialAd != null) {
+                                configureInterstitial();
                             }
+                        }
 
-                            @Override
-                            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                                // Handle the error
-                                Log.d(DEBUG_TAG, loadAdError.toString());
-                                mInterstitialAd = null;
-                            }
-                        });
+                        @Override
+                        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                            // Handle the error
+                            Log.d(DEBUG_TAG, loadAdError.toString());
+                            mInterstitialAd = null;
+                        }
+                    });
 
             adView.setAdListener(new AdListener() {
                 @Override

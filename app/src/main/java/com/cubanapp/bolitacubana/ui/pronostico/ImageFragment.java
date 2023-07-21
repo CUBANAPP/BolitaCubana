@@ -4,6 +4,10 @@
 
 package com.cubanapp.bolitacubana.ui.pronostico;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -11,15 +15,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.cubanapp.bolitacubana.MainActivity;
+import com.cubanapp.bolitacubana.R;
 import com.cubanapp.bolitacubana.databinding.FragmentImageviewerBinding;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 public class ImageFragment extends Fragment {
 
@@ -34,12 +42,24 @@ public class ImageFragment extends Fragment {
         getParentFragmentManager().setFragmentResultListener("CUBANAPPImage", getViewLifecycleOwner(), (key, bundle) -> {
 
             if (bundle != null) {
-                String type = bundle.getString("type", "");
+                String type = bundle.getString("type", null);
                 if (type != null) {
                     Log.e(DEBUG_TAG, type);
+                    String name = bundle.getString("name", null);
+                    if (getActivity() != null) {
+                        if (((MainActivity) getActivity()).getSupportActionBar() != null) {
+                            ((MainActivity) getActivity()).getSupportActionBar().setTitle(Objects.requireNonNullElse(name, "ERROR"));
+                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                            if(preferences.getBoolean("copyID",false)) {
+                                boolean copy = preferences.getBoolean("copyID",false);
+                                Log.e(DEBUG_TAG, "copyID" + copy);
+                                copyName(Objects.requireNonNullElse(name, ""));
+                            }
+                        }
+                    }
                     if (type.equals("jpg")) {
                         byte[] image = bundle.getByteArray("base64");
-                        if (image != null){
+                        if (image != null) {
                             binding.imageFragmentViewer.setVisibility(View.VISIBLE);
                             Bitmap decodedByte = BitmapFactory.decodeByteArray(image, 0, image.length);
                             binding.imageFragmentViewer.setImageBitmap(decodedByte);
@@ -66,11 +86,6 @@ public class ImageFragment extends Fragment {
                             }
                         }
                     }
-                    String name = bundle.getString("name", "Error");
-                    if (name != null)
-                        if(getActivity() != null)
-                            if(((MainActivity) getActivity()).getSupportActionBar() != null)
-                                ((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
                 }
             }
         });
@@ -80,5 +95,14 @@ public class ImageFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void copyName(String text) {
+        if (getActivity() != null) {
+            ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Bolita Cubana ID", text);
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(getContext(), getString(R.string.copied), Toast.LENGTH_SHORT).show();
+        }
     }
 }

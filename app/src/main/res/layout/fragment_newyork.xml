@@ -24,10 +24,18 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/button3"
+        app:layout_constraintBottom_toTopOf="@id/button31"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/titleny"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="@string/nytittle" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -248,7 +256,7 @@
 
     </LinearLayout>
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/button31"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/last_seven"

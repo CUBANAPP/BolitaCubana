@@ -122,8 +122,7 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
             imageView.setImageBitmap(f);
 */
             photoListener.onItemClick(getAdapterPosition(), getBytes(), getName(), getType());
-
-            Log.e("Adapter", getAdapterPosition() + " CLICKED: " + getName());
+            Log.d("Adapter", getAdapterPosition() + " CLICKED: " + getName());
         }
 
         public interface PhotoListener{

@@ -35,6 +35,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
@@ -53,6 +58,10 @@ public class SevenDaysFragment extends Fragment {
 
     private RequestQueue requestQueue;
 
+    private boolean customLastDays;
+
+    private String nameJSON;
+
     //private Set<String> lists;
 
     private SharedPreferences sharedPref;
@@ -63,6 +72,7 @@ public class SevenDaysFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         apiKey = BuildConfig.API_KEY;
+        customLastDays = false;
     }
 
 
@@ -74,8 +84,31 @@ public class SevenDaysFragment extends Fragment {
         binding = FragmentSevendaysBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+
+
         //final TextView textView = binding.textHome;
         //homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        getParentFragmentManager().setFragmentResultListener("SevenDays", getViewLifecycleOwner(), (key, bundle) -> {
+            if (bundle != null) {
+                String name = bundle.getString("name", null);
+                if (name != null) {
+                    nameJSON = name;
+                    customLastDays = true;
+                    try {
+                        //Log.e(DEBUG_TAG, "runCustomUpdate()");
+                        runCustomUpdate();
+                    } catch (IOException e) {
+                        //throw new RuntimeException(e);
+                    } catch (JSONException e){
+                        //throw new RuntimeException(e);
+                    } catch (ParseException e) {
+                        //throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
+
+
         return root;
 
     }
@@ -87,6 +120,7 @@ public class SevenDaysFragment extends Fragment {
             sharedPref = getActivity().getSharedPreferences(
                     getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         checkUpdate();
+
     }
 
     @Override
@@ -103,6 +137,29 @@ public class SevenDaysFragment extends Fragment {
             }
         }
         binding = null;
+    }
+
+    private void runCustomUpdate() throws IOException, JSONException, ParseException {
+        if (getActivity() != null && binding != null) {
+            if (mySnackbar != null) {
+                if (mySnackbar.isShown())
+                    mySnackbar.dismiss();
+            }
+            if (requestQueue != null) {
+                requestQueue.stop();
+                if (stringRequest != null) {
+                    stringRequest.cancel();
+                }
+            }
+            if (nameJSON != null) {
+                String jsonFile = readData(nameJSON);
+                if (jsonFile != null) {
+                    JSONObject jsonObject = new JSONObject(jsonFile);
+                    Log.d(DEBUG_TAG, jsonObject.toString());
+                    buildSevenCustom(jsonObject);
+                }
+            }
+        }
     }
 
     private void checkUpdate() {
@@ -151,7 +208,7 @@ public class SevenDaysFragment extends Fragment {
         }
 
 
-        if (update) {
+        if (update && !customLastDays) {
 
 
             if (getActivity() != null) {
@@ -257,7 +314,7 @@ public class SevenDaysFragment extends Fragment {
                                     }
                                 } else {
                                     binding.progressBar3.setVisibility(View.GONE);
-                                    if (getActivity() != null) {
+                                    if (getActivity() != null && !customLastDays) {
                                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                                 getString(R.string.internalerror), Snackbar.LENGTH_LONG);
                                         mySnackbar.show();
@@ -269,7 +326,7 @@ public class SevenDaysFragment extends Fragment {
                                     binding.progressBar3.setVisibility(View.GONE);
                                 //errorStart.set(true);
                                 //try {
-                                if (getActivity() != null) {
+                                if (getActivity() != null && !customLastDays) {
                                     mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                             getString(R.string.generateData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
                                     mySnackbar.show();
@@ -287,7 +344,7 @@ public class SevenDaysFragment extends Fragment {
 
                     if (error instanceof TimeoutError) {
                         //try {
-                        if (getActivity() != null) {
+                        if (getActivity() != null && !customLastDays) {
                             mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                     getString(R.string.slowconn), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
                             mySnackbar.show();
@@ -298,7 +355,7 @@ public class SevenDaysFragment extends Fragment {
 
                     } else {
                         //try {
-                        if (getActivity() != null) {
+                        if (getActivity() != null && !customLastDays) {
                             mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                     getString(R.string.lostsvr), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
                             mySnackbar.show();
@@ -319,7 +376,7 @@ public class SevenDaysFragment extends Fragment {
                     binding.progressBar3.setProgress(20);
             }
         } else {
-            if (saved != null) {
+            if (saved != null && !customLastDays) {
                 JSONArray formatted = null;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     byte[] data = Base64.decode(saved, Base64.DEFAULT);
@@ -370,11 +427,11 @@ public class SevenDaysFragment extends Fragment {
         Log.d(DEBUG_TAG, "JSON: " + root);
 
         Typeface font = null;
-        if (binding != null && getActivity() != null)
+        if (binding != null && getActivity() != null && !customLastDays)
             font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
 
         for (int i = 0; i < json.length(); i++) {
-            if (binding == null || getActivity() == null)
+            if (binding == null || getActivity() == null || customLastDays)
                 break;
 
             try {
@@ -457,5 +514,229 @@ public class SevenDaysFragment extends Fragment {
             binding.progressBar3.setProgress(100);
             binding.progressBar3.setVisibility(View.GONE);
         }
+    }
+
+    private void buildSevenCustom(@NonNull JSONObject json) throws JSONException, ParseException {
+        binding.progressBar3.setVisibility(View.VISIBLE);
+
+        SimpleDateFormat dSemana = new SimpleDateFormat("EEEE", Locale.getDefault());
+        SimpleDateFormat get = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        JSONArray mid = null;
+        JSONArray eve = null;
+        JSONArray night = null;
+        JSONArray mid4 = null;
+        JSONArray eve4 = null;
+        JSONArray night4 = null;
+
+        if (json.has("mid")) {
+            mid = json.getJSONArray("mid");
+        }
+        if (json.has("eve")) {
+            eve = json.getJSONArray("eve");
+        }
+        if (json.has("night")) {
+            night = json.getJSONArray("night");
+        }
+        if (json.has("mid4")) {
+            mid4 = json.getJSONArray("mid4");
+        }
+        if (json.has("eve4")) {
+            eve4 = json.getJSONArray("eve4");
+        }
+        if (json.has("night4")) {
+            night4 = json.getJSONArray("night4");
+        }
+
+        Typeface font = null;
+        if (binding != null && getActivity() != null)
+            font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
+
+        if (mid != null) {
+            for (int i = 0; i < mid.length(); i++) {
+                if (binding == null || getActivity() == null)
+                    break;
+
+                View header0 = getLayoutInflater().inflate(R.layout.sevenday_item, null, false);
+                TextView fecha0 = header0.findViewById(R.id.sFecha);
+                TextView hora0 = header0.findViewById(R.id.sD);
+                TextView fijo10 = header0.findViewById(R.id.sF1_0);
+                TextView fijo20 = header0.findViewById(R.id.sF1_1);
+                TextView corrido10 = header0.findViewById(R.id.sC1_1);
+                TextView corrido20 = header0.findViewById(R.id.sC1_2);
+
+                fecha0.setTypeface(font);
+                hora0.setTypeface(font);
+
+                JSONObject s1 = mid.getJSONObject(i);
+
+                Date d0 = get.parse((String) s1.get("fecha"));
+                fecha0.setText(dSemana.format(d0));
+
+                hora0.setText(getString(R.string.dia));
+
+                String s0m = (String) s1.get("num");
+                if (s0m.length() < 3) {
+                    fijo10.setText("0");
+                    fijo20.setText(s0m);
+                } else {
+
+                    try {
+                        fijo10.setText(s0m.substring(0, 1));
+                        fijo20.setText(s0m.substring(1, 3));
+                    } catch (StringIndexOutOfBoundsException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                if (mid4 != null) {
+                    if (!mid4.isNull(i)) {
+                        JSONObject s4 = mid4.getJSONObject(i);
+                        String compFecha = (String) s4.get("fecha");
+                        if (compFecha.equals((String) s1.get("fecha"))) {
+                            String co0m = (String) s4.get("num");
+                            String co1m = co0m.substring(0, 2);
+                            String co2m = co0m.substring(2, 4);
+                            corrido10.setText(co1m);
+                            corrido20.setText(co2m);
+                        }
+                    }
+                }
+                binding.linearSeven.addView(header0);
+
+                if (eve != null) {
+                    if (!eve.isNull(i)) {
+                        View header = getLayoutInflater().inflate(R.layout.sevenday_item, null, false);
+                        TextView fecha = header.findViewById(R.id.sFecha);
+                        TextView hora = header.findViewById(R.id.sD);
+                        TextView fijo1 = header.findViewById(R.id.sF1_0);
+                        TextView fijo2 = header.findViewById(R.id.sF1_1);
+                        TextView corrido1 = header.findViewById(R.id.sC1_1);
+                        TextView corrido2 = header.findViewById(R.id.sC1_2);
+
+                        fecha.setTypeface(font);
+                        hora.setTypeface(font);
+
+                        JSONObject s2 = eve.getJSONObject(i);
+
+                        Date d = get.parse((String) s2.get("fecha"));
+                        fecha.setText(dSemana.format(d));
+
+                        hora.setText(getString(R.string.tarde));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            hora.setTextColor(getResources().getColor(R.color.holo_red, requireContext().getTheme()));
+                            fecha.setTextColor(getResources().getColor(R.color.holo_red, requireContext().getTheme()));
+                        } else {
+                            hora.setTextColor(getResources().getColor(R.color.holo_red));
+                            fecha.setTextColor(getResources().getColor(R.color.holo_red));
+                        }
+                        String s0 = (String) s2.get("num");
+                        if (s0.length() < 3) {
+                            fijo1.setText("0");
+                            fijo2.setText(s0);
+                        } else {
+
+                            try {
+                                fijo1.setText(s0.substring(0, 1));
+                                fijo2.setText(s0.substring(1, 3));
+                            } catch (StringIndexOutOfBoundsException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        if (eve4 != null) {
+                            if (!eve4.isNull(i)) {
+                                JSONObject s5 = eve4.getJSONObject(i);
+                                String compFecha = (String) s5.get("fecha");
+                                if (compFecha.equals((String) s2.get("fecha"))) {
+                                    String co0 = (String) s5.get("num");
+                                    String co1 = co0.substring(0, 2);
+                                    String co2 = co0.substring(2, 4);
+                                    corrido1.setText(co1);
+                                    corrido2.setText(co2);
+                                }
+                            }
+                        }
+                        binding.linearSeven.addView(header);
+                    }
+                }
+                if (night != null) {
+                    if (!night.isNull(i)) {
+                        View header = getLayoutInflater().inflate(R.layout.sevenday_item, null, false);
+                        TextView fecha = header.findViewById(R.id.sFecha);
+                        TextView hora = header.findViewById(R.id.sD);
+                        TextView fijo1 = header.findViewById(R.id.sF1_0);
+                        TextView fijo2 = header.findViewById(R.id.sF1_1);
+                        TextView corrido1 = header.findViewById(R.id.sC1_1);
+                        TextView corrido2 = header.findViewById(R.id.sC1_2);
+
+                        fecha.setTypeface(font);
+                        hora.setTypeface(font);
+
+                        JSONObject s3 = night.getJSONObject(i);
+
+                        Date d = get.parse((String) s3.get("fecha"));
+                        fecha.setText(dSemana.format(d));
+
+                        hora.setText(getString(R.string.noche));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            hora.setTextColor(getResources().getColor(R.color.navy_blue, requireContext().getTheme()));
+                            fecha.setTextColor(getResources().getColor(R.color.navy_blue, requireContext().getTheme()));
+                        } else {
+                            hora.setTextColor(getResources().getColor(R.color.navy_blue));
+                            fecha.setTextColor(getResources().getColor(R.color.navy_blue));
+                        }
+                        String s0 = (String) s3.get("num");
+                        if (s0.length() < 3) {
+                            fijo1.setText("0");
+                            fijo2.setText(s0);
+                        } else {
+
+                            try {
+                                fijo1.setText(s0.substring(0, 1));
+                                fijo2.setText(s0.substring(1, 3));
+                            } catch (StringIndexOutOfBoundsException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        if (night4 != null) {
+                            if (!night4.isNull(i)) {
+                                JSONObject s6 = night4.getJSONObject(i);
+                                String compFecha = (String) s6.get("fecha");
+                                if (compFecha.equals((String) s6.get("fecha"))) {
+                                    String co0 = (String) s6.get("num");
+                                    String co1 = co0.substring(0, 2);
+                                    String co2 = co0.substring(2, 4);
+                                    corrido1.setText(co1);
+                                    corrido2.setText(co2);
+                                }
+                            }
+                        }
+                        binding.linearSeven.addView(header);
+                    }
+                }
+                Log.d(DEBUG_TAG, s1.toString());
+            }
+        }
+        if (binding != null && getActivity() != null) {
+            binding.progressBar3.setProgress(100);
+            binding.progressBar3.setVisibility(View.GONE);
+        }
+    }
+    private String readData(String name) throws IOException {
+
+        if(getActivity() != null && getContext() != null) {
+            File dataFile = new File(getContext().getCacheDir(), name.concat(".json"));
+            if (!dataFile.exists()) {
+                Log.e(DEBUG_TAG, "File do not Exist");
+                return null;
+            }
+            FileInputStream fileInputStream = new FileInputStream(dataFile);
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String data = bufferedReader.readLine();
+            bufferedReader.close();
+            return data;
+        }
+        else
+            return null;
     }
 }

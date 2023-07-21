@@ -27,13 +27,18 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.cubanapp.bolitacubana.BuildConfig;
 import com.cubanapp.bolitacubana.R;
-import com.cubanapp.bolitacubana.databinding.FragmentFloridaBinding;
 import com.cubanapp.bolitacubana.databinding.FragmentNewyorkBinding;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -79,8 +84,18 @@ public class NewYorkFragment extends Fragment {
                 new ViewModelProvider(this).get(FloridaViewModel.class);
         */
         binding = FragmentNewyorkBinding.inflate(inflater, container, false);
-        binding.button3.setOnClickListener(view1 -> NavHostFragment.findNavController(this)
-                .navigate(R.id.action_fragment_newyork_to_fragment_sevendays));
+        binding.button31.setOnClickListener(view1 -> {
+
+            //NavHostFragment.findNavController(this).navigate(R.id.action_fragment_newyork_to_fragment_sevendays);
+            if (getActivity() != null) {
+                Bundle bundle = new Bundle();
+                bundle.putString("name", "newyorkSavedFile");
+                getParentFragmentManager().setFragmentResult("SevenDays", bundle);
+                NavHostFragment.findNavController(this)
+                        .navigate(R.id.action_fragment_newyork_to_fragment_sevendays, bundle);
+            }
+
+        });
         View root = binding.getRoot();
         return root;
 
@@ -98,6 +113,7 @@ public class NewYorkFragment extends Fragment {
             if(savedFechaString != null)
                 binding.updateDate.setText(savedFechaString);
             if (font != null) {
+                binding.titleny.setTypeface(font);
                 binding.D1.setTypeface(font);
                 binding.D.setTypeface(font);
                 binding.SD.setTypeface(font);
@@ -106,12 +122,12 @@ public class NewYorkFragment extends Fragment {
                 binding.SN.setTypeface(font);
             }
 
-            String fijo1 = sharedPref.getString("F1", "---");
-            String fijo2 = sharedPref.getString("F2", "---");
+            String fijo1 = sharedPref.getString("nyF1", "---");
+            String fijo2 = sharedPref.getString("nyF2", "---");
 
-            binding.D1.setText(sharedPref.getString("D", "--/--/----"));
+            binding.D1.setText(sharedPref.getString("nyD", "--/--/----"));
             binding.D.setText(getString(R.string.dia));
-            binding.SD.setText(sharedPref.getString("DS", "-"));
+            binding.SD.setText(sharedPref.getString("nyDS", "-"));
             if (fijo1.length() < 3) {
                 binding.F11.setText(fijo1);
             } else {
@@ -122,13 +138,13 @@ public class NewYorkFragment extends Fragment {
                     throw new RuntimeException(e);
                 }
             }
-            binding.C11.setText(sharedPref.getString("CD1", "--"));
-            binding.C12.setText(sharedPref.getString("CD2", "--"));
+            binding.C11.setText(sharedPref.getString("nyCD1", "--"));
+            binding.C12.setText(sharedPref.getString("nyCD2", "--"));
 
-            binding.N1.setText(sharedPref.getString("N", "--/--/----"));
+            binding.N1.setText(sharedPref.getString("nyN", "--/--/----"));
             binding.N.setText(getString(R.string.noche));
-            binding.SN.setText(sharedPref.getString("NS", "-"));
-            if (fijo1.length() < 3) {
+            binding.SN.setText(sharedPref.getString("nyNS", "-"));
+            if (fijo2.length() < 3) {
                 binding.F21.setText(fijo2);
             } else {
                 try {
@@ -138,8 +154,8 @@ public class NewYorkFragment extends Fragment {
                     throw new RuntimeException(e);
                 }
             }
-            binding.C21.setText(sharedPref.getString("CN1", "--"));
-            binding.C22.setText(sharedPref.getString("CN2", "--"));
+            binding.C21.setText(sharedPref.getString("nyCN1", "--"));
+            binding.C22.setText(sharedPref.getString("nyCN2", "--"));
         }
         startSync();
     }
@@ -181,8 +197,8 @@ public class NewYorkFragment extends Fragment {
         try {
             Date fechaActual = fechaFormato.parse(fechaString);
             Date horaActual = horaFormato.parse(horaString);
-            String sDiaGuardado = sharedPref.getString("D", "01/01/2006");
-            String sNocheGuardado = sharedPref.getString("N", "01/01/2006");
+            String sDiaGuardado = sharedPref.getString("nyD", "01/01/2006");
+            String sNocheGuardado = sharedPref.getString("nyN", "01/01/2006");
             Date fechaDiaSaved = fechaFormato.parse(sDiaGuardado);
             //Date fechaNocheSaved = fechaFormato.parse(sNocheGuardado);
 
@@ -209,8 +225,8 @@ public class NewYorkFragment extends Fragment {
             //Date fechaNocheFicticia = fechaFormato.parse("04/04/2023");
             //Date horaFicticia = horaFormato.parse("22:00:00");
 
-            Date horaDia = horaFormato.parse("13:46:00");
-            Date horaNoche = horaFormato.parse("21:56:00");
+            Date horaDia = horaFormato.parse("14:31:00");
+            Date horaNoche = horaFormato.parse("22:31:00");
 
 
             if ((!fechaActual.equals(fechaDiaSaved) && diaMasSaved.before(fechaActual)) || (fechaActual.equals(diaMasSaved) && horaActual.after(horaDia))){
@@ -239,9 +255,9 @@ public class NewYorkFragment extends Fragment {
             if (requestQueue != null) {
                 String url;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    url = "https://cubanapp.info/api/resultado.php";
+                    url = "https://cubanapp.info/api/rny.php";
                 }else{
-                    url = "http://cubanapp.info/api/resultado.php";
+                    url = "http://cubanapp.info/api/rny.php";
                 }
                 JSONObject json = new JSONObject();
 
@@ -265,103 +281,111 @@ public class NewYorkFragment extends Fragment {
                 stringRequest = new JsonObjectRequest(Request.Method.POST, url, json,
                         response -> {
                             // Display the first 500 characters of the response string.
-                            try {
-                                //JSONObject error = response.getJSONObject("");
-                                //response.get("error");
-                                boolean error = (Boolean) response.get("error");
-                                if (!error) {
-                                    if (getActivity() != null && binding != null) {
-                                        SharedPreferences.Editor editor = sharedPref.edit();
+                            if(response != null) {
+                                try {
+                                    if (response.has("mid") && response.has("night") && response.has("mid4") && response.has("night4")) {
+                                        cacheData(response.toString(), "newyorkSavedFile");
+                                        JSONArray midArray = response.getJSONArray("mid");
+                                        JSONArray nightArray = response.getJSONArray("night");
+                                        JSONArray midArray2 = response.getJSONArray("mid4");
+                                        JSONArray nightArray2 = response.getJSONArray("night4");
 
-                                        SimpleDateFormat yearIn = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                                        SimpleDateFormat yearOut = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                                        JSONObject resultado1 = (JSONObject) midArray.get(0);
+                                        JSONObject resultado3 = (JSONObject) nightArray.get(0);
+                                        JSONObject resultado4 = (JSONObject) midArray2.get(0);
+                                        JSONObject resultado6 = (JSONObject) nightArray2.get(0);
 
-                                        SimpleDateFormat dSemana = new SimpleDateFormat("EEEE", Locale.getDefault());
-                                        Date dSemanaConverted = yearIn.parse((String) response.get("D"));
-                                        Date dSemanaNocheConverted = yearIn.parse((String) response.get("N"));
-                                        String diaSemana = (dSemana.format(dSemanaConverted));
-                                        String nocheSemana = (dSemana.format(dSemanaNocheConverted));
+                                        if (getActivity() != null && binding != null) {
+                                            SharedPreferences.Editor editor = sharedPref.edit();
 
-                                        Date yearText = yearIn.parse((String) response.get("D"));
-                                        //Date semanaText = semanaIn.parse((String) response.get("DS"));
+                                            SimpleDateFormat yearIn = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                            SimpleDateFormat yearOut = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
-                                        Date yearText2 = yearIn.parse((String) response.get("N"));
-                                        //Date semanaText2 = semanaIn.parse((String) response.get("NS"));
+                                            SimpleDateFormat dSemana = new SimpleDateFormat("EEEE", Locale.getDefault());
+                                            Date dSemanaConverted = yearIn.parse((String) resultado1.get("fecha"));
+                                            Date dSemanaNocheConverted = yearIn.parse((String) resultado3.get("fecha"));
+                                            String diaSemana = (dSemana.format(dSemanaConverted));
+                                            String nocheSemana = (dSemana.format(dSemanaNocheConverted));
+
+                                            Date yearText = yearIn.parse((String) resultado1.get("fecha"));
+                                            //Date semanaText = semanaIn.parse((String) response.get("DS"));
 
 
-                                        editor.putString("D", yearOut.format(yearText));
-                                        editor.putString("DS", diaSemana);
-                                        editor.putString("F1", (String) response.get("F1"));
-                                        editor.putString("CD1", (String) response.get("CD1"));
-                                        editor.putString("CD2", (String) response.get("CD2"));
-                                        editor.putString("N", yearOut.format(yearText2));
-                                        editor.putString("NS", nocheSemana);
-                                        editor.putString("F2", (String) response.get("F2"));
-                                        editor.putString("CN1", (String) response.get("CN1"));
-                                        editor.putString("CN2", (String) response.get("CN2"));
-                                        editor.apply();
+                                            Date yearText3 = yearIn.parse((String) resultado3.get("fecha"));
+                                            //Date semanaText2 = semanaIn.parse((String) response.get("NS"));
 
-                                        String fijo1 = (String) response.get("F1");
-                                        String fijo2 = (String) response.get("F2");
 
-                                        binding.D1.setText(yearOut.format(yearText));
-                                        binding.D.setText(getString(R.string.dia));
-                                        binding.SD.setText(diaSemana);
-                                        if(fijo1.length() < 3){
-                                            binding.F11.setText(fijo1);
-                                        }
-                                        else {
-                                            try {
-                                                binding.F10.setText(fijo1.substring(0, 1));
-                                                binding.F11.setText(fijo1.substring(1, 3));
-                                            } catch (StringIndexOutOfBoundsException e) {
-                                                throw new RuntimeException(e);
+                                            editor.putString("nyD", yearOut.format(yearText));
+                                            editor.putString("nyDS", diaSemana);
+                                            editor.putString("nyF1", (String) resultado1.get("num"));
+                                            String corrido = (String) resultado4.get("num");
+                                            editor.putString("nyCD1", corrido.substring(0, 2));
+                                            editor.putString("nyCD2", corrido.substring(2, 4));
+                                            editor.putString("nyN", yearOut.format(yearText3));
+                                            editor.putString("nyNS", nocheSemana);
+                                            editor.putString("nyF2", (String) resultado3.get("num"));
+                                            String corrido3 = (String) resultado6.get("num");
+                                            editor.putString("nyCN1", corrido3.substring(0, 2));
+                                            editor.putString("nyCN2", corrido3.substring(2, 4));
+                                            editor.apply();
+
+                                            String fijo1 = (String) resultado1.get("num");
+                                            String fijo2 = (String) resultado3.get("num");
+
+                                            binding.D1.setText(yearOut.format(yearText));
+                                            binding.D.setText(getString(R.string.dia));
+                                            binding.SD.setText(diaSemana);
+                                            if (fijo1.length() < 3) {
+                                                binding.F11.setText(fijo1);
+                                            } else {
+                                                try {
+                                                    binding.F10.setText(fijo1.substring(0, 1));
+                                                    binding.F11.setText(fijo1.substring(1, 3));
+                                                } catch (StringIndexOutOfBoundsException e) {
+                                                    throw new RuntimeException(e);
+                                                }
                                             }
-                                        }
-                                        binding.C11.setText((String) response.get("CD1"));
-                                        binding.C12.setText((String) response.get("CD2"));
+                                            binding.C11.setText(corrido.substring(0, 2));
+                                            binding.C12.setText(corrido.substring(2, 4));
 
-                                        binding.N1.setText(yearOut.format(yearText2));
-                                        binding.N.setText(getString(R.string.noche));
-                                        binding.SN.setText(nocheSemana);
-                                        if(fijo1.length() < 3){
-                                            binding.F21.setText(fijo2);
-                                        }
-                                        else {
-                                            try {
-                                                binding.F20.setText(fijo2.substring(0, 1));
-                                                binding.F21.setText(fijo2.substring(1, 3));
-                                            } catch (StringIndexOutOfBoundsException e) {
-                                                throw new RuntimeException(e);
+
+                                            binding.N1.setText(yearOut.format(yearText3));
+                                            binding.N.setText(getString(R.string.noche));
+                                            binding.SN.setText(nocheSemana);
+                                            if (fijo2.length() < 3) {
+                                                binding.F21.setText(fijo2);
+                                            } else {
+                                                try {
+                                                    binding.F20.setText(fijo2.substring(0, 1));
+                                                    binding.F21.setText(fijo2.substring(1, 3));
+                                                } catch (StringIndexOutOfBoundsException e) {
+                                                    throw new RuntimeException(e);
+                                                }
                                             }
+                                            binding.C21.setText(corrido3.substring(0, 2));
+                                            binding.C22.setText(corrido3.substring(2, 4));
                                         }
-                                        binding.C21.setText((String) response.get("CN1"));
-                                        binding.C22.setText((String) response.get("CN2"));
+                                        if (binding != null)
+                                            binding.progressBar2.setVisibility(View.GONE);
                                     }
-                                } else {
+                                } catch (JSONException e) {
+                                    //errorStart.set(true);
+                                    //try {
                                     if (getActivity() != null) {
                                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                                getString(R.string.internalerror), Snackbar.LENGTH_LONG);
+                                                getString(R.string.generateData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
                                         mySnackbar.show();
                                     }
+                                    // } catch (Exception ei) {
+                                    //    Log.e(DEBUG_TAG, "SnackbarError3 : " + ei.getMessage());
+                                    //}
+                                    Log.e(DEBUG_TAG, "JSONException2 : " + e.getMessage());
+                                    //throw new RuntimeException(e);
+                                } catch (ParseException e) {
+                                    //throw new RuntimeException(e);
+                                } catch (IOException e) {
+                                    //throw new RuntimeException(e);
                                 }
-                                if (binding != null)
-                                    binding.progressBar2.setVisibility(View.GONE);
-                            } catch (JSONException e) {
-                                //errorStart.set(true);
-                                //try {
-                                if (getActivity() != null) {
-                                    mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                            getString(R.string.generateData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
-                                    mySnackbar.show();
-                                }
-                                // } catch (Exception ei) {
-                                //    Log.e(DEBUG_TAG, "SnackbarError3 : " + ei.getMessage());
-                                //}
-                                Log.e(DEBUG_TAG, "JSONException2 : " + e.getMessage());
-                                //throw new RuntimeException(e);
-                            } catch (ParseException e) {
-                                //throw new RuntimeException(e);
                             }
 
                         }, error -> {
@@ -411,7 +435,7 @@ public class NewYorkFragment extends Fragment {
             String fechaStringz = fechaFormatoz.format(currentTimesz);
             binding.updateDate.setText(fechaStringz);
             SharedPreferences.Editor edit = sharedPref.edit();
-            edit.putString("updateCheckDate", fechaStringz);
+            edit.putString("updateCheckDate3", fechaStringz);
             edit.apply();
         }
     }
@@ -444,5 +468,17 @@ public class NewYorkFragment extends Fragment {
     public void onStop() {
         //Log.d(DEBUG_TAG, "onStop()");
         super.onStop();
+    }
+
+    private void cacheData(String data, String name) throws IOException {
+        if(getActivity() != null && getContext() != null) {
+            File dataFile = new File(getContext().getCacheDir(), name.concat(".json"));
+            OutputStreamWriter objectOutputStream = new OutputStreamWriter(
+                    new FileOutputStream(dataFile));
+            BufferedWriter bufferedWriter = new BufferedWriter(objectOutputStream);
+            bufferedWriter.write(data);
+            bufferedWriter.close();
+        }
+
     }
 }
