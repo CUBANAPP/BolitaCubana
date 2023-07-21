@@ -518,6 +518,8 @@ public class SevenDaysFragment extends Fragment {
 
     private void buildSevenCustom(@NonNull JSONObject json) throws JSONException, ParseException {
         binding.progressBar3.setVisibility(View.VISIBLE);
+        binding.linearSeven.removeAllViews();
+        //binding.linearSeven.removeAllViewsInLayout();
 
         SimpleDateFormat dSemana = new SimpleDateFormat("EEEE", Locale.getDefault());
         SimpleDateFormat get = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
