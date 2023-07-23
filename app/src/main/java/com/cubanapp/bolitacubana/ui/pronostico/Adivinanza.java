@@ -84,6 +84,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
     private RecyclerView recyclerView;
 
     private AdivinanzaAdapter adapter;
+    private boolean isClicked;
 
     private static final String DEBUG_TAG = "Adivinanza";
 
@@ -107,6 +108,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
         if(getActivity() != null) {
 
             if (binding != null) {
+                isClicked = false;
                 //Typeface font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
                 //binding.textViewProgress.setTypeface(font);
 
@@ -800,8 +802,15 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
             bundle.putString("name", name);
             bundle.putString("type", type);
             getParentFragmentManager().setFragmentResult("CUBANAPPImage", bundle);
-            NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_navigation_adivinanza_to_navigation_imagefullscreen, bundle);
+            if (binding != null && !isClicked) {
+                try {
+                    isClicked = true;
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_navigation_adivinanza_to_navigation_imagefullscreen, bundle);
+                } catch (IllegalArgumentException e) {
+                    //
+                }
+            }
         }
     }
     public void cacheData(String data, String name) throws IOException {

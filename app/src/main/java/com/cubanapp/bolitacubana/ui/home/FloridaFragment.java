@@ -77,8 +77,18 @@ public class FloridaFragment extends Fragment {
                 new ViewModelProvider(this).get(FloridaViewModel.class);
         */
         binding = FragmentFloridaBinding.inflate(inflater, container, false);
-        binding.button3.setOnClickListener(view1 -> NavHostFragment.findNavController(this)
-                .navigate(R.id.action_fragment_florida_to_fragment_sevendays));
+        if(binding != null && binding.button3.isClickable()) {
+            try {
+                binding.button3.setOnClickListener(view1q -> {
+                    binding.button3.setClickable(false);
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_fragment_florida_to_fragment_sevendays);
+                });
+            }
+            catch (IllegalArgumentException e){
+                //
+            }
+        }
         View root = binding.getRoot();
         return root;
 

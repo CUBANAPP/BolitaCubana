@@ -35,12 +35,33 @@ public class HomeFragment extends Fragment {
 */
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        binding.buttonFlorida.setOnClickListener(view1 -> NavHostFragment.findNavController(this)
-                .navigate(R.id.action_home_to_florida));
-        binding.buttonGeorgia.setOnClickListener(view1 -> NavHostFragment.findNavController(this)
-                .navigate(R.id.action_navigation_home_to_navigation_georgia));
-        binding.buttonNewYork.setOnClickListener(view1 -> NavHostFragment.findNavController(this)
-                .navigate(R.id.action_navigation_home_to_navigation_newyork));
+        if(binding != null && binding.buttonFlorida.isClickable() && binding.buttonNewYork.isClickable() && binding.buttonGeorgia.isClickable()) {
+            try {
+                binding.buttonFlorida.setOnClickListener(view1a -> {
+                    binding.buttonFlorida.setClickable(false);
+                    binding.buttonNewYork.setClickable(false);
+                    binding.buttonGeorgia.setClickable(false);
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_home_to_florida);
+                });
+                binding.buttonGeorgia.setOnClickListener(view1b -> {
+                    binding.buttonFlorida.setClickable(false);
+                    binding.buttonNewYork.setClickable(false);
+                    binding.buttonGeorgia.setClickable(false);
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_navigation_home_to_navigation_georgia);
+                });
+                binding.buttonNewYork.setOnClickListener(view1c -> {
+                    binding.buttonFlorida.setClickable(false);
+                    binding.buttonNewYork.setClickable(false);
+                    binding.buttonGeorgia.setClickable(false);
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_navigation_home_to_navigation_newyork);
+                });
+            } catch (IllegalArgumentException e) {
+                //
+            }
+        }
 
         //binding.textDashboard;
         /*final Button b = root.findViewById(R.id.button);

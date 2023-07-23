@@ -84,18 +84,23 @@ public class NewYorkFragment extends Fragment {
                 new ViewModelProvider(this).get(FloridaViewModel.class);
         */
         binding = FragmentNewyorkBinding.inflate(inflater, container, false);
-        binding.button31.setOnClickListener(view1 -> {
-
-            //NavHostFragment.findNavController(this).navigate(R.id.action_fragment_newyork_to_fragment_sevendays);
-            if (getActivity() != null) {
-                Bundle bundle = new Bundle();
-                bundle.putString("name", "newyorkSavedFile");
-                getParentFragmentManager().setFragmentResult("SevenDays", bundle);
-                NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_fragment_newyork_to_fragment_sevendays, bundle);
+        if(binding != null && binding.button31.isClickable()) {
+            try {
+                binding.button31.setOnClickListener(view1 -> {
+                    binding.button31.setClickable(false);
+                    //NavHostFragment.findNavController(this).navigate(R.id.action_fragment_georgia_to_fragment_sevendays);
+                    if (getActivity() != null) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("name", "newyorkSavedFile");
+                        getParentFragmentManager().setFragmentResult("SevenDays", bundle);
+                        NavHostFragment.findNavController(this)
+                                .navigate(R.id.action_fragment_newyork_to_fragment_sevendays, bundle);
+                    }
+                });
+            } catch (IllegalArgumentException e) {
+                //
             }
-
-        });
+        }
         View root = binding.getRoot();
         return root;
 
