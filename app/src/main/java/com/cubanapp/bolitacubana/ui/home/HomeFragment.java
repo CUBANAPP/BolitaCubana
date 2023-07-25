@@ -35,33 +35,46 @@ public class HomeFragment extends Fragment {
 */
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        if(binding != null && binding.buttonFlorida.isClickable() && binding.buttonNewYork.isClickable() && binding.buttonGeorgia.isClickable()) {
-            try {
-                binding.buttonFlorida.setOnClickListener(view1a -> {
-                    binding.buttonFlorida.setClickable(false);
-                    binding.buttonNewYork.setClickable(false);
-                    binding.buttonGeorgia.setClickable(false);
+        binding.buttonFlorida.setOnClickListener(view1a -> {
+            if (binding != null && binding.buttonFlorida.isClickable() && getActivity() != null) {
+                binding.buttonFlorida.setClickable(false);
+                binding.buttonNewYork.setClickable(false);
+                binding.buttonGeorgia.setClickable(false);
+                try {
                     NavHostFragment.findNavController(this)
                             .navigate(R.id.action_home_to_florida);
-                });
-                binding.buttonGeorgia.setOnClickListener(view1b -> {
-                    binding.buttonFlorida.setClickable(false);
-                    binding.buttonNewYork.setClickable(false);
-                    binding.buttonGeorgia.setClickable(false);
+                } catch (IllegalArgumentException e) {
+                    //
+                }
+            }
+        });
+        binding.buttonGeorgia.setOnClickListener(view1b -> {
+            if (binding != null && binding.buttonGeorgia.isClickable() && getActivity() != null) {
+                binding.buttonGeorgia.setClickable(false);
+                binding.buttonFlorida.setClickable(false);
+                binding.buttonNewYork.setClickable(false);
+                try {
                     NavHostFragment.findNavController(this)
                             .navigate(R.id.action_navigation_home_to_navigation_georgia);
-                });
-                binding.buttonNewYork.setOnClickListener(view1c -> {
-                    binding.buttonFlorida.setClickable(false);
-                    binding.buttonNewYork.setClickable(false);
-                    binding.buttonGeorgia.setClickable(false);
+                } catch (IllegalArgumentException e) {
+                    //
+                }
+            }
+        });
+        binding.buttonNewYork.setOnClickListener(view1c -> {
+            if (binding != null && binding.buttonNewYork.isClickable() && getActivity() != null) {
+                binding.buttonNewYork.setClickable(false);
+                binding.buttonFlorida.setClickable(false);
+                binding.buttonGeorgia.setClickable(false);
+                try {
                     NavHostFragment.findNavController(this)
                             .navigate(R.id.action_navigation_home_to_navigation_newyork);
-                });
-            } catch (IllegalArgumentException e) {
-                //
+                } catch (IllegalArgumentException e) {
+                    //
+                }
             }
-        }
+        });
+
 
         //binding.textDashboard;
         /*final Button b = root.findViewById(R.id.button);

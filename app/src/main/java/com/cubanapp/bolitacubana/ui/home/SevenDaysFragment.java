@@ -211,7 +211,7 @@ public class SevenDaysFragment extends Fragment {
         if (update && !customLastDays) {
 
 
-            if (getActivity() != null) {
+            if (getActivity() != null && binding != null) {
                 requestQueue = Volley.newRequestQueue(getActivity());
             }
             //}
@@ -235,7 +235,7 @@ public class SevenDaysFragment extends Fragment {
                     json.put("func", "old");
                 } catch (JSONException e) {
                     //try {
-                    if (getActivity() != null) {
+                    if (getActivity() != null && binding != null) {
                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                 getString(R.string.errorData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
                         mySnackbar.show();
@@ -305,16 +305,16 @@ public class SevenDaysFragment extends Fragment {
                                             }
                                             buildSevenItems(jsonArray);
                                         } else {
-
-                                            mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                                    getString(R.string.internalerror), Snackbar.LENGTH_LONG);
-                                            mySnackbar.show();
-
+                                            if (getActivity() != null && binding != null) {
+                                                mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
+                                                        getString(R.string.internalerror), Snackbar.LENGTH_LONG);
+                                                mySnackbar.show();
+                                            }
                                         }
                                     }
                                 } else {
                                     binding.progressBar3.setVisibility(View.GONE);
-                                    if (getActivity() != null && !customLastDays) {
+                                    if (getActivity() != null && !customLastDays && binding != null) {
                                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                                 getString(R.string.internalerror), Snackbar.LENGTH_LONG);
                                         mySnackbar.show();
@@ -326,7 +326,7 @@ public class SevenDaysFragment extends Fragment {
                                     binding.progressBar3.setVisibility(View.GONE);
                                 //errorStart.set(true);
                                 //try {
-                                if (getActivity() != null && !customLastDays) {
+                                if (getActivity() != null && !customLastDays && binding != null) {
                                     mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                             getString(R.string.generateData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
                                     mySnackbar.show();
@@ -344,7 +344,7 @@ public class SevenDaysFragment extends Fragment {
 
                     if (error instanceof TimeoutError) {
                         //try {
-                        if (getActivity() != null && !customLastDays) {
+                        if (getActivity() != null && !customLastDays && binding != null) {
                             mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                     getString(R.string.slowconn), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
                             mySnackbar.show();
@@ -355,7 +355,7 @@ public class SevenDaysFragment extends Fragment {
 
                     } else {
                         //try {
-                        if (getActivity() != null && !customLastDays) {
+                        if (getActivity() != null && !customLastDays && binding != null) {
                             mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                     getString(R.string.lostsvr), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
                             mySnackbar.show();
@@ -725,7 +725,7 @@ public class SevenDaysFragment extends Fragment {
     }
     private String readData(String name) throws IOException {
 
-        if(getActivity() != null && getContext() != null) {
+        if(getActivity() != null && getContext() != null && binding != null) {
             File dataFile = new File(getContext().getCacheDir(), name.concat(".json"));
             if (!dataFile.exists()) {
                 Log.e(DEBUG_TAG, "File do not Exist");

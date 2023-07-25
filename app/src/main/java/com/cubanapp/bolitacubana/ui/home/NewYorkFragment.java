@@ -84,23 +84,21 @@ public class NewYorkFragment extends Fragment {
                 new ViewModelProvider(this).get(FloridaViewModel.class);
         */
         binding = FragmentNewyorkBinding.inflate(inflater, container, false);
-        if(binding != null && binding.button31.isClickable()) {
-            try {
-                binding.button31.setOnClickListener(view1 -> {
-                    binding.button31.setClickable(false);
-                    //NavHostFragment.findNavController(this).navigate(R.id.action_fragment_georgia_to_fragment_sevendays);
-                    if (getActivity() != null) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("name", "newyorkSavedFile");
-                        getParentFragmentManager().setFragmentResult("SevenDays", bundle);
-                        NavHostFragment.findNavController(this)
-                                .navigate(R.id.action_fragment_newyork_to_fragment_sevendays, bundle);
-                    }
-                });
-            } catch (IllegalArgumentException e) {
-                //
+        binding.button31.setOnClickListener(viewe -> {
+            if (binding != null && binding.button31.isClickable() && getActivity() != null) {
+                binding.button31.setClickable(false);
+                //NavHostFragment.findNavController(this).navigate(R.id.action_fragment_georgia_to_fragment_sevendays);
+                Bundle bundle = new Bundle();
+                bundle.putString("name", "newyorkSavedFile");
+                getParentFragmentManager().setFragmentResult("SevenDays", bundle);
+                try {
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_fragment_newyork_to_fragment_sevendays, bundle);
+                } catch (IllegalArgumentException e) {
+                    //
+                }
             }
-        }
+        });
         View root = binding.getRoot();
         return root;
 
@@ -270,7 +268,7 @@ public class NewYorkFragment extends Fragment {
                     json.put("apiKey", apiKey);
                 } catch (JSONException e) {
                     //try {
-                    if (getActivity() != null) {
+                    if (getActivity() != null && binding != null) {
                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                 getString(R.string.errorData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
                         mySnackbar.show();
@@ -376,7 +374,7 @@ public class NewYorkFragment extends Fragment {
                                 } catch (JSONException e) {
                                     //errorStart.set(true);
                                     //try {
-                                    if (getActivity() != null) {
+                                    if (getActivity() != null && binding != null) {
                                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                                 getString(R.string.generateData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
                                         mySnackbar.show();
@@ -398,7 +396,7 @@ public class NewYorkFragment extends Fragment {
                         binding.progressBar2.setVisibility(View.GONE);
                     if (error instanceof TimeoutError) {
                         //try {
-                        if (getActivity() != null) {
+                        if (getActivity() != null && binding != null) {
                             mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                     getString(R.string.slowconn), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
                             mySnackbar.show();
@@ -409,7 +407,7 @@ public class NewYorkFragment extends Fragment {
 
                     } else {
                         //try {
-                        if (getActivity() != null) {
+                        if (getActivity() != null && binding != null) {
                             mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                     getString(R.string.lostsvr), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
                             mySnackbar.show();
@@ -476,7 +474,7 @@ public class NewYorkFragment extends Fragment {
     }
 
     private void cacheData(String data, String name) throws IOException {
-        if(getActivity() != null && getContext() != null) {
+        if(getActivity() != null && getContext() != null && binding != null) {
             File dataFile = new File(getContext().getCacheDir(), name.concat(".json"));
             OutputStreamWriter objectOutputStream = new OutputStreamWriter(
                     new FileOutputStream(dataFile));

@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.os.LocaleListCompat;
 import androidx.preference.ListPreference;
-import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
@@ -31,6 +30,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -97,20 +97,26 @@ public class SettingsActivity extends AppCompatActivity {
             mnewyorkChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference("newyorkChannel");
             mgeorgiaChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference("georgiaChannel");
             mdarkmode = (ListPreference) getPreferenceManager().findPreference("thememodeselector");
+            AtomicBoolean response = new AtomicBoolean(false);
             if(erase != null){
                 erase.setOnPreferenceChangeListener((preference, newvelue) -> {
-                    boolean response = clearData();
+                    try {
+                        response.set(clearData());
+                    }
+                    catch (IllegalStateException e){
+                        //
+                    }
                     if (getActivity() != null) {
-                        if (response)
+                        if (response.get())
                             Toast.makeText(getActivity(), R.string.completed, Toast.LENGTH_SHORT).show();
                         else
                             Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
                     }
-                    return response;
+                    return response.get();
                 });
             }
             if(listPreference != null) {
-                listPreference.setOnPreferenceChangeListener((Preference.OnPreferenceChangeListener) (preference, newValue) -> {
+                listPreference.setOnPreferenceChangeListener((preference, newValue) -> {
                     if(getActivity() != null) {
                         Locale config = new Locale(newValue.toString());
                         Locale.setDefault(config);
@@ -122,7 +128,7 @@ public class SettingsActivity extends AppCompatActivity {
                 });
             }
             if (mdefaultChannel != null) {
-                mdefaultChannel.setOnPreferenceChangeListener((Preference.OnPreferenceChangeListener) (preference, newValue) -> {
+                mdefaultChannel.setOnPreferenceChangeListener((preference, newValue) -> {
 
                     if (Build.VERSION.SDK_INT >= 19) {
                         FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
@@ -158,7 +164,7 @@ public class SettingsActivity extends AppCompatActivity {
                 });
             }
             if (mpromoChannel != null) {
-                mpromoChannel.setOnPreferenceChangeListener((Preference.OnPreferenceChangeListener) (preference, newValue) -> {
+                mpromoChannel.setOnPreferenceChangeListener((preference, newValue) -> {
                     if (Build.VERSION.SDK_INT >= 19) {
                         FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
                         if (Objects.equals(preference.getKey(), "promoChannel")) {
@@ -194,7 +200,7 @@ public class SettingsActivity extends AppCompatActivity {
                 });
             }
             if (mgeorgiaChannel != null) {
-                mgeorgiaChannel.setOnPreferenceChangeListener((Preference.OnPreferenceChangeListener) (preference, newValue) -> {
+                mgeorgiaChannel.setOnPreferenceChangeListener((preference, newValue) -> {
                     if (Build.VERSION.SDK_INT >= 19) {
                         FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
                         if (Objects.equals(preference.getKey(), "georgiaChannel")) {
@@ -230,7 +236,7 @@ public class SettingsActivity extends AppCompatActivity {
                 });
             }
             if (mnewyorkChannel != null) {
-                mnewyorkChannel.setOnPreferenceChangeListener((Preference.OnPreferenceChangeListener) (preference, newValue) -> {
+                mnewyorkChannel.setOnPreferenceChangeListener((preference, newValue) -> {
                     if (Build.VERSION.SDK_INT >= 19) {
                         FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
                         if (Objects.equals(preference.getKey(), "newyorkChannel")) {
@@ -266,7 +272,7 @@ public class SettingsActivity extends AppCompatActivity {
                 });
             }
             if (mdarkmode != null) {
-                mdarkmode.setOnPreferenceChangeListener((Preference.OnPreferenceChangeListener) (preference, newValue) -> {
+                mdarkmode.setOnPreferenceChangeListener((preference, newValue) -> {
                     if (getActivity() != null) {
 
                         if (Build.VERSION.SDK_INT >= 17) {
@@ -316,32 +322,38 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
         @SuppressLint("ApplySharedPref")
-        public boolean clearData(){
-            if(requireActivity().getCacheDir() != null) {
-                deleteCache(requireActivity());
-                SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(
-                        getString(R.string.preference_file_key2), Context.MODE_PRIVATE);
-                SharedPreferences.Editor edit = sharedPreferences.edit();
-                edit.clear();
+        public boolean clearData() throws IllegalStateException {
+            if (getActivity() != null) {
+                if (getActivity().getCacheDir() != null) {
+                    deleteCache(getActivity());
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences(
+                            getString(R.string.preference_file_key2), Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = sharedPreferences.edit();
+                    edit.clear();
 
-                TimeZone tz = TimeZone.getTimeZone("America/New_York");
-                TimeZone.setDefault(tz);
+                    TimeZone tz = TimeZone.getTimeZone("America/New_York");
+                    TimeZone.setDefault(tz);
 
-                Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone(TimeZone.getDefault().getID()), Locale.US);
+                    Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone(TimeZone.getDefault().getID()), Locale.US);
 
-                fecha.add(Calendar.SECOND, 5);
+                    fecha.add(Calendar.SECOND, 5);
 
-                edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
-                edit.commit();
-                SharedPreferences sharedPreferences2 = requireActivity().getSharedPreferences(
-                        getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-                SharedPreferences.Editor edit2 = sharedPreferences2.edit();
-                edit2.clear();
-                edit2.commit();
-                Log.d(TAG, "clearData: Success");
-                return true;
-            }else{
-                Log.d(TAG, "clearData: FAIL");
+                    edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
+                    edit.commit();
+                    SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences(
+                            getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit2 = sharedPreferences2.edit();
+                    edit2.clear();
+                    edit2.commit();
+                    Log.d(TAG, "clearData: Success");
+                    return true;
+                } else {
+                    Log.d("Settings", "clearData: FAIL");
+                    return false;
+                }
+            }
+            else{
+                Log.d("Settings", "clearData2: FAIL");
                 return false;
             }
         }

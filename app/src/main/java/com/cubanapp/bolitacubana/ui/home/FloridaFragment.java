@@ -77,18 +77,20 @@ public class FloridaFragment extends Fragment {
                 new ViewModelProvider(this).get(FloridaViewModel.class);
         */
         binding = FragmentFloridaBinding.inflate(inflater, container, false);
-        if(binding != null && binding.button3.isClickable()) {
-            try {
-                binding.button3.setOnClickListener(view1q -> {
-                    binding.button3.setClickable(false);
+
+        binding.button3.setOnClickListener(view1q -> {
+            if (binding != null && binding.button3.isClickable() && getActivity() != null) {
+                binding.button3.setClickable(false);
+                try {
                     NavHostFragment.findNavController(this)
                             .navigate(R.id.action_fragment_florida_to_fragment_sevendays);
-                });
+
+                } catch (IllegalArgumentException e) {
+                    //
+                }
             }
-            catch (IllegalArgumentException e){
-                //
-            }
-        }
+        });
+
         View root = binding.getRoot();
         return root;
 
@@ -258,7 +260,7 @@ public class FloridaFragment extends Fragment {
                     json.put("apiKey", apiKey);
                 } catch (JSONException e) {
                     //try {
-                    if (getActivity() != null) {
+                    if (getActivity() != null && binding != null) {
                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                 getString(R.string.errorData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
                         mySnackbar.show();
@@ -348,7 +350,7 @@ public class FloridaFragment extends Fragment {
                                         binding.C22.setText((String) response.get("CN2"));
                                     }
                                 } else {
-                                    if (getActivity() != null) {
+                                    if (getActivity() != null && binding != null) {
                                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                                 getString(R.string.internalerror), Snackbar.LENGTH_LONG);
                                         mySnackbar.show();
@@ -359,7 +361,7 @@ public class FloridaFragment extends Fragment {
                             } catch (JSONException e) {
                                 //errorStart.set(true);
                                 //try {
-                                if (getActivity() != null) {
+                                if (getActivity() != null && binding != null) {
                                     mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                             getString(R.string.generateData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
                                     mySnackbar.show();
@@ -378,7 +380,7 @@ public class FloridaFragment extends Fragment {
                         binding.progressBar2.setVisibility(View.GONE);
                     if (error instanceof TimeoutError) {
                         //try {
-                        if (getActivity() != null) {
+                        if (getActivity() != null && binding != null) {
                             mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                     getString(R.string.slowconn), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
                             mySnackbar.show();
@@ -389,7 +391,7 @@ public class FloridaFragment extends Fragment {
 
                     } else {
                         //try {
-                        if (getActivity() != null) {
+                        if (getActivity() != null && binding != null) {
                             mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                     getString(R.string.lostsvr), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
                             mySnackbar.show();
