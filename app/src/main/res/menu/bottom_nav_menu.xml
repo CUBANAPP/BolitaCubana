@@ -6,22 +6,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
+        android:id="@id/navigation_home"
         android:icon="@drawable/round_home_24"
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@id/navigation_search"
         android:icon="@drawable/round_date_range_24"
         android:title="@string/title_dashboard" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@id/navigation_charada"
         android:icon="@drawable/round_menu_book_24"
         android:title="@string/title_notifications" />
 
     <item
-        android:id="@+id/navigation_adivinanza"
+        android:id="@id/navigation_adivinanza"
         android:icon="@drawable/round_auto_awesome_24"
         android:title="@string/title_pronostico" />
 

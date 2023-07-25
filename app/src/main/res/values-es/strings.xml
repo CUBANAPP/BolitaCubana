@@ -8,7 +8,7 @@
     <string name="title_home">Bolita</string>
     <string name="fragmentHome">Resultados de la Bolita</string>
     <string name="title_dashboard">Buscar</string>
-    <string name="fragmentSearch" translatable="true">Buscar por Fecha (Florida)</string>
+    <string name="fragmentSearch" translatable="true">Buscar por Fecha</string>
     <string name="title_activity_settings">Ajustes</string>
     <string name="cancel">Cancelar</string>
     <string name="open">Abrir</string>

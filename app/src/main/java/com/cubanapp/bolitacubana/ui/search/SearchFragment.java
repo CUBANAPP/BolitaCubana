@@ -82,6 +82,7 @@ public class SearchFragment extends Fragment {
 
             font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
             if (font != null) {
+                binding.titlefl2.setTypeface(font);
                 binding.D1s.setTypeface(font);
                 binding.Ds.setTypeface(font);
                 binding.SDs.setTypeface(font);

@@ -60,13 +60,13 @@
         tools:layout="@layout/fragment_sevendays"/>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_search"
         android:name="com.cubanapp.bolitacubana.ui.search.SearchFragment"
         android:label="@string/fragmentSearch"
         tools:layout="@layout/fragment_search" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_charada"
         android:name="com.cubanapp.bolitacubana.ui.charada.CharadaFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_charada" />
@@ -84,10 +84,7 @@
     <fragment
         android:id="@+id/navigation_imagefullscreen"
         android:name="com.cubanapp.bolitacubana.ui.pronostico.ImageFragment"
-        android:label="@string/photo"
+        android:label="@string/error"
         tools:layout="@layout/fragment_imageviewer" >
-        <action
-            android:id="@+id/action_to_navigation_back"
-            app:destination="@id/navigation_adivinanza" />
     </fragment>
 </navigation>

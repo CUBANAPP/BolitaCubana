@@ -364,16 +364,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        //BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_search, R.id.navigation_charada, R.id.navigation_adivinanza)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-        navController.enableOnBackPressed(false);
+        navController.enableOnBackPressed(true);
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
@@ -383,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
-        callback.setEnabled(false);
+        callback.setEnabled(true);
 
         askNotificationPermission();
 
