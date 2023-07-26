@@ -62,8 +62,8 @@
     <string name="notification1_enabled" translatable="true">Receive Cash3 &amp; Cash4 Drawings</string>
     <string name="notificaciontitle2" translatable="true">New York Drawings</string>
     <string name="notification2_enabled" translatable="true">Receive Numbers &amp; Win4 Drawings</string>
-    <string name="notificacionpromotional" translatable="true">Receive Promotion Notifications</string>
-    <string name="promotional" translatable="true">Promotions</string>
+    <string name="notificacionpromotional" translatable="true">Receive Notifications from Development Team</string>
+    <string name="promotional" translatable="true">Bolita Cubana News</string>
     <string name="promotional_disabled" translatable="true">Notifications disabled</string>
     <string name="sdk19" translatable="true">Disabled until Android 4.4 (KitKat)</string>
     <string name="resourceManagement" translatable="true">Send on Foreground</string>

@@ -135,20 +135,24 @@ public class SettingsActivity extends AppCompatActivity {
                         if (Objects.equals(preference.getKey(), "defaulChannel")) {
                             if (newValue.equals(false)) {
                                 mFirebaseMessages.unsubscribeFromTopic("Default").addOnCompleteListener(task -> {
-                                    String msg = getString(R.string.msg_subscribed);
-                                    if (!task.isSuccessful()) {
-                                        msg = getString(R.string.msg_subscribe_failed);
+                                    if (getActivity() != null) {
+                                        String msg = getString(R.string.msg_subscribed);
+                                        if (!task.isSuccessful()) {
+                                            msg = getString(R.string.msg_subscribe_failed);
+                                        }
+                                        Log.d(TAG, msg);
                                     }
-                                    Log.d(TAG, msg);
                                     //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                                 });
                             } else {
                                 mFirebaseMessages.subscribeToTopic("Default").addOnCompleteListener(task -> {
-                                    String msg = getString(R.string.msg_subscribed);
-                                    if (!task.isSuccessful()) {
-                                        msg = getString(R.string.msg_subscribe_failed);
+                                    if (getActivity() != null) {
+                                        String msg = getString(R.string.msg_subscribed);
+                                        if (!task.isSuccessful()) {
+                                            msg = getString(R.string.msg_subscribe_failed);
+                                        }
+                                        Log.d(TAG, msg);
                                     }
-                                    Log.d(TAG, msg);
                                     //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                                 });
                             }
@@ -170,20 +174,24 @@ public class SettingsActivity extends AppCompatActivity {
                         if (Objects.equals(preference.getKey(), "promoChannel")) {
                             if (newValue.equals(false)) {
                                 mFirebaseMessages.unsubscribeFromTopic("Promo").addOnCompleteListener(task -> {
-                                    String msg = getString(R.string.msg_subscribed);
-                                    if (!task.isSuccessful()) {
-                                        msg = getString(R.string.msg_subscribe_failed);
+                                    if (getActivity() != null) {
+                                        String msg = getString(R.string.msg_subscribed);
+                                        if (!task.isSuccessful()) {
+                                            msg = getString(R.string.msg_subscribe_failed);
+                                        }
+                                        Log.d(TAG, msg);
                                     }
-                                    Log.d(TAG, msg);
                                     //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                                 });
                             } else {
                                 mFirebaseMessages.subscribeToTopic("Promo").addOnCompleteListener(task -> {
-                                    String msg = getString(R.string.msg_subscribed);
-                                    if (!task.isSuccessful()) {
-                                        msg = getString(R.string.msg_subscribe_failed);
+                                    if (getActivity() != null) {
+                                        String msg = getString(R.string.msg_subscribed);
+                                        if (!task.isSuccessful()) {
+                                            msg = getString(R.string.msg_subscribe_failed);
+                                        }
+                                        Log.d(TAG, msg);
                                     }
-                                    Log.d(TAG, msg);
                                     //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                                 });
                             }
@@ -206,20 +214,24 @@ public class SettingsActivity extends AppCompatActivity {
                         if (Objects.equals(preference.getKey(), "georgiaChannel")) {
                             if (newValue.equals(false)) {
                                 mFirebaseMessages.unsubscribeFromTopic("Georgia").addOnCompleteListener(task -> {
-                                    String msg = getString(R.string.msg_subscribed);
-                                    if (!task.isSuccessful()) {
-                                        msg = getString(R.string.msg_subscribe_failed);
+                                    if (getActivity() != null) {
+                                        String msg = getString(R.string.msg_subscribed);
+                                        if (!task.isSuccessful()) {
+                                            msg = getString(R.string.msg_subscribe_failed);
+                                        }
+                                        Log.d(TAG, msg);
                                     }
-                                    Log.d(TAG, msg);
                                     //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                                 });
                             } else {
                                 mFirebaseMessages.subscribeToTopic("Georgia").addOnCompleteListener(task -> {
-                                    String msg = getString(R.string.msg_subscribed);
-                                    if (!task.isSuccessful()) {
-                                        msg = getString(R.string.msg_subscribe_failed);
+                                    if (getActivity() != null) {
+                                        String msg = getString(R.string.msg_subscribed);
+                                        if (!task.isSuccessful()) {
+                                            msg = getString(R.string.msg_subscribe_failed);
+                                        }
+                                        Log.d(TAG, msg);
                                     }
-                                    Log.d(TAG, msg);
                                     //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                                 });
                             }
@@ -242,20 +254,24 @@ public class SettingsActivity extends AppCompatActivity {
                         if (Objects.equals(preference.getKey(), "newyorkChannel")) {
                             if (newValue.equals(false)) {
                                 mFirebaseMessages.unsubscribeFromTopic("NewYork").addOnCompleteListener(task -> {
-                                    String msg = getString(R.string.msg_subscribed);
-                                    if (!task.isSuccessful()) {
-                                        msg = getString(R.string.msg_subscribe_failed);
+                                    if (getActivity() != null) {
+                                        String msg = getString(R.string.msg_subscribed);
+                                        if (!task.isSuccessful()) {
+                                            msg = getString(R.string.msg_subscribe_failed);
+                                        }
+                                        Log.d(TAG, msg);
                                     }
-                                    Log.d(TAG, msg);
                                     //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                                 });
                             } else {
                                 mFirebaseMessages.subscribeToTopic("NewYork").addOnCompleteListener(task -> {
-                                    String msg = getString(R.string.msg_subscribed);
-                                    if (!task.isSuccessful()) {
-                                        msg = getString(R.string.msg_subscribe_failed);
+                                    if (getActivity() != null) {
+                                        String msg = getString(R.string.msg_subscribed);
+                                        if (!task.isSuccessful()) {
+                                            msg = getString(R.string.msg_subscribe_failed);
+                                        }
+                                        Log.d(TAG, msg);
                                     }
-                                    Log.d(TAG, msg);
                                     //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                                 });
                             }

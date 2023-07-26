@@ -37,7 +37,7 @@ android {
         minSdk 16
         targetSdk 34
         versionCode 104
-        versionName "1.2.3 Test"
+        versionName "1.2.4"
         resourceConfigurations += ['en', 'es']
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
@@ -169,6 +169,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:22.2.0'
     implementation 'com.google.android.gms:play-services-base:18.2.0'
     implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
+
+
     //Chartboost
     //implementation 'com.chartboost:chartboost-sdk:9.2.0'
 
@@ -178,7 +180,10 @@ dependencies {
     //implementation 'com.google.guava:guava:32.1.1-android'
     implementation group: 'com.google.guava', name: 'guava', version: '32.0.1-android'
 
-    implementation 'com.google.android.ump:user-messaging-platform:2.0.0'
+
+
+    // Nuevas politicas
+    implementation 'com.google.android.ump:user-messaging-platform:2.1.0'
     // Firebase
     //implementation 'com.google.firebase:firebase-appindexing'
     implementation 'com.google.firebase:firebase-analytics'

@@ -91,6 +91,8 @@ public class LauncherActivity extends AppCompatActivity {
 
     private static final String DEBUG_TAG = "LauncherActivity";
 
+    private static final String IAB_STRING = "1---";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -320,6 +322,11 @@ public class LauncherActivity extends AppCompatActivity {
             progressBar.setProgress(20);
             if (firstTime && ConnSuccess) {
                 if (Build.VERSION.SDK_INT >= 19) {
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+                    SharedPreferences.Editor sharedPrefEditor = sharedPref.edit();
+                    sharedPrefEditor.putInt("gad_rdp", 1);
+                    sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
+                    sharedPrefEditor.apply();
                     mFirebaseMessages = FirebaseMessaging.getInstance();
                     mFirebaseMessages.subscribeToTopic("Default");
                     mFirebaseMessages.subscribeToTopic("Promo");

@@ -48,6 +48,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.cubanapp.bolitacubana.databinding.ActivityMainBinding;
+import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -77,6 +78,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity {
@@ -91,10 +93,12 @@ public class MainActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
             });
-    private static final String DEBUG_TAG = "MainActivity";
     private JsonObjectRequest stringRequest; // Assume this exists.
     private RequestQueue requestQueue;  // Assume this exists.
     private Context context;
+
+    // Use an atomic boolean to initialize the Google Mobile Ads SDK and load ads once.
+    private final AtomicBoolean isMobileAdsInitializeCalled = new AtomicBoolean(false);
 
     private Snackbar mySnackbar;
     private SharedPreferences sharedPref;
@@ -108,12 +112,19 @@ public class MainActivity extends AppCompatActivity {
 
     private WebView myWebView;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private AdView adView;
+
     private String message;
 
     private Bundle bundle;
 
     private ConsentInformation consentInformation;
     private ConsentForm consentForm;
+
+    private static final String IAB_STRING = "1---";
+
+    private static final String DEBUG_TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -264,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
                     .build();
 
             consentInformation = UserMessagingPlatform.getConsentInformation(this);
-            consentInformation.requestConsentInfoUpdate(
+            /*consentInformation.requestConsentInfoUpdate(
                     this,
                     params,
                     () -> {
@@ -273,14 +284,55 @@ public class MainActivity extends AppCompatActivity {
                         if (consentInformation.isConsentFormAvailable()) {
                             loadForm();
                         }
+
                     },
                     formError -> {
                         // Handle the error.
+                        if (formError != null) {
+                            Log.w(DEBUG_TAG, String.format("%s: %s",
+                                    formError.getErrorCode(),
+                                    formError.getMessage()));
+                        }
+                    });*/
+
+            consentInformation.requestConsentInfoUpdate(
+                    this,
+                    params,
+                    (ConsentInformation.OnConsentInfoUpdateSuccessListener) () ->
+                            UserMessagingPlatform.loadAndShowConsentFormIfRequired(
+                                    this,
+                                    (ConsentForm.OnConsentFormDismissedListener) loadAndShowError -> {
+                                        if (loadAndShowError != null) {
+                                            // Consent gathering failed.
+                                            Log.w(DEBUG_TAG, String.format("%s: %s",
+                                                    loadAndShowError.getErrorCode(),
+                                                    loadAndShowError.getMessage()));
+                                        }else{
+
+                                        // Consent has been gathered.
+                                       // if (ConsentInformation.canRequestAds) {
+                                            initializeMobileAdsSdk();
+                                        }
+                                    }
+                            )
+                    ,
+                    (ConsentInformation.OnConsentInfoUpdateFailureListener) requestConsentError -> {
+                        // Consent gathering failed.
+                        Log.w(DEBUG_TAG, String.format("%s: %s",
+                                requestConsentError.getErrorCode(),
+                                requestConsentError.getMessage()));
                     });
 
-            FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+            // Check if you can initialize the Google Mobile Ads SDK in parallel
+            // while checking for new consent information. Consent obtained in
+            // the previous session can be used to request ads.
+            /*if (ConsentInformation.canRequestAds) {
+                initializeMobileAdsSdk();
+            }*/
+
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, bundle);
-            AdView adView = (AdView) findViewById(R.id.adView);
+            adView = (AdView) findViewById(R.id.adView);
             //FirebaseApp.initializeApp(this);
             //FirebaseOptions.Builder firebaseOptions = new FirebaseOptions.Builder();
             /*if(connection) {
@@ -288,79 +340,6 @@ public class MainActivity extends AppCompatActivity {
                 firebaseMessaging.getToken().addOnCompleteListener(v -> Log.d(DEBUG_TAG, "FCM Key: " + v.getResult()));
             }*/
             //FirebaseMessaging.getInstance(FirebaseApp.initializeApp(this));
-            MobileAds.initialize(this, initializationStatus -> {
-                Log.d(DEBUG_TAG, "Ads Running");
-                adView.setVisibility(View.VISIBLE);
-            });
-            //RequestConfiguration.Builder adRequestBuilder = new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("27257B0AF4890D7241E824CB06C35D83"));
-            AdRequest adRequest = new AdRequest.Builder().build();
-            String adUnitID = BuildConfig.INTERSTICIAL_ID;
-            String adUnitIDTest = "ca-app-pub-3940256099942544/1033173712";
-            InterstitialAd.load(this, adUnitIDTest, adRequest,
-                    new InterstitialAdLoadCallback() {
-
-                        @Override
-                        public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                            // The mInterstitialAd reference will be null until
-                            // an ad is loaded.
-                            mInterstitialAd = interstitialAd;
-                            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.AD_IMPRESSION, bundle);
-                            Log.i(DEBUG_TAG, "onAdLoaded");
-                            if (getApplicationContext() != null && mInterstitialAd != null) {
-                                configureInterstitial();
-                            }
-                        }
-
-                        @Override
-                        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                            // Handle the error
-                            Log.d(DEBUG_TAG, loadAdError.toString());
-                            mInterstitialAd = null;
-                        }
-                    });
-
-            adView.setAdListener(new AdListener() {
-                @Override
-                public void onAdClicked() {
-                    // Code to be executed when the user clicks on an ad.
-                }
-
-                @Override
-                public void onAdClosed() {
-                    // Code to be executed when the user is about to return
-                    // to the app after tapping on an ad.
-                    adView.loadAd(adRequest);
-                }
-
-                @Override
-                public void onAdFailedToLoad(@NonNull LoadAdError adError) {
-                    // Code to be executed when an ad request fails.
-                    Log.e(DEBUG_TAG, "Ads Error");
-                }
-
-                @Override
-                public void onAdImpression() {
-                    // Code to be executed when an impression is recorded
-                    // for an ad.
-                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.AD_IMPRESSION, bundle);
-                    Log.d(DEBUG_TAG, "Ads impression");
-                }
-
-                @Override
-                public void onAdLoaded() {
-                    // Code to be executed when an ad finishes loading.
-                    Log.d(DEBUG_TAG, "Ads Loaded");
-                }
-
-                @Override
-                public void onAdOpened() {
-                    // Code to be executed when an ad opens an overlay that
-                    // covers the screen.
-                }
-            });
-            adView.loadAd(adRequest);
-            adView.setActivated(true);
-            adView.setEnabled(true);
         }
 
 
@@ -383,7 +362,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
-        callback.setEnabled(true);
+        callback.setEnabled(false);
 
         askNotificationPermission();
 
@@ -442,9 +421,108 @@ public class MainActivity extends AppCompatActivity {
         catch (NullPointerException e){}
 
     }
+    private void initializeMobileAdsSdk() {
+        if (isMobileAdsInitializeCalled.getAndSet(true)) {
+            return;
+        }
+
+        MobileAds.initialize(this, initializationStatus -> {
+            Log.d(DEBUG_TAG, "Ads Running");
+            adView.setVisibility(View.VISIBLE);
+        });
+        //RequestConfiguration.Builder adRequestBuilder = new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("27257B0AF4890D7241E824CB06C35D83"));
+        Bundle networkExtrasBundle = new Bundle();
+        networkExtrasBundle.putInt("rdp", 1);
+        networkExtrasBundle.putInt("gad_rdp", 1); // TODO: Añadido por si acaso
+        networkExtrasBundle.putString("IABUSPrivacy_String", IAB_STRING);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addNetworkExtrasBundle(AdMobAdapter.class, networkExtrasBundle)
+                .build();
+        String adUnitID = BuildConfig.INTERSTICIAL_ID;
+        String adUnitIDTest = "ca-app-pub-3940256099942544/1033173712";
+        InterstitialAd.load(this, adUnitIDTest, adRequest,
+                new InterstitialAdLoadCallback() {
+
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.AD_IMPRESSION, bundle);
+                        Log.i(DEBUG_TAG, "onAdLoaded");
+                        if (getApplicationContext() != null && mInterstitialAd != null) {
+                            configureInterstitial();
+                        }
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.d(DEBUG_TAG, loadAdError.toString());
+                        mInterstitialAd = null;
+                    }
+                });
+
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+                adView.loadAd(adRequest);
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError adError) {
+                // Code to be executed when an ad request fails.
+                Log.e(DEBUG_TAG, "Ads Error");
+            }
+
+            @Override
+            public void onAdImpression() {
+                // Code to be executed when an impression is recorded
+                // for an ad.
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.AD_IMPRESSION, bundle);
+                Log.d(DEBUG_TAG, "Ads impression");
+            }
+
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                Log.d(DEBUG_TAG, "Ads Loaded");
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+        });
+        adView.loadAd(adRequest);
+        adView.setActivated(true);
+        adView.setEnabled(true);
+    }
 
     public void loadForm() {
         // Loads a consent form. Must be called on the main thread.
+        /*UserMessagingPlatform.loadAndShowConsentFormIfRequired(
+                this,
+                loadAndShowError -> {
+                    if (loadAndShowError != null) {
+                        // Consent gathering failed.
+                        Log.w(DEBUG_TAG, String.format("%s: %s",
+                                loadAndShowError.getErrorCode(),
+                                loadAndShowError.getMessage()));
+                    }
+
+                    // Consent has been gathered.
+                }
+        );*/
+
         UserMessagingPlatform.loadConsentForm(
                 this,
                 consentForm -> {
@@ -455,15 +533,20 @@ public class MainActivity extends AppCompatActivity {
                                 formError -> {
                                     if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.OBTAINED) {
                                         // App can start requesting ads.
+                                        initializeMobileAdsSdk();
                                     }
 
                                     // Handle dismissal by reloading form.
-                                    loadForm();
                                 });
                     }
                 },
-                formError -> {
-                    // Handle Error.
+                formError2 -> {
+                    if (formError2 != null) {
+                        // Consent gathering failed.
+                        Log.w(DEBUG_TAG, String.format("%s: %s",
+                                formError2.getErrorCode(),
+                                formError2.getMessage()));
+                    }
                 }
         );
     }
