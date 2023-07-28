@@ -57,10 +57,10 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
             Intent intent = new Intent(this, MainActivity.class);
-           intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            intent.putExtra("notifTitle",remoteMessage.getNotification().getTitle());
-            intent.putExtra("notifMsg",remoteMessage.getNotification().getBody());
+            intent.putExtra("notifTitle", remoteMessage.getNotification().getTitle());
+            intent.putExtra("notifMsg", remoteMessage.getNotification().getBody());
             //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             // Create the TaskStackBuilder and add the intent, which inflates the back stack
             //TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -75,13 +75,19 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                         PendingIntent.FLAG_UPDATE_CURRENT);
             }
 
-            notificationBuilder = new NotificationCompat.Builder(this, "fcm_default_channel");
+            if (BuildConfig.DEBUG) {
+                notificationBuilder = new NotificationCompat.Builder(this, "debug");
+            } else {
+                notificationBuilder = new NotificationCompat.Builder(this, "fcm_default_channel");
+            }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 notificationBuilder.setSmallIcon(R.drawable.ic_notification)
                         .setContentTitle(remoteMessage.getNotification().getTitle())
                         .setContentText(remoteMessage.getNotification().getBody())
                         .setColor(getResources().getColor(R.color.red_500, getTheme()))
+                        .setCategory(NotificationCompat.CATEGORY_PROMO)
+                        .setPriority(NotificationCompat.PRIORITY_MAX)
                         .setColorized(true)
                         .setAutoCancel(true)
                         .setContentIntent(pendingIntent);
@@ -90,6 +96,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                         .setContentTitle(remoteMessage.getNotification().getTitle())
                         .setContentText(remoteMessage.getNotification().getBody())
                         .setColor(getResources().getColor(R.color.red_500))
+                        .setCategory(NotificationCompat.CATEGORY_PROMO)
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setColorized(true)
                         .setAutoCancel(true)
                         .setContentIntent(pendingIntent);
@@ -143,17 +151,25 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private void sendNotification(String messageBody) {
+    private void sendNotification(String messageBody, String title) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_IMMUTABLE);
+        String channelId;
+        if (BuildConfig.DEBUG)
+            channelId = "fcm_default_channel";
 
-        String channelId = "fcm_default_channel";
+        else
+            channelId = "debug";
+
+
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
-                        .setContentTitle("FCM Message")
+                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                        .setPriority(NotificationCompat.PRIORITY_MAX)
+                        .setContentTitle(title)
                         .setContentText(messageBody)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)

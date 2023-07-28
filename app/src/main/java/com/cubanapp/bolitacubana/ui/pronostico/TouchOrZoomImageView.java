@@ -13,8 +13,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
-public class TouchOrZoomImageView extends androidx.appcompat.widget.AppCompatImageView
-{
+public class TouchOrZoomImageView extends androidx.appcompat.widget.AppCompatImageView {
     Matrix mMatrix = new Matrix();
 
     // We can be in one of these 3 states
@@ -41,20 +40,17 @@ public class TouchOrZoomImageView extends androidx.appcompat.widget.AppCompatIma
 
     Context context;
 
-    public TouchOrZoomImageView(Context context)
-    {
+    public TouchOrZoomImageView(Context context) {
         super(context);
         sharedConstructing(context);
     }
 
-    public TouchOrZoomImageView(Context context, AttributeSet attrs)
-    {
+    public TouchOrZoomImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         sharedConstructing(context);
     }
 
-    private void sharedConstructing(Context context)
-    {
+    private void sharedConstructing(Context context) {
         super.setClickable(true);
         this.context = context;
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
@@ -63,11 +59,9 @@ public class TouchOrZoomImageView extends androidx.appcompat.widget.AppCompatIma
         setImageMatrix(mMatrix);
         setScaleType(ScaleType.MATRIX);
 
-        setOnTouchListener(new OnTouchListener()
-        {
+        setOnTouchListener(new OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
+            public boolean onTouch(View v, MotionEvent event) {
                 mScaleDetector.onTouchEvent(event);
 
                 mMatrix.getValues(m);
@@ -75,38 +69,31 @@ public class TouchOrZoomImageView extends androidx.appcompat.widget.AppCompatIma
                 float y = m[Matrix.MTRANS_Y];
                 PointF curr = new PointF(event.getX(), event.getY());
 
-                switch (event.getAction())
-                {
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         last.set(event.getX(), event.getY());
                         start.set(last);
                         mode = DRAG;
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if (mode == DRAG)
-                        {
+                        if (mode == DRAG) {
                             float deltaX = curr.x - last.x;
                             float deltaY = curr.y - last.y;
                             float scaleWidth = Math.round(origWidth * saveScale);
                             float scaleHeight = Math.round(origHeight * saveScale);
-                            if (scaleWidth < width)
-                            {
+                            if (scaleWidth < width) {
                                 deltaX = 0;
                                 if (y + deltaY > 0)
                                     deltaY = -y;
                                 else if (y + deltaY < -bottom)
                                     deltaY = -(y + bottom);
-                            }
-                            else if (scaleHeight < height)
-                            {
+                            } else if (scaleHeight < height) {
                                 deltaY = 0;
                                 if (x + deltaX > 0)
                                     deltaX = -x;
                                 else if (x + deltaX < -right)
                                     deltaX = -(x + right);
-                            }
-                            else
-                            {
+                            } else {
                                 if (x + deltaX > 0)
                                     deltaX = -x;
                                 else if (x + deltaX < -right)
@@ -142,70 +129,55 @@ public class TouchOrZoomImageView extends androidx.appcompat.widget.AppCompatIma
     }
 
     @Override
-    public void setImageBitmap(Bitmap bm)
-    {
+    public void setImageBitmap(Bitmap bm) {
         super.setImageBitmap(bm);
-        if (bm != null)
-        {
+        if (bm != null) {
             bmWidth = bm.getWidth();
             bmHeight = bm.getHeight();
         }
     }
 
-    public void setMaxZoom(float x)
-    {
+    public void setMaxZoom(float x) {
         maxScale = x;
     }
 
     private class ScaleListener extends
-            ScaleGestureDetector.SimpleOnScaleGestureListener
-    {
+            ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
-        public boolean onScaleBegin(ScaleGestureDetector detector)
-        {
+        public boolean onScaleBegin(ScaleGestureDetector detector) {
             mode = ZOOM;
             return true;
         }
 
         @Override
-        public boolean onScale(ScaleGestureDetector detector)
-        {
+        public boolean onScale(ScaleGestureDetector detector) {
             float mScaleFactor = (float) Math.min(
                     Math.max(.95f, detector.getScaleFactor()), 1.05);
             float origScale = saveScale;
             saveScale *= mScaleFactor;
-            if (saveScale > maxScale)
-            {
+            if (saveScale > maxScale) {
                 saveScale = maxScale;
                 mScaleFactor = maxScale / origScale;
-            }
-            else if (saveScale < minScale)
-            {
+            } else if (saveScale < minScale) {
                 saveScale = minScale;
                 mScaleFactor = minScale / origScale;
             }
             right = width * saveScale - width - (2 * redundantXSpace * saveScale);
             bottom = height * saveScale - height
                     - (2 * redundantYSpace * saveScale);
-            if (origWidth * saveScale <= width || origHeight * saveScale <= height)
-            {
+            if (origWidth * saveScale <= width || origHeight * saveScale <= height) {
                 mMatrix.postScale(mScaleFactor, mScaleFactor, width / 2, height / 2);
-                if (mScaleFactor < 1)
-                {
+                if (mScaleFactor < 1) {
                     mMatrix.getValues(m);
                     float x = m[Matrix.MTRANS_X];
                     float y = m[Matrix.MTRANS_Y];
-                    if (mScaleFactor < 1)
-                    {
-                        if (Math.round(origWidth * saveScale) < width)
-                        {
+                    if (mScaleFactor < 1) {
+                        if (Math.round(origWidth * saveScale) < width) {
                             if (y < -bottom)
                                 mMatrix.postTranslate(0, -(y + bottom));
                             else if (y > 0)
                                 mMatrix.postTranslate(0, -y);
-                        }
-                        else
-                        {
+                        } else {
                             if (x < -right)
                                 mMatrix.postTranslate(-(x + right), 0);
                             else if (x > 0)
@@ -213,16 +185,13 @@ public class TouchOrZoomImageView extends androidx.appcompat.widget.AppCompatIma
                         }
                     }
                 }
-            }
-            else
-            {
+            } else {
                 mMatrix.postScale(mScaleFactor, mScaleFactor, detector.getFocusX(),
                         detector.getFocusY());
                 mMatrix.getValues(m);
                 float x = m[Matrix.MTRANS_X];
                 float y = m[Matrix.MTRANS_Y];
-                if (mScaleFactor < 1)
-                {
+                if (mScaleFactor < 1) {
                     if (x < -right)
                         mMatrix.postTranslate(-(x + right), 0);
                     else if (x > 0)
@@ -238,8 +207,7 @@ public class TouchOrZoomImageView extends androidx.appcompat.widget.AppCompatIma
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         width = MeasureSpec.getSize(widthMeasureSpec);
         height = MeasureSpec.getSize(heightMeasureSpec);

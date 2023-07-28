@@ -217,44 +217,44 @@ public class CharadaFragment extends Fragment {
         String comp13 = null;
         String comp14 = null;
         String comp15 = null;
-        if(compare.contains("o")){
-            comp1 = compare.replaceFirst("o","ó");
+        if (compare.contains("o")) {
+            comp1 = compare.replaceFirst("o", "ó");
         }
-        if(compare.contains("i")){
-            comp2 = compare.replaceFirst("i","í");
+        if (compare.contains("i")) {
+            comp2 = compare.replaceFirst("i", "í");
         }
-        if(compare.contains("e")){
-            comp3 = compare.replaceFirst("e","é");
+        if (compare.contains("e")) {
+            comp3 = compare.replaceFirst("e", "é");
         }
-        if(compare.contains("a")){
-            comp4 = compare.replaceFirst("a","á");
+        if (compare.contains("a")) {
+            comp4 = compare.replaceFirst("a", "á");
         }
-        if(compare.contains("u")){
-            comp5 = compare.replaceFirst("u","ú");
+        if (compare.contains("u")) {
+            comp5 = compare.replaceFirst("u", "ú");
         }
-        if(compare.contains("s")){
-            comp6 = compare.replaceFirst("s","c");
-            comp11 = compare.replaceFirst("s","z");
+        if (compare.contains("s")) {
+            comp6 = compare.replaceFirst("s", "c");
+            comp11 = compare.replaceFirst("s", "z");
         }
-        if(compare.contains("c")){
-            comp7 = compare.replaceFirst("c","s");
-            comp12 = compare.replaceFirst("c","z");
+        if (compare.contains("c")) {
+            comp7 = compare.replaceFirst("c", "s");
+            comp12 = compare.replaceFirst("c", "z");
         }
-        if(compare.contains("z")){
-            comp8 = compare.replaceFirst("z","s");
-            comp13 = compare.replaceFirst("z","c");
+        if (compare.contains("z")) {
+            comp8 = compare.replaceFirst("z", "s");
+            comp13 = compare.replaceFirst("z", "c");
         }
-        if(compare.contains("v")){
-            comp9 = compare.replaceFirst("v","b");
+        if (compare.contains("v")) {
+            comp9 = compare.replaceFirst("v", "b");
         }
-        if(compare.contains("b")){
-            comp10 = compare.replaceFirst("b","v");
+        if (compare.contains("b")) {
+            comp10 = compare.replaceFirst("b", "v");
         }
-        if(compare.contains("g")){
-            comp14 = compare.replaceFirst("g","j");
+        if (compare.contains("g")) {
+            comp14 = compare.replaceFirst("g", "j");
         }
-        if(compare.contains("j")){
-            comp15 = compare.replaceFirst("j","g");
+        if (compare.contains("j")) {
+            comp15 = compare.replaceFirst("j", "g");
         }
 
         // empezar a contar
@@ -267,8 +267,7 @@ public class CharadaFragment extends Fragment {
             sws.add(number);
             // generar la tabla con el numero
             recyclerView.setAdapter(new CharadaAdapter(charada(sws)));
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             // Es una letra
             for (CharadaData data : adapter.getListdata()) {
                 // Cada numero de la charada (del grupo)
@@ -293,39 +292,39 @@ public class CharadaFragment extends Fragment {
                     boolean c13 = false;
                     boolean c14 = false;
                     boolean c15 = false;
-                    if(comp1 != null)
+                    if (comp1 != null)
                         c1 = lowecase.contains(comp1);
-                    if(comp2 != null)
+                    if (comp2 != null)
                         c2 = lowecase.contains(comp2);
-                    if(comp3 != null)
+                    if (comp3 != null)
                         c3 = lowecase.contains(comp3);
-                    if(comp4 != null)
+                    if (comp4 != null)
                         c4 = lowecase.contains(comp4);
-                    if(comp5 != null)
+                    if (comp5 != null)
                         c5 = lowecase.contains(comp5);
-                    if(comp6 != null)
+                    if (comp6 != null)
                         c6 = lowecase.contains(comp6);
-                    if(comp7 != null)
+                    if (comp7 != null)
                         c7 = lowecase.contains(comp7);
-                    if(comp8 != null)
+                    if (comp8 != null)
                         c8 = lowecase.contains(comp8);
-                    if(comp9 != null)
+                    if (comp9 != null)
                         c9 = lowecase.contains(comp9);
-                    if(comp10 != null)
+                    if (comp10 != null)
                         c10 = lowecase.contains(comp10);
-                    if(comp11 != null)
+                    if (comp11 != null)
                         c11 = lowecase.contains(comp11);
-                    if(comp12 != null)
+                    if (comp12 != null)
                         c12 = lowecase.contains(comp12);
-                    if(comp13 != null)
+                    if (comp13 != null)
                         c13 = lowecase.contains(comp13);
-                    if(comp14 != null)
+                    if (comp14 != null)
                         c14 = lowecase.contains(comp14);
-                    if(comp15 != null)
+                    if (comp15 != null)
                         c15 = lowecase.contains(comp15);
 
 
-                    if (coincidencia|| c1 || c2 || c3 || c4 || c5 || c6 || c7 || c8 || c9 || c10 || c11 || c12 || c13 || c14 || c15) {
+                    if (coincidencia || c1 || c2 || c3 || c4 || c5 || c6 || c7 || c8 || c9 || c10 || c11 || c12 || c13 || c14 || c15) {
                         sws.add(indice);
                         break;
                     }
@@ -337,312 +336,312 @@ public class CharadaFragment extends Fragment {
     }
 
     private CharadaData[] charada(ArrayList<Integer> id) {
-            ArrayList<CharadaData> charadaDataArrayList = new ArrayList<>();
-            for (int i = 0; i < id.size(); i++) {
-                if (id.get(i) == 1) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n1), id.get(i)));
-                }
-                if (id.get(i) == 2) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n2), id.get(i)));
-                }
-                if (id.get(i) == 3) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n3), id.get(i)));
-                }
-                if (id.get(i) == 4) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n4), id.get(i)));
-                }
-                if (id.get(i) == 5) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n5), id.get(i)));
-                }
-                if (id.get(i) == 6) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n6), id.get(i)));
-                }
-                if (id.get(i) == 7) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n7), id.get(i)));
-                }
-                if (id.get(i) == 8) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n8), id.get(i)));
-                }
-                if (id.get(i) == 9) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n9), id.get(i)));
-                }
-                if (id.get(i) == 10) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n10), id.get(i)));
-                }
-                if (id.get(i) == 11) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n11), id.get(i)));
-                }
-                if (id.get(i) == 12) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n12), id.get(i)));
-                }
-                if (id.get(i) == 13) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n13), id.get(i)));
-                }
-                if (id.get(i) == 14) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n14), id.get(i)));
-                }
-                if (id.get(i) == 15) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n15), id.get(i)));
-                }
-                if (id.get(i) == 16) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n16), id.get(i)));
-                }
-                if (id.get(i) == 17) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n17), id.get(i)));
-                }
-                if (id.get(i) == 18) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n18), id.get(i)));
-                }
-                if (id.get(i) == 19) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n19), id.get(i)));
-                }
-                if (id.get(i) == 20) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n20), id.get(i)));
-                }
-                if (id.get(i) == 21) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n21), id.get(i)));
-                }
-                if (id.get(i) == 22) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n22), id.get(i)));
-                }
-                if (id.get(i) == 23) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n23), id.get(i)));
-                }
-                if (id.get(i) == 24) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n24), id.get(i)));
-                }
-                if (id.get(i) == 25) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n25), id.get(i)));
-                }
-                if (id.get(i) == 26) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n26), id.get(i)));
-                }
-                if (id.get(i) == 27) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n27), id.get(i)));
-                }
-                if (id.get(i) == 28) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n28), id.get(i)));
-                }
-                if (id.get(i) == 29) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n29), id.get(i)));
-                }
-                if (id.get(i) == 30) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n30), id.get(i)));
-                }
-                if (id.get(i) == 31) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n31), id.get(i)));
-                }
-                if (id.get(i) == 32) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n32), id.get(i)));
-                }
-                if (id.get(i) == 33) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n33), id.get(i)));
-                }
-                if (id.get(i) == 34) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n34), id.get(i)));
-                }
-                if (id.get(i) == 35) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n35), id.get(i)));
-                }
-                if (id.get(i) == 36) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n36), id.get(i)));
-                }
-                if (id.get(i) == 37) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n37), id.get(i)));
-                }
-                if (id.get(i) == 38) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n38), id.get(i)));
-                }
-                if (id.get(i) == 39) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n39), id.get(i)));
-                }
-                if (id.get(i) == 40) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n40), id.get(i)));
-                }
-                if (id.get(i) == 41) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n41), id.get(i)));
-                }
-                if (id.get(i) == 42) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n42), id.get(i)));
-                }
-                if (id.get(i) == 43) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n43), id.get(i)));
-                }
-                if (id.get(i) == 44) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n44), id.get(i)));
-                }
-                if (id.get(i) == 45) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n45), id.get(i)));
-                }
-                if (id.get(i) == 46) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n46), id.get(i)));
-                }
-                if (id.get(i) == 47) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n47), id.get(i)));
-                }
-                if (id.get(i) == 48) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n48), id.get(i)));
-                }
-                if (id.get(i) == 49) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n49), id.get(i)));
-                }
-                if (id.get(i) == 50) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n50), id.get(i)));
-                }
-                if (id.get(i) == 51) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n51), id.get(i)));
-                }
-                if (id.get(i) == 52) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n52), id.get(i)));
-                }
-                if (id.get(i) == 53) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n53), id.get(i)));
-                }
-                if (id.get(i) == 54) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n54), id.get(i)));
-                }
-                if (id.get(i) == 55) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n55), id.get(i)));
-                }
-                if (id.get(i) == 56) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n56), id.get(i)));
-                }
-                if (id.get(i) == 57) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n57), id.get(i)));
-                }
-                if (id.get(i) == 58) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n58), id.get(i)));
-                }
-                if (id.get(i) == 59) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n59), id.get(i)));
-                }
-                if (id.get(i) == 60) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n60), id.get(i)));
-                }
-                if (id.get(i) == 61) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n61), id.get(i)));
-                }
-                if (id.get(i) == 62) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n62), id.get(i)));
-                }
-                if (id.get(i) == 63) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n63), id.get(i)));
-                }
-                if (id.get(i) == 64) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n64), id.get(i)));
-                }
-                if (id.get(i) == 65) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n65), id.get(i)));
-                }
-                if (id.get(i) == 66) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n66), id.get(i)));
-                }
-                if (id.get(i) == 67) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n67), id.get(i)));
-                }
-                if (id.get(i) == 68) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n68), id.get(i)));
-                }
-                if (id.get(i) == 69) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n69), id.get(i)));
-                }
-                if (id.get(i) == 70) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n70), id.get(i)));
-                }
-                if (id.get(i) == 71) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n71), id.get(i)));
-                }
-                if (id.get(i) == 72) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n72), id.get(i)));
-                }
-                if (id.get(i) == 73) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n73), id.get(i)));
-                }
-                if (id.get(i) == 74) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n74), id.get(i)));
-                }
-                if (id.get(i) == 75) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n75), id.get(i)));
-                }
-                if (id.get(i) == 76) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n76), id.get(i)));
-                }
-                if (id.get(i) == 77) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n77), id.get(i)));
-                }
-                if (id.get(i) == 78) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n78), id.get(i)));
-                }
-                if (id.get(i) == 79) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n79), id.get(i)));
-                }
-                if (id.get(i) == 80) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n80), id.get(i)));
-                }
-                if (id.get(i) == 81) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n81), id.get(i)));
-                }
-                if (id.get(i) == 82) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n82), id.get(i)));
-                }
-                if (id.get(i) == 83) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n83), id.get(i)));
-                }
-                if (id.get(i) == 84) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n84), id.get(i)));
-                }
-                if (id.get(i) == 85) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n85), id.get(i)));
-                }
-                if (id.get(i) == 86) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n86), id.get(i)));
-                }
-                if (id.get(i) == 87) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n87), id.get(i)));
-                }
-                if (id.get(i) == 88) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n88), id.get(i)));
-                }
-                if (id.get(i) == 89) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n89), id.get(i)));
-                }
-                if (id.get(i) == 90) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n90), id.get(i)));
-                }
-                if (id.get(i) == 91) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n91), id.get(i)));
-                }
-                if (id.get(i) == 92) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n92), id.get(i)));
-                }
-                if (id.get(i) == 93) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n93), id.get(i)));
-                }
-                if (id.get(i) == 94) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n94), id.get(i)));
-                }
-                if (id.get(i) == 95) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n95), id.get(i)));
-                }
-                if (id.get(i) == 96) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n96), id.get(i)));
-                }
-                if (id.get(i) == 97) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n97), id.get(i)));
-                }
-                if (id.get(i) == 98) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n98), id.get(i)));
-                }
-                if (id.get(i) == 99) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n99), id.get(i)));
-                }
-                if (id.get(i) == 100) {
-                    charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n100), id.get(i)));
-                }
+        ArrayList<CharadaData> charadaDataArrayList = new ArrayList<>();
+        for (int i = 0; i < id.size(); i++) {
+            if (id.get(i) == 1) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n1), id.get(i)));
             }
-
-            return charadaDataArrayList.toArray(new CharadaData[0]);
-
+            if (id.get(i) == 2) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n2), id.get(i)));
+            }
+            if (id.get(i) == 3) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n3), id.get(i)));
+            }
+            if (id.get(i) == 4) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n4), id.get(i)));
+            }
+            if (id.get(i) == 5) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n5), id.get(i)));
+            }
+            if (id.get(i) == 6) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n6), id.get(i)));
+            }
+            if (id.get(i) == 7) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n7), id.get(i)));
+            }
+            if (id.get(i) == 8) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n8), id.get(i)));
+            }
+            if (id.get(i) == 9) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n9), id.get(i)));
+            }
+            if (id.get(i) == 10) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n10), id.get(i)));
+            }
+            if (id.get(i) == 11) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n11), id.get(i)));
+            }
+            if (id.get(i) == 12) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n12), id.get(i)));
+            }
+            if (id.get(i) == 13) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n13), id.get(i)));
+            }
+            if (id.get(i) == 14) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n14), id.get(i)));
+            }
+            if (id.get(i) == 15) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n15), id.get(i)));
+            }
+            if (id.get(i) == 16) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n16), id.get(i)));
+            }
+            if (id.get(i) == 17) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n17), id.get(i)));
+            }
+            if (id.get(i) == 18) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n18), id.get(i)));
+            }
+            if (id.get(i) == 19) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n19), id.get(i)));
+            }
+            if (id.get(i) == 20) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n20), id.get(i)));
+            }
+            if (id.get(i) == 21) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n21), id.get(i)));
+            }
+            if (id.get(i) == 22) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n22), id.get(i)));
+            }
+            if (id.get(i) == 23) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n23), id.get(i)));
+            }
+            if (id.get(i) == 24) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n24), id.get(i)));
+            }
+            if (id.get(i) == 25) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n25), id.get(i)));
+            }
+            if (id.get(i) == 26) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n26), id.get(i)));
+            }
+            if (id.get(i) == 27) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n27), id.get(i)));
+            }
+            if (id.get(i) == 28) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n28), id.get(i)));
+            }
+            if (id.get(i) == 29) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n29), id.get(i)));
+            }
+            if (id.get(i) == 30) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n30), id.get(i)));
+            }
+            if (id.get(i) == 31) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n31), id.get(i)));
+            }
+            if (id.get(i) == 32) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n32), id.get(i)));
+            }
+            if (id.get(i) == 33) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n33), id.get(i)));
+            }
+            if (id.get(i) == 34) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n34), id.get(i)));
+            }
+            if (id.get(i) == 35) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n35), id.get(i)));
+            }
+            if (id.get(i) == 36) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n36), id.get(i)));
+            }
+            if (id.get(i) == 37) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n37), id.get(i)));
+            }
+            if (id.get(i) == 38) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n38), id.get(i)));
+            }
+            if (id.get(i) == 39) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n39), id.get(i)));
+            }
+            if (id.get(i) == 40) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n40), id.get(i)));
+            }
+            if (id.get(i) == 41) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n41), id.get(i)));
+            }
+            if (id.get(i) == 42) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n42), id.get(i)));
+            }
+            if (id.get(i) == 43) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n43), id.get(i)));
+            }
+            if (id.get(i) == 44) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n44), id.get(i)));
+            }
+            if (id.get(i) == 45) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n45), id.get(i)));
+            }
+            if (id.get(i) == 46) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n46), id.get(i)));
+            }
+            if (id.get(i) == 47) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n47), id.get(i)));
+            }
+            if (id.get(i) == 48) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n48), id.get(i)));
+            }
+            if (id.get(i) == 49) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n49), id.get(i)));
+            }
+            if (id.get(i) == 50) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n50), id.get(i)));
+            }
+            if (id.get(i) == 51) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n51), id.get(i)));
+            }
+            if (id.get(i) == 52) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n52), id.get(i)));
+            }
+            if (id.get(i) == 53) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n53), id.get(i)));
+            }
+            if (id.get(i) == 54) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n54), id.get(i)));
+            }
+            if (id.get(i) == 55) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n55), id.get(i)));
+            }
+            if (id.get(i) == 56) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n56), id.get(i)));
+            }
+            if (id.get(i) == 57) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n57), id.get(i)));
+            }
+            if (id.get(i) == 58) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n58), id.get(i)));
+            }
+            if (id.get(i) == 59) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n59), id.get(i)));
+            }
+            if (id.get(i) == 60) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n60), id.get(i)));
+            }
+            if (id.get(i) == 61) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n61), id.get(i)));
+            }
+            if (id.get(i) == 62) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n62), id.get(i)));
+            }
+            if (id.get(i) == 63) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n63), id.get(i)));
+            }
+            if (id.get(i) == 64) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n64), id.get(i)));
+            }
+            if (id.get(i) == 65) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n65), id.get(i)));
+            }
+            if (id.get(i) == 66) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n66), id.get(i)));
+            }
+            if (id.get(i) == 67) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n67), id.get(i)));
+            }
+            if (id.get(i) == 68) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n68), id.get(i)));
+            }
+            if (id.get(i) == 69) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n69), id.get(i)));
+            }
+            if (id.get(i) == 70) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n70), id.get(i)));
+            }
+            if (id.get(i) == 71) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n71), id.get(i)));
+            }
+            if (id.get(i) == 72) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n72), id.get(i)));
+            }
+            if (id.get(i) == 73) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n73), id.get(i)));
+            }
+            if (id.get(i) == 74) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n74), id.get(i)));
+            }
+            if (id.get(i) == 75) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n75), id.get(i)));
+            }
+            if (id.get(i) == 76) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n76), id.get(i)));
+            }
+            if (id.get(i) == 77) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n77), id.get(i)));
+            }
+            if (id.get(i) == 78) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n78), id.get(i)));
+            }
+            if (id.get(i) == 79) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n79), id.get(i)));
+            }
+            if (id.get(i) == 80) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n80), id.get(i)));
+            }
+            if (id.get(i) == 81) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n81), id.get(i)));
+            }
+            if (id.get(i) == 82) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n82), id.get(i)));
+            }
+            if (id.get(i) == 83) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n83), id.get(i)));
+            }
+            if (id.get(i) == 84) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n84), id.get(i)));
+            }
+            if (id.get(i) == 85) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n85), id.get(i)));
+            }
+            if (id.get(i) == 86) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n86), id.get(i)));
+            }
+            if (id.get(i) == 87) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n87), id.get(i)));
+            }
+            if (id.get(i) == 88) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n88), id.get(i)));
+            }
+            if (id.get(i) == 89) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n89), id.get(i)));
+            }
+            if (id.get(i) == 90) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n90), id.get(i)));
+            }
+            if (id.get(i) == 91) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n91), id.get(i)));
+            }
+            if (id.get(i) == 92) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n92), id.get(i)));
+            }
+            if (id.get(i) == 93) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n93), id.get(i)));
+            }
+            if (id.get(i) == 94) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n94), id.get(i)));
+            }
+            if (id.get(i) == 95) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n95), id.get(i)));
+            }
+            if (id.get(i) == 96) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n96), id.get(i)));
+            }
+            if (id.get(i) == 97) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n97), id.get(i)));
+            }
+            if (id.get(i) == 98) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n98), id.get(i)));
+            }
+            if (id.get(i) == 99) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n99), id.get(i)));
+            }
+            if (id.get(i) == 100) {
+                charadaDataArrayList.add(new CharadaData(getResources().getStringArray(R.array.n100), id.get(i)));
+            }
         }
+
+        return charadaDataArrayList.toArray(new CharadaData[0]);
+
+    }
 }
 

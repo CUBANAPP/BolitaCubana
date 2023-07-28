@@ -29,6 +29,7 @@ import com.cubanapp.bolitacubana.BuildConfig;
 import com.cubanapp.bolitacubana.R;
 import com.cubanapp.bolitacubana.databinding.FragmentNewyorkBinding;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,9 +71,9 @@ public class NewYorkFragment extends Fragment {
         apiKey = BuildConfig.API_KEY;
 
 
-        if(getActivity() != null)
+        if (getActivity() != null)
             sharedPref = getActivity().getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                    getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         //FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
         //firebaseMessaging.getToken().addOnCompleteListener(v -> Log.d(DEBUG_TAG, "FCM Key: " + v.getResult()));
@@ -95,6 +96,14 @@ public class NewYorkFragment extends Fragment {
                     NavHostFragment.findNavController(this)
                             .navigate(R.id.action_fragment_newyork_to_fragment_sevendays, bundle);
                 } catch (IllegalArgumentException e) {
+                    if (e.getMessage() != null) {
+                        Log.e(DEBUG_TAG, e.getMessage());
+                    }
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                        firebaseCrashlytics.sendUnsentReports();
+                        firebaseCrashlytics.recordException(e);
+                    }
                     //
                 }
             }
@@ -103,6 +112,7 @@ public class NewYorkFragment extends Fragment {
         return root;
 
     }
+
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -113,7 +123,7 @@ public class NewYorkFragment extends Fragment {
 
         if (binding != null) {
             String savedFechaString = sharedPref.getString("updateCheckDate3", null);
-            if(savedFechaString != null)
+            if (savedFechaString != null)
                 binding.updateDate.setText(savedFechaString);
             if (font != null) {
                 binding.titleny.setTypeface(font);
@@ -138,6 +148,14 @@ public class NewYorkFragment extends Fragment {
                     binding.F10.setText(fijo1.substring(0, 1));
                     binding.F11.setText(fijo1.substring(1, 3));
                 } catch (StringIndexOutOfBoundsException e) {
+                    if (e.getMessage() != null) {
+                        Log.e(DEBUG_TAG, e.getMessage());
+                    }
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                        firebaseCrashlytics.sendUnsentReports();
+                        firebaseCrashlytics.recordException(e);
+                    }
                     throw new RuntimeException(e);
                 }
             }
@@ -154,6 +172,14 @@ public class NewYorkFragment extends Fragment {
                     binding.F20.setText(fijo2.substring(0, 1));
                     binding.F21.setText(fijo2.substring(1, 3));
                 } catch (StringIndexOutOfBoundsException e) {
+                    if (e.getMessage() != null) {
+                        Log.e(DEBUG_TAG, e.getMessage());
+                    }
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                        firebaseCrashlytics.sendUnsentReports();
+                        firebaseCrashlytics.recordException(e);
+                    }
                     throw new RuntimeException(e);
                 }
             }
@@ -164,12 +190,11 @@ public class NewYorkFragment extends Fragment {
     }
 
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(mySnackbar != null) {
-            if(mySnackbar.isShown())
+        if (mySnackbar != null) {
+            if (mySnackbar.isShown())
                 mySnackbar.dismiss();
         }
         if (requestQueue != null) {
@@ -232,10 +257,10 @@ public class NewYorkFragment extends Fragment {
             Date horaNoche = horaFormato.parse("22:31:00");
 
 
-            if ((!fechaActual.equals(fechaDiaSaved) && diaMasSaved.before(fechaActual)) || (fechaActual.equals(diaMasSaved) && horaActual.after(horaDia))){
+            if ((!fechaActual.equals(fechaDiaSaved) && diaMasSaved.before(fechaActual)) || (fechaActual.equals(diaMasSaved) && horaActual.after(horaDia))) {
                 //Log.e(DEBUG_TAG, "UPDATE DIA");
                 update = true;
-            }else {
+            } else {
                 if (nocheMasSaved.before(fechaActual) || (fechaActual.equals(nocheMasSaved) && horaActual.after(horaNoche))) {
                     //Log.e(DEBUG_TAG, "UPDATE NOCHE");
                     update = true;
@@ -243,9 +268,17 @@ public class NewYorkFragment extends Fragment {
             }
 
         } catch (ParseException e) {
+            if (e.getMessage() != null) {
+                Log.e(DEBUG_TAG, e.getMessage());
+            }
+            if (Build.VERSION.SDK_INT >= 19) {
+                FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                firebaseCrashlytics.sendUnsentReports();
+                firebaseCrashlytics.recordException(e);
+            }
             throw new RuntimeException(e);
         }
-        if(update) {
+        if (update) {
 
             if (binding != null)
                 binding.progressBar2.setVisibility(View.VISIBLE);
@@ -259,7 +292,7 @@ public class NewYorkFragment extends Fragment {
                 String url;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     url = "https://cubanapp.info/api/rny.php";
-                }else{
+                } else {
                     url = "http://cubanapp.info/api/rny.php";
                 }
                 JSONObject json = new JSONObject();
@@ -276,7 +309,14 @@ public class NewYorkFragment extends Fragment {
                     //} catch (Exception ei) {
                     // Log.e(DEBUG_TAG, "SnackbarError1 : " + ei.getMessage());
                     //}
-                    Log.e(DEBUG_TAG, "JSONException : " + e.getMessage());
+                    if (e.getMessage() != null) {
+                        Log.e(DEBUG_TAG, e.getMessage());
+                    }
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                        firebaseCrashlytics.sendUnsentReports();
+                        firebaseCrashlytics.recordException(e);
+                    }
                     //throw new RuntimeException(e);
                     //startLaunch(false);
                 }
@@ -284,7 +324,7 @@ public class NewYorkFragment extends Fragment {
                 stringRequest = new JsonObjectRequest(Request.Method.POST, url, json,
                         response -> {
                             // Display the first 500 characters of the response string.
-                            if(response != null) {
+                            if (response != null) {
                                 try {
                                     if (response.has("mid") && response.has("night") && response.has("mid4") && response.has("night4")) {
                                         cacheData(response.toString(), "newyorkSavedFile");
@@ -345,6 +385,14 @@ public class NewYorkFragment extends Fragment {
                                                     binding.F10.setText(fijo1.substring(0, 1));
                                                     binding.F11.setText(fijo1.substring(1, 3));
                                                 } catch (StringIndexOutOfBoundsException e) {
+                                                    if (e.getMessage() != null) {
+                                                        Log.e(DEBUG_TAG, e.getMessage());
+                                                    }
+                                                    if (Build.VERSION.SDK_INT >= 19) {
+                                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                                        firebaseCrashlytics.sendUnsentReports();
+                                                        firebaseCrashlytics.recordException(e);
+                                                    }
                                                     throw new RuntimeException(e);
                                                 }
                                             }
@@ -362,6 +410,14 @@ public class NewYorkFragment extends Fragment {
                                                     binding.F20.setText(fijo2.substring(0, 1));
                                                     binding.F21.setText(fijo2.substring(1, 3));
                                                 } catch (StringIndexOutOfBoundsException e) {
+                                                    if (e.getMessage() != null) {
+                                                        Log.e(DEBUG_TAG, e.getMessage());
+                                                    }
+                                                    if (Build.VERSION.SDK_INT >= 19) {
+                                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                                        firebaseCrashlytics.sendUnsentReports();
+                                                        firebaseCrashlytics.recordException(e);
+                                                    }
                                                     throw new RuntimeException(e);
                                                 }
                                             }
@@ -382,11 +438,34 @@ public class NewYorkFragment extends Fragment {
                                     // } catch (Exception ei) {
                                     //    Log.e(DEBUG_TAG, "SnackbarError3 : " + ei.getMessage());
                                     //}
-                                    Log.e(DEBUG_TAG, "JSONException2 : " + e.getMessage());
+                                    if (e.getMessage() != null) {
+                                        Log.e(DEBUG_TAG, e.getMessage());
+                                    }
+                                    if (Build.VERSION.SDK_INT >= 19) {
+                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                        firebaseCrashlytics.sendUnsentReports();
+                                        firebaseCrashlytics.recordException(e);
+                                    }
                                     //throw new RuntimeException(e);
                                 } catch (ParseException e) {
+                                    if (e.getMessage() != null) {
+                                        Log.e(DEBUG_TAG, e.getMessage());
+                                    }
+                                    if (Build.VERSION.SDK_INT >= 19) {
+                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                        firebaseCrashlytics.sendUnsentReports();
+                                        firebaseCrashlytics.recordException(e);
+                                    }
                                     //throw new RuntimeException(e);
                                 } catch (IOException e) {
+                                    if (e.getMessage() != null) {
+                                        Log.e(DEBUG_TAG, e.getMessage());
+                                    }
+                                    if (Build.VERSION.SDK_INT >= 19) {
+                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                        firebaseCrashlytics.sendUnsentReports();
+                                        firebaseCrashlytics.recordException(e);
+                                    }
                                     //throw new RuntimeException(e);
                                 }
                             }
@@ -452,6 +531,7 @@ public class NewYorkFragment extends Fragment {
         }*/
         super.onPause();
     }
+
     @Override
     public void onResume() {
         //Log.d(DEBUG_TAG, "onResume()");
@@ -474,7 +554,7 @@ public class NewYorkFragment extends Fragment {
     }
 
     private void cacheData(String data, String name) throws IOException {
-        if(getActivity() != null && getContext() != null && binding != null) {
+        if (getActivity() != null && getContext() != null && binding != null) {
             File dataFile = new File(getContext().getCacheDir(), name.concat(".json"));
             OutputStreamWriter objectOutputStream = new OutputStreamWriter(
                     new FileOutputStream(dataFile));

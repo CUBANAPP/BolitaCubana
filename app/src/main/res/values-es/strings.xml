@@ -33,9 +33,11 @@
     <string name="notification1_enabled">Recibir tiradas de Georgia</string>
     <string name="notificaciontitle2">Resultados de New York</string>
     <string name="notification2_enabled">Recibir tiradas de New York</string>
-    <string name="notificacionpromotional">Recibir notificaciones del equipo de desarrollo</string>
-    <string name="promotional">Novedades sobre Bolita Cubana</string>
+    <string name="notificacionpromotional">Recibir notificaciones sobre novedades de la Bolita Cubana</string>
+    <string name="promotional">Novedades</string>
     <string name="promotional_disabled">Notificaciones deshabilitades</string>
+    <string name="cubanapp_channel_name_enabled">Recibir notificaciones del Equipo de Soporte CUBANAPP</string>
+    <string name="cubanapp_channel_name">Soporte</string>
     <string name="sdk19">Deshabilitado hasta Android 4.4 (KitKat)</string>
     <string name="resourceManagement">Envío en primer plano</string>
     <string name="analytics">Envío de estadísticas</string>

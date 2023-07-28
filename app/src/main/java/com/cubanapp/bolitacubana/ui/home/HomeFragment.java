@@ -5,7 +5,9 @@
 package com.cubanapp.bolitacubana.ui.home;
 
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.cubanapp.bolitacubana.R;
 import com.cubanapp.bolitacubana.databinding.FragmentHomeBinding;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 public class HomeFragment extends Fragment {
 
@@ -44,6 +47,14 @@ public class HomeFragment extends Fragment {
                     NavHostFragment.findNavController(this)
                             .navigate(R.id.action_home_to_florida);
                 } catch (IllegalArgumentException e) {
+                    if (e.getMessage() != null) {
+                        Log.e(DEBUG_TAG, e.getMessage());
+                    }
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                        firebaseCrashlytics.sendUnsentReports();
+                        firebaseCrashlytics.recordException(e);
+                    }
                     //
                 }
             }
@@ -57,6 +68,14 @@ public class HomeFragment extends Fragment {
                     NavHostFragment.findNavController(this)
                             .navigate(R.id.action_navigation_home_to_navigation_georgia);
                 } catch (IllegalArgumentException e) {
+                    if (e.getMessage() != null) {
+                        Log.e(DEBUG_TAG, e.getMessage());
+                    }
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                        firebaseCrashlytics.sendUnsentReports();
+                        firebaseCrashlytics.recordException(e);
+                    }
                     //
                 }
             }
@@ -70,6 +89,14 @@ public class HomeFragment extends Fragment {
                     NavHostFragment.findNavController(this)
                             .navigate(R.id.action_navigation_home_to_navigation_newyork);
                 } catch (IllegalArgumentException e) {
+                    if (e.getMessage() != null) {
+                        Log.e(DEBUG_TAG, e.getMessage());
+                    }
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                        firebaseCrashlytics.sendUnsentReports();
+                        firebaseCrashlytics.recordException(e);
+                    }
                     //
                 }
             }
@@ -96,6 +123,7 @@ public class HomeFragment extends Fragment {
         //homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
+
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

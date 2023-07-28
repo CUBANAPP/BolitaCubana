@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cubanapp.bolitacubana.R;
 
-public class CharadaAdapter extends RecyclerView.Adapter<CharadaAdapter.CharadaView>{
+public class CharadaAdapter extends RecyclerView.Adapter<CharadaAdapter.CharadaView> {
     public final CharadaData[] listdata;
 
     public CharadaAdapter(CharadaData[] listData) {
@@ -46,7 +46,7 @@ public class CharadaAdapter extends RecyclerView.Adapter<CharadaAdapter.CharadaV
         return listdata.length;
     }
 
-    public CharadaData[] getListdata(){
+    public CharadaData[] getListdata() {
         return listdata;
     }
 
@@ -65,7 +65,7 @@ public class CharadaAdapter extends RecyclerView.Adapter<CharadaAdapter.CharadaV
             this.resto = itemView.findViewById(R.id.restopalabras);
         }
 
-        public CharadaView linkAdapter(CharadaAdapter charadaAdapter){
+        public CharadaView linkAdapter(CharadaAdapter charadaAdapter) {
             this.adapter = charadaAdapter;
             return this;
         }

@@ -33,6 +33,7 @@ public class PronosticoData {
     public void setBase64(byte[] base64) {
         this.base64 = base64;
     }
+
     public void setType(String type) {
         this.type = type;
     }

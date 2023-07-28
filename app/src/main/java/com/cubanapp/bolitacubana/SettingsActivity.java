@@ -20,9 +20,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.os.LocaleListCompat;
 import androidx.preference.ListPreference;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
@@ -64,11 +66,16 @@ public class SettingsActivity extends AppCompatActivity {
     public static class SettingsFragment extends PreferenceFragmentCompat {
 
         private SwitchPreferenceCompat mpromoChannel;
+        private SwitchPreferenceCompat mcubanappChannel;
         private SwitchPreferenceCompat mdefaultChannel;
         private SwitchPreferenceCompat mnewyorkChannel;
         private SwitchPreferenceCompat mgeorgiaChannel;
 
         private ListPreference listPreference;
+
+        private Preference erasePreference;
+
+        private Preference adsPreference;
 
         private ListPreference erase;
         private ListPreference mdarkmode;
@@ -92,19 +99,43 @@ public class SettingsActivity extends AppCompatActivity {
             erase = (ListPreference) getPreferenceManager().findPreference("erase");
 
             listPreference = (ListPreference) getPreferenceManager().findPreference("languagepreference");
-            mpromoChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference("promoChannel");
-            mdefaultChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference("defaulChannel");
+
+            erasePreference = (Preference) getPreferenceManager().findPreference("resetapp");
+            adsPreference = (Preference) getPreferenceManager().findPreference("adsconfig");
+
+            if (getActivity() != null) {
+                mpromoChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference(getString(R.string.promotional));
+                mcubanappChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference(getString(R.string.cubanapp_channel_name));
+            }
+
+            mdefaultChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference("floridaChannel");
             mnewyorkChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference("newyorkChannel");
             mgeorgiaChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference("georgiaChannel");
             mdarkmode = (ListPreference) getPreferenceManager().findPreference("thememodeselector");
             AtomicBoolean response = new AtomicBoolean(false);
-            if(erase != null){
+            if (erase != null) {
                 erase.setOnPreferenceChangeListener((preference, newvelue) -> {
                     try {
                         response.set(clearData());
-                    }
-                    catch (IllegalStateException e){
+                    } catch (IllegalStateException e) {
                         //
+                        if (e.getMessage() != null) {
+                            Log.e(TAG, e.getMessage());
+                        }
+                        if (Build.VERSION.SDK_INT >= 19) {
+                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                            firebaseCrashlytics.sendUnsentReports();
+                            firebaseCrashlytics.recordException(e);
+                        }
+                    } catch (IllegalArgumentException e) {
+                        if (e.getMessage() != null) {
+                            Log.e(TAG, e.getMessage());
+                        }
+                        if (Build.VERSION.SDK_INT >= 19) {
+                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                            firebaseCrashlytics.sendUnsentReports();
+                            firebaseCrashlytics.recordException(e);
+                        }
                     }
                     if (getActivity() != null) {
                         if (response.get())
@@ -115,9 +146,9 @@ public class SettingsActivity extends AppCompatActivity {
                     return response.get();
                 });
             }
-            if(listPreference != null) {
+            if (listPreference != null) {
                 listPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-                    if(getActivity() != null) {
+                    if (getActivity() != null) {
                         Locale config = new Locale(newValue.toString());
                         Locale.setDefault(config);
                         LocaleListCompat appLocale = LocaleListCompat.forLanguageTags(newValue.toString());
@@ -132,9 +163,9 @@ public class SettingsActivity extends AppCompatActivity {
 
                     if (Build.VERSION.SDK_INT >= 19) {
                         FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
-                        if (Objects.equals(preference.getKey(), "defaulChannel")) {
+                        if (Objects.equals(preference.getKey(), "floridaChannel")) {
                             if (newValue.equals(false)) {
-                                mFirebaseMessages.unsubscribeFromTopic("Default").addOnCompleteListener(task -> {
+                                mFirebaseMessages.unsubscribeFromTopic("Florida").addOnCompleteListener(task -> {
                                     if (getActivity() != null) {
                                         String msg = getString(R.string.msg_subscribed);
                                         if (!task.isSuccessful()) {
@@ -145,7 +176,7 @@ public class SettingsActivity extends AppCompatActivity {
                                     //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                                 });
                             } else {
-                                mFirebaseMessages.subscribeToTopic("Default").addOnCompleteListener(task -> {
+                                mFirebaseMessages.subscribeToTopic("Florida").addOnCompleteListener(task -> {
                                     if (getActivity() != null) {
                                         String msg = getString(R.string.msg_subscribed);
                                         if (!task.isSuccessful()) {
@@ -167,36 +198,84 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 });
             }
+            if (mcubanappChannel != null) {
+                mcubanappChannel.setOnPreferenceChangeListener((preference, newValue) -> {
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
+                        if (Objects.equals(preference.getKey(), getString(R.string.cubanapp_channel_name))) {
+                            if (newValue.equals(false)) {
+                                if (getActivity() != null) {
+                                    mFirebaseMessages.unsubscribeFromTopic(getString(R.string.cubanapp_channel_name_topic)).addOnCompleteListener(task -> {
+
+                                        String msg = getString(R.string.msg_subscribed);
+                                        if (!task.isSuccessful()) {
+                                            msg = getString(R.string.msg_subscribe_failed);
+                                        }
+                                        Log.d(TAG, msg);
+
+                                        //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                                    });
+                                }
+                            } else {
+                                if (getActivity() != null) {
+                                    mFirebaseMessages.subscribeToTopic(getString(R.string.cubanapp_channel_name_topic)).addOnCompleteListener(task -> {
+
+                                        String msg = getString(R.string.msg_subscribed);
+                                        if (!task.isSuccessful()) {
+                                            msg = getString(R.string.msg_subscribe_failed);
+                                        }
+                                        Log.d(TAG, msg);
+
+                                        //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                                    });
+                                }
+                            }
+                        }
+                        Log.d(TAG, "Config Changed: " + preference.getKey());
+                        return true;
+
+                    } else {
+                        if (getActivity() != null) {
+                            Toast.makeText(getActivity(), R.string.sdk19, Toast.LENGTH_LONG).show();
+                        }
+                        return false;
+                    }
+                });
+            }
             if (mpromoChannel != null) {
                 mpromoChannel.setOnPreferenceChangeListener((preference, newValue) -> {
                     if (Build.VERSION.SDK_INT >= 19) {
                         FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
-                        if (Objects.equals(preference.getKey(), "promoChannel")) {
+                        if (Objects.equals(preference.getKey(), getString(R.string.promotional))) {
                             if (newValue.equals(false)) {
-                                mFirebaseMessages.unsubscribeFromTopic("Promo").addOnCompleteListener(task -> {
-                                    if (getActivity() != null) {
+                                if (getActivity() != null) {
+                                    mFirebaseMessages.unsubscribeFromTopic(getString(R.string.promotional_topic)).addOnCompleteListener(task -> {
+
                                         String msg = getString(R.string.msg_subscribed);
                                         if (!task.isSuccessful()) {
                                             msg = getString(R.string.msg_subscribe_failed);
                                         }
                                         Log.d(TAG, msg);
-                                    }
-                                    //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-                                });
+
+                                        //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                                    });
+                                }
                             } else {
-                                mFirebaseMessages.subscribeToTopic("Promo").addOnCompleteListener(task -> {
-                                    if (getActivity() != null) {
+                                if (getActivity() != null) {
+                                    mFirebaseMessages.subscribeToTopic(getString(R.string.promotional_topic)).addOnCompleteListener(task -> {
+
                                         String msg = getString(R.string.msg_subscribed);
                                         if (!task.isSuccessful()) {
                                             msg = getString(R.string.msg_subscribe_failed);
                                         }
                                         Log.d(TAG, msg);
-                                    }
-                                    //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-                                });
+
+                                        //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                                    });
+                                }
                             }
                         }
-                        Log.d(TAG, "oOnfig Changed: " + preference.getKey());
+                        Log.d(TAG, "Config Changed: " + preference.getKey());
                         return true;
 
                     } else {
@@ -236,7 +315,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 });
                             }
                         }
-                        Log.d(TAG, "oOnfig Changed: " + preference.getKey());
+                        Log.d(TAG, "Config Changed: " + preference.getKey());
                         return true;
 
                     } else {
@@ -276,7 +355,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 });
                             }
                         }
-                        Log.d(TAG, "oOnfig Changed: " + preference.getKey());
+                        Log.d(TAG, "Config Changed: " + preference.getKey());
                         return true;
 
                     } else {
@@ -331,14 +410,14 @@ public class SettingsActivity extends AppCompatActivity {
                             }
                             return false;
                         }
-                    }
-                    else
+                    } else
                         return false;
                 });
             }
         }
+
         @SuppressLint("ApplySharedPref")
-        public boolean clearData() throws IllegalStateException {
+        public boolean clearData() throws IllegalStateException, IllegalArgumentException {
             if (getActivity() != null) {
                 if (getActivity().getCacheDir() != null) {
                     deleteCache(getActivity());
@@ -364,31 +443,58 @@ public class SettingsActivity extends AppCompatActivity {
                     Log.d(TAG, "clearData: Success");
                     return true;
                 } else {
-                    Log.d("Settings", "clearData: FAIL");
+                    Log.d(TAG, "clearData: FAIL");
                     return false;
                 }
-            }
-            else{
-                Log.d("Settings", "clearData2: FAIL");
+            } else {
+                Log.d(TAG, "clearData2: FAIL");
                 return false;
             }
         }
+
         public static void deleteCache(Context context) {
             try {
                 File dir = context.getCacheDir();
                 deleteDir(dir);
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                if (e.getMessage() != null) {
+                    Log.e(TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
+            }
         }
+
         public static boolean deleteDir(File dir) {
             if (dir != null && dir.isDirectory()) {
                 String[] children = dir.list();
-                for (int i = 0; i < children.length; i++) {
-                    boolean success = deleteDir(new File(dir, children[i]));
-                    if (!success) {
-                        return false;
+                if (children != null) {
+                    for (int i = 0; i < children.length; i++) {
+                        boolean success;
+                        try {
+                            success = deleteDir(new File(dir, children[i]));
+                        } catch (Exception e) {
+                            if (e.getMessage() != null) {
+                                Log.e(TAG, e.getMessage());
+                            }
+                            if (Build.VERSION.SDK_INT >= 19) {
+                                FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                firebaseCrashlytics.sendUnsentReports();
+                                firebaseCrashlytics.recordException(e);
+                            }
+                            success = false;
+                        }
+
+                        if (!success) {
+                            return false;
+                        }
                     }
-                }
-                return dir.delete();
+                    return dir.delete();
+                } else
+                    return false;
             } else if (dir != null && dir.isFile()) {
                 return dir.delete();
             } else {

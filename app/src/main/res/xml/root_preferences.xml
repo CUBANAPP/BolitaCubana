@@ -22,8 +22,10 @@
             app:defaultValue="0"
             app:entries="@array/delete"
             app:entryValues="@array/deletea"/>
+        <Preference
+            app:key="resetapp"
+            app:title="@string/erase" />
     </PreferenceCategory>
-
     <PreferenceCategory app:title="@string/notification">
         <SwitchPreferenceCompat
             app:defaultValue="true"
@@ -45,10 +47,16 @@
             app:title="@string/notificaciontitle2" />
         <SwitchPreferenceCompat
             app:defaultValue="true"
-            app:key="promoChannel"
+            app:key="@string/promotional"
             app:summaryOff="@string/promotional_disabled"
             app:summaryOn="@string/notificacionpromotional"
             app:title="@string/promotional" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="@string/cubanapp_channel_name"
+            app:summaryOff="@string/promotional_disabled"
+            app:summaryOn="@string/cubanapp_channel_name_enabled"
+            app:title="@string/cubanapp_channel_name" />
         <SwitchPreferenceCompat
             app:defaultValue="true"
             app:key="delegation"
@@ -81,6 +89,9 @@
             app:defaultValue="true"
             app:key="allowAdsPerso"
             app:title="@string/adspersonal" />
+        <Preference
+            app:key="adsconfig"
+            app:title="@string/adstitle" />
     </PreferenceCategory>
     <PreferenceCategory app:title="@string/errorInformes">
         <SwitchPreferenceCompat

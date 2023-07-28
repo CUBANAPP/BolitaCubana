@@ -13,11 +13,11 @@ public class CharadaData {
 
     public CharadaData(String[] palabra, int numero) {
         StringBuilder restwords = new StringBuilder();
-        for(int i = 0; i < palabra.length; i++){
-            if(i == 1){
+        for (int i = 0; i < palabra.length; i++) {
+            if (i == 1) {
                 restwords.append(palabra[i]);
             }
-            if(i> 2){
+            if (i > 2) {
                 restwords.append(", ").append(palabra[i]);
             }
         }
@@ -35,9 +35,11 @@ public class CharadaData {
     public String getNumber() {
         return number;
     }
+
     public String getFirstWord() {
         return firstWord;
     }
+
     public String getRestWords() {
         return restWords;
     }

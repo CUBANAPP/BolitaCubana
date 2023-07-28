@@ -29,6 +29,7 @@ import com.cubanapp.bolitacubana.BuildConfig;
 import com.cubanapp.bolitacubana.R;
 import com.cubanapp.bolitacubana.databinding.FragmentSearchBinding;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +52,7 @@ public class SearchFragment extends Fragment {
 
     private Snackbar mySnackbar;
     private static final String DEBUG_TAG = "SearchDate";
-    
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         /*DashboardViewModel dashboardViewModel =
@@ -101,11 +102,11 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    private void openDate(View v){
+    private void openDate(View v) {
         builder = new AlertDialog.Builder(v.getContext())
                 .create();
         //builder.setTitle(getString(R.string.pickDate));
-        View datepickerView = getLayoutInflater().inflate(R.layout.calendar_view,binding.getRoot(),false);
+        View datepickerView = getLayoutInflater().inflate(R.layout.calendar_view, binding.getRoot(), false);
         DatePicker datePickers = datepickerView.findViewById(R.id.datepicker);
         Calendar fecha = Calendar.getInstance();
         fecha.add(Calendar.DATE, -1);
@@ -118,9 +119,9 @@ public class SearchFragment extends Fragment {
         calendarViews.setMaxDate(currentTimes.getTime());
         builder.setView(datepickerView);
 
-        builder.setButton(Dialog.BUTTON_POSITIVE,getString(R.string.open), (dialog, which) -> {
+        builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.open), (dialog, which) -> {
             DatePicker datePicker = builder.findViewById(R.id.datepicker);
-            if(datePicker !=null) {
+            if (datePicker != null) {
                 Date currentTime = Calendar.getInstance().getTime();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     datePicker.setFirstDayOfWeek(2);
@@ -137,7 +138,7 @@ public class SearchFragment extends Fragment {
                 searchDate(calendarView.getDate());
             }
         });
-        builder.setButton(Dialog.BUTTON_NEGATIVE,getString(R.string.dismiss), (dialog, which) -> builder.dismiss());
+        builder.setButton(Dialog.BUTTON_NEGATIVE, getString(R.string.dismiss), (dialog, which) -> builder.dismiss());
         builder.show();
     }
 
@@ -162,7 +163,7 @@ public class SearchFragment extends Fragment {
             String url;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 url = "https://cubanapp.info/api/searchcache/index.php";
-            }else{
+            } else {
                 url = "http://cubanapp.info/api/searchcache/index.php";
             }
             //String url = "https://cubanapp.info/api/searchcache/index.php";
@@ -182,7 +183,14 @@ public class SearchFragment extends Fragment {
                 //} catch (Exception ei) {
                 // Log.e(DEBUG_TAG, "SnackbarError1 : " + ei.getMessage());
                 //}
-                Log.e(DEBUG_TAG, "JSONException : " + e.getMessage());
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
                 //throw new RuntimeException(e);
                 //startLaunch(false);
                 if (binding != null)
@@ -216,6 +224,14 @@ public class SearchFragment extends Fragment {
                                         binding.F10s.setText(fijos.substring(0, 1));
                                         binding.F11s.setText(fijos.substring(1, 3));
                                     } catch (StringIndexOutOfBoundsException e) {
+                                        if (e.getMessage() != null) {
+                                            Log.e(DEBUG_TAG, e.getMessage());
+                                        }
+                                        if (Build.VERSION.SDK_INT >= 19) {
+                                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                            firebaseCrashlytics.sendUnsentReports();
+                                            firebaseCrashlytics.recordException(e);
+                                        }
                                         throw new RuntimeException(e);
                                     }
 
@@ -224,6 +240,14 @@ public class SearchFragment extends Fragment {
                                         binding.C11s.setText(corridos.substring(0, 2));
                                         binding.C12s.setText(corridos.substring(2, 4));
                                     } catch (StringIndexOutOfBoundsException e) {
+                                        if (e.getMessage() != null) {
+                                            Log.e(DEBUG_TAG, e.getMessage());
+                                        }
+                                        if (Build.VERSION.SDK_INT >= 19) {
+                                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                            firebaseCrashlytics.sendUnsentReports();
+                                            firebaseCrashlytics.recordException(e);
+                                        }
                                         throw new RuntimeException(e);
                                     }
 
@@ -235,6 +259,14 @@ public class SearchFragment extends Fragment {
                                         binding.F20s.setText(fijos.substring(3, 4));
                                         binding.F21s.setText(fijos.substring(4, 6));
                                     } catch (StringIndexOutOfBoundsException e) {
+                                        if (e.getMessage() != null) {
+                                            Log.e(DEBUG_TAG, e.getMessage());
+                                        }
+                                        if (Build.VERSION.SDK_INT >= 19) {
+                                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                            firebaseCrashlytics.sendUnsentReports();
+                                            firebaseCrashlytics.recordException(e);
+                                        }
                                         throw new RuntimeException(e);
                                     }
 
@@ -242,6 +274,14 @@ public class SearchFragment extends Fragment {
                                         binding.C21s.setText(corridos.substring(4, 6));
                                         binding.C22s.setText(corridos.substring(6, 8));
                                     } catch (StringIndexOutOfBoundsException e) {
+                                        if (e.getMessage() != null) {
+                                            Log.e(DEBUG_TAG, e.getMessage());
+                                        }
+                                        if (Build.VERSION.SDK_INT >= 19) {
+                                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                            firebaseCrashlytics.sendUnsentReports();
+                                            firebaseCrashlytics.recordException(e);
+                                        }
                                         throw new RuntimeException(e);
                                     }
                                     binding.progressBar4.setVisibility(View.GONE);
@@ -269,7 +309,14 @@ public class SearchFragment extends Fragment {
                             // } catch (Exception ei) {
                             //    Log.e(DEBUG_TAG, "SnackbarError3 : " + ei.getMessage());
                             //}
-                            Log.e(DEBUG_TAG, "JSONException2 : " + e.getMessage());
+                            if (e.getMessage() != null) {
+                                Log.e(DEBUG_TAG, e.getMessage());
+                            }
+                            if (Build.VERSION.SDK_INT >= 19) {
+                                FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                firebaseCrashlytics.sendUnsentReports();
+                                firebaseCrashlytics.recordException(e);
+                            }
                             //throw new RuntimeException(e);
                         }
                     }, error -> {
@@ -315,7 +362,7 @@ public class SearchFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         if (mySnackbar != null) {
-            if(mySnackbar.isShown())
+            if (mySnackbar.isShown())
                 mySnackbar.dismiss();
         }
         if (requestQueue != null) {
@@ -325,10 +372,9 @@ public class SearchFragment extends Fragment {
             }
         }
         binding = null;
-        if(builder != null){
-            if(builder.isShowing())
+        if (builder != null) {
+            if (builder.isShowing())
                 builder.dismiss();
         }
     }
-    
 }

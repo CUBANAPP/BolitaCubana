@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import androidx.preference.PreferenceManager;
 import com.cubanapp.bolitacubana.MainActivity;
 import com.cubanapp.bolitacubana.R;
 import com.cubanapp.bolitacubana.databinding.FragmentImageviewerBinding;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -50,8 +52,8 @@ public class ImageFragment extends Fragment {
                         if (((MainActivity) getActivity()).getSupportActionBar() != null) {
                             ((MainActivity) getActivity()).getSupportActionBar().setTitle(Objects.requireNonNullElse(name, "ERROR"));
                             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                            if(preferences.getBoolean("copyID",false)) {
-                                boolean copy = preferences.getBoolean("copyID",false);
+                            if (preferences.getBoolean("copyID", false)) {
+                                boolean copy = preferences.getBoolean("copyID", false);
                                 Log.e(DEBUG_TAG, "copyID" + copy);
                                 copyName(Objects.requireNonNullElse(name, ""));
                             }
@@ -64,10 +66,9 @@ public class ImageFragment extends Fragment {
                             Bitmap decodedByte = BitmapFactory.decodeByteArray(image, 0, image.length);
                             binding.imageFragmentViewer.setImageBitmap(decodedByte);
                         }
-                    }
-                    else {
+                    } else {
                         byte[] data = bundle.getByteArray("base64");
-                        if(data != null) {
+                        if (data != null) {
                             String text;
                             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                                 text = new String(data, StandardCharsets.UTF_8);
@@ -75,6 +76,14 @@ public class ImageFragment extends Fragment {
                                 try {
                                     text = new String(data, "UTF-8");
                                 } catch (UnsupportedEncodingException e) {
+                                    if (e.getMessage() != null) {
+                                        Log.e(DEBUG_TAG, e.getMessage());
+                                    }
+                                    if (Build.VERSION.SDK_INT >= 19) {
+                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                        firebaseCrashlytics.sendUnsentReports();
+                                        firebaseCrashlytics.recordException(e);
+                                    }
                                     throw new RuntimeException(e);
                                 }
                             }

@@ -22,7 +22,7 @@ import com.cubanapp.bolitacubana.R;
 
 import java.util.Objects;
 
-public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.AdivinanzaView>{
+public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.AdivinanzaView> {
     public final PronosticoData[] listdata;
 
     public AdivinanzaView.PhotoListener photoList;
@@ -48,13 +48,13 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
         holder.type.setText(listdata[position].getType());
         holder.setBytes(listdata[position].getBytes());
 
-        if(Objects.equals(listdata[position].getType(), "jpg")){
+        if (Objects.equals(listdata[position].getType(), "jpg")) {
             //holder.type.setText("Image");
             holder.name.setTextColor(Color.DKGRAY);
             holder.type.setTextColor(Color.BLACK);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(holder.getBytes(), 0, holder.getBytes().length);
             holder.image.setImageBitmap(decodedByte);
-        }else{
+        } else {
             holder.name.setTextColor(Color.LTGRAY);
             holder.type.setTextColor(Color.WHITE);
             //holder.type.setText("Texto");
@@ -67,7 +67,7 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
         return listdata.length;
     }
 
-    public PronosticoData[] getListdata(){
+    public PronosticoData[] getListdata() {
         return listdata;
     }
 
@@ -93,7 +93,7 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
             itemView.setOnClickListener(this);
         }
 
-        public AdivinanzaView linkAdapter(AdivinanzaAdapter adivinanzaLink){
+        public AdivinanzaView linkAdapter(AdivinanzaAdapter adivinanzaLink) {
             this.adapter = adivinanzaLink;
             return this;
         }
@@ -125,7 +125,7 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
             Log.d("Adapter", getAdapterPosition() + " CLICKED: " + getName());
         }
 
-        public interface PhotoListener{
+        public interface PhotoListener {
             void onItemClick(int position, byte[] map, String name, String type);
         }
 

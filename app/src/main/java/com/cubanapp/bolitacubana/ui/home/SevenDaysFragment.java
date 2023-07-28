@@ -30,6 +30,7 @@ import com.cubanapp.bolitacubana.BuildConfig;
 import com.cubanapp.bolitacubana.R;
 import com.cubanapp.bolitacubana.databinding.FragmentSevendaysBinding;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -85,7 +86,6 @@ public class SevenDaysFragment extends Fragment {
         View root = binding.getRoot();
 
 
-
         //final TextView textView = binding.textHome;
         //homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         getParentFragmentManager().setFragmentResultListener("SevenDays", getViewLifecycleOwner(), (key, bundle) -> {
@@ -98,10 +98,34 @@ public class SevenDaysFragment extends Fragment {
                         //Log.e(DEBUG_TAG, "runCustomUpdate()");
                         runCustomUpdate();
                     } catch (IOException e) {
+                        if (e.getMessage() != null) {
+                            Log.e(DEBUG_TAG, e.getMessage());
+                        }
+                        if (Build.VERSION.SDK_INT >= 19) {
+                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                            firebaseCrashlytics.sendUnsentReports();
+                            firebaseCrashlytics.recordException(e);
+                        }
                         //throw new RuntimeException(e);
-                    } catch (JSONException e){
+                    } catch (JSONException e) {
+                        if (e.getMessage() != null) {
+                            Log.e(DEBUG_TAG, e.getMessage());
+                        }
+                        if (Build.VERSION.SDK_INT >= 19) {
+                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                            firebaseCrashlytics.sendUnsentReports();
+                            firebaseCrashlytics.recordException(e);
+                        }
                         //throw new RuntimeException(e);
                     } catch (ParseException e) {
+                        if (e.getMessage() != null) {
+                            Log.e(DEBUG_TAG, e.getMessage());
+                        }
+                        if (Build.VERSION.SDK_INT >= 19) {
+                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                            firebaseCrashlytics.sendUnsentReports();
+                            firebaseCrashlytics.recordException(e);
+                        }
                         //throw new RuntimeException(e);
                     }
                 }
@@ -198,6 +222,14 @@ public class SevenDaysFragment extends Fragment {
             }
 
         } catch (ParseException e) {
+            if (e.getMessage() != null) {
+                Log.e(DEBUG_TAG, e.getMessage());
+            }
+            if (Build.VERSION.SDK_INT >= 19) {
+                FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                firebaseCrashlytics.sendUnsentReports();
+                firebaseCrashlytics.recordException(e);
+            }
             throw new RuntimeException(e);
         }
 
@@ -243,7 +275,14 @@ public class SevenDaysFragment extends Fragment {
                     //} catch (Exception ei) {
                     // Log.e(DEBUG_TAG, "SnackbarError1 : " + ei.getMessage());
                     //}
-                    Log.e(DEBUG_TAG, "JSONException : " + e.getMessage());
+                    if (e.getMessage() != null) {
+                        Log.e(DEBUG_TAG, e.getMessage());
+                    }
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                        firebaseCrashlytics.sendUnsentReports();
+                        firebaseCrashlytics.recordException(e);
+                    }
                     //throw new RuntimeException(e);
                     //startLaunch(false);
                     binding.progressBar3.setVisibility(View.GONE);
@@ -290,6 +329,14 @@ public class SevenDaysFragment extends Fragment {
                                                 try {
                                                     data = text.getBytes("UTF-8");
                                                 } catch (UnsupportedEncodingException e) {
+                                                    if (e.getMessage() != null) {
+                                                        Log.e(DEBUG_TAG, e.getMessage());
+                                                    }
+                                                    if (Build.VERSION.SDK_INT >= 19) {
+                                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                                        firebaseCrashlytics.sendUnsentReports();
+                                                        firebaseCrashlytics.recordException(e);
+                                                    }
                                                     //throw new RuntimeException(e);
                                                 }
                                                 if (data != null)
@@ -334,7 +381,14 @@ public class SevenDaysFragment extends Fragment {
                                 // } catch (Exception ei) {
                                 //    Log.e(DEBUG_TAG, "SnackbarError3 : " + ei.getMessage());
                                 //}
-                                Log.e(DEBUG_TAG, "JSONException2 : " + e.getMessage());
+                                if (e.getMessage() != null) {
+                                    Log.e(DEBUG_TAG, e.getMessage());
+                                }
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                    firebaseCrashlytics.sendUnsentReports();
+                                    firebaseCrashlytics.recordException(e);
+                                }
                                 //throw new RuntimeException(e);
                             }
 
@@ -385,6 +439,14 @@ public class SevenDaysFragment extends Fragment {
                     try {
                         formatted = new JSONArray(text);
                     } catch (JSONException e) {
+                        if (e.getMessage() != null) {
+                            Log.e(DEBUG_TAG, e.getMessage());
+                        }
+                        if (Build.VERSION.SDK_INT >= 19) {
+                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                            firebaseCrashlytics.sendUnsentReports();
+                            firebaseCrashlytics.recordException(e);
+                        }
                         //throw new RuntimeException(e);
                     }
                     if (formatted != null)
@@ -395,12 +457,28 @@ public class SevenDaysFragment extends Fragment {
                     try {
                         text = new String(data, "UTF-8");
                     } catch (UnsupportedEncodingException e) {
+                        if (e.getMessage() != null) {
+                            Log.e(DEBUG_TAG, e.getMessage());
+                        }
+                        if (Build.VERSION.SDK_INT >= 19) {
+                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                            firebaseCrashlytics.sendUnsentReports();
+                            firebaseCrashlytics.recordException(e);
+                        }
                         //throw new RuntimeException(e);
                     }
                     if (text != null) {
                         try {
                             formatted = new JSONArray(text);
                         } catch (JSONException e) {
+                            if (e.getMessage() != null) {
+                                Log.e(DEBUG_TAG, e.getMessage());
+                            }
+                            if (Build.VERSION.SDK_INT >= 19) {
+                                FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                firebaseCrashlytics.sendUnsentReports();
+                                firebaseCrashlytics.recordException(e);
+                            }
                             //throw new RuntimeException(e);
                         }
                         if (formatted != null)
@@ -442,7 +520,7 @@ public class SevenDaysFragment extends Fragment {
 
                 //editor.putString(String.valueOf(i), s.toString());
 
-                View header = getLayoutInflater().inflate(R.layout.sevenday_item, null,false);
+                View header = getLayoutInflater().inflate(R.layout.sevenday_item, null, false);
                 TextView fecha = header.findViewById(R.id.sFecha);
                 TextView hora = header.findViewById(R.id.sD);
                 TextView fijo1 = header.findViewById(R.id.sF1_0);
@@ -484,15 +562,23 @@ public class SevenDaysFragment extends Fragment {
                         fijo1.setText(s0.substring(0, 1));
                         fijo2.setText(s0.substring(1, 3));
                     } catch (StringIndexOutOfBoundsException e) {
+                        if (e.getMessage() != null) {
+                            Log.e(DEBUG_TAG, e.getMessage());
+                        }
+                        if (Build.VERSION.SDK_INT >= 19) {
+                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                            firebaseCrashlytics.sendUnsentReports();
+                            firebaseCrashlytics.recordException(e);
+                        }
                         throw new RuntimeException(e);
                     }
                 }
                 String co1 = (String) s.get("corrido1");
                 String co2 = (String) s.get("corrido2");
-                if(co1.length() != 2)
+                if (co1.length() != 2)
                     co1 = "0" + co1;
                 corrido1.setText(co1);
-                if(co2.length() != 2)
+                if (co2.length() != 2)
                     co2 = "0" + co2;
                 corrido2.setText(co2);
                 binding.linearSeven.addView(header);
@@ -500,13 +586,36 @@ public class SevenDaysFragment extends Fragment {
 
             } catch (JSONException e) {
                 Log.e(DEBUG_TAG, "Error Building");
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
                 //throw new RuntimeException(e);
                 break;
             } catch (ParseException e) {
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
                 //throw new RuntimeException(e);
                 break;
-            }
-            catch (IllegalStateException e) {
+            } catch (IllegalStateException e) {
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
                 break;
             }
         }
@@ -587,6 +696,14 @@ public class SevenDaysFragment extends Fragment {
                         fijo10.setText(s0m.substring(0, 1));
                         fijo20.setText(s0m.substring(1, 3));
                     } catch (StringIndexOutOfBoundsException e) {
+                        if (e.getMessage() != null) {
+                            Log.e(DEBUG_TAG, e.getMessage());
+                        }
+                        if (Build.VERSION.SDK_INT >= 19) {
+                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                            firebaseCrashlytics.sendUnsentReports();
+                            firebaseCrashlytics.recordException(e);
+                        }
                         throw new RuntimeException(e);
                     }
                 }
@@ -641,6 +758,14 @@ public class SevenDaysFragment extends Fragment {
                                 fijo1.setText(s0.substring(0, 1));
                                 fijo2.setText(s0.substring(1, 3));
                             } catch (StringIndexOutOfBoundsException e) {
+                                if (e.getMessage() != null) {
+                                    Log.e(DEBUG_TAG, e.getMessage());
+                                }
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                    firebaseCrashlytics.sendUnsentReports();
+                                    firebaseCrashlytics.recordException(e);
+                                }
                                 throw new RuntimeException(e);
                             }
                         }
@@ -696,6 +821,14 @@ public class SevenDaysFragment extends Fragment {
                                 fijo1.setText(s0.substring(0, 1));
                                 fijo2.setText(s0.substring(1, 3));
                             } catch (StringIndexOutOfBoundsException e) {
+                                if (e.getMessage() != null) {
+                                    Log.e(DEBUG_TAG, e.getMessage());
+                                }
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                    firebaseCrashlytics.sendUnsentReports();
+                                    firebaseCrashlytics.recordException(e);
+                                }
                                 throw new RuntimeException(e);
                             }
                         }
@@ -723,9 +856,10 @@ public class SevenDaysFragment extends Fragment {
             binding.progressBar3.setVisibility(View.GONE);
         }
     }
+
     private String readData(String name) throws IOException {
 
-        if(getActivity() != null && getContext() != null && binding != null) {
+        if (getActivity() != null && getContext() != null && binding != null) {
             File dataFile = new File(getContext().getCacheDir(), name.concat(".json"));
             if (!dataFile.exists()) {
                 Log.e(DEBUG_TAG, "File do not Exist");
@@ -737,8 +871,7 @@ public class SevenDaysFragment extends Fragment {
             String data = bufferedReader.readLine();
             bufferedReader.close();
             return data;
-        }
-        else
+        } else
             return null;
     }
 }

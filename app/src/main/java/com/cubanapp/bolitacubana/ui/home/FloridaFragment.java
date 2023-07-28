@@ -29,6 +29,7 @@ import com.cubanapp.bolitacubana.BuildConfig;
 import com.cubanapp.bolitacubana.R;
 import com.cubanapp.bolitacubana.databinding.FragmentFloridaBinding;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,9 +64,9 @@ public class FloridaFragment extends Fragment {
         super.onCreate(savedInstanceState);
         apiKey = BuildConfig.API_KEY;
 
-        if(getActivity() != null)
+        if (getActivity() != null)
             sharedPref = getActivity().getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                    getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         //FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
         //firebaseMessaging.getToken().addOnCompleteListener(v -> Log.d(DEBUG_TAG, "FCM Key: " + v.getResult()));
@@ -86,6 +87,14 @@ public class FloridaFragment extends Fragment {
                             .navigate(R.id.action_fragment_florida_to_fragment_sevendays);
 
                 } catch (IllegalArgumentException e) {
+                    if (e.getMessage() != null) {
+                        Log.e(DEBUG_TAG, e.getMessage());
+                    }
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                        firebaseCrashlytics.sendUnsentReports();
+                        firebaseCrashlytics.recordException(e);
+                    }
                     //
                 }
             }
@@ -95,6 +104,7 @@ public class FloridaFragment extends Fragment {
         return root;
 
     }
+
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -105,7 +115,7 @@ public class FloridaFragment extends Fragment {
 
         if (binding != null) {
             String savedFechaString = sharedPref.getString("updateCheckDate", null);
-            if(savedFechaString != null)
+            if (savedFechaString != null)
                 binding.updateDate.setText(savedFechaString);
             if (font != null) {
                 binding.titlefl.setTypeface(font);
@@ -130,6 +140,14 @@ public class FloridaFragment extends Fragment {
                     binding.F10.setText(fijo1.substring(0, 1));
                     binding.F11.setText(fijo1.substring(1, 3));
                 } catch (StringIndexOutOfBoundsException e) {
+                    if (e.getMessage() != null) {
+                        Log.e(DEBUG_TAG, e.getMessage());
+                    }
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                        firebaseCrashlytics.sendUnsentReports();
+                        firebaseCrashlytics.recordException(e);
+                    }
                     throw new RuntimeException(e);
                 }
             }
@@ -146,6 +164,14 @@ public class FloridaFragment extends Fragment {
                     binding.F20.setText(fijo2.substring(0, 1));
                     binding.F21.setText(fijo2.substring(1, 3));
                 } catch (StringIndexOutOfBoundsException e) {
+                    if (e.getMessage() != null) {
+                        Log.e(DEBUG_TAG, e.getMessage());
+                    }
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                        firebaseCrashlytics.sendUnsentReports();
+                        firebaseCrashlytics.recordException(e);
+                    }
                     throw new RuntimeException(e);
                 }
             }
@@ -156,12 +182,11 @@ public class FloridaFragment extends Fragment {
     }
 
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(mySnackbar != null) {
-            if(mySnackbar.isShown())
+        if (mySnackbar != null) {
+            if (mySnackbar.isShown())
                 mySnackbar.dismiss();
         }
         if (requestQueue != null) {
@@ -224,10 +249,10 @@ public class FloridaFragment extends Fragment {
             Date horaNoche = horaFormato.parse("21:46:00");
 
 
-            if ((!fechaActual.equals(fechaDiaSaved) && diaMasSaved.before(fechaActual)) || (fechaActual.equals(diaMasSaved) && horaActual.after(horaDia))){
+            if ((!fechaActual.equals(fechaDiaSaved) && diaMasSaved.before(fechaActual)) || (fechaActual.equals(diaMasSaved) && horaActual.after(horaDia))) {
                 //Log.e(DEBUG_TAG, "UPDATE DIA");
                 update = true;
-            }else {
+            } else {
                 if (nocheMasSaved.before(fechaActual) || (fechaActual.equals(nocheMasSaved) && horaActual.after(horaNoche))) {
                     //Log.e(DEBUG_TAG, "UPDATE NOCHE");
                     update = true;
@@ -235,9 +260,17 @@ public class FloridaFragment extends Fragment {
             }
 
         } catch (ParseException e) {
+            if (e.getMessage() != null) {
+                Log.e(DEBUG_TAG, e.getMessage());
+            }
+            if (Build.VERSION.SDK_INT >= 19) {
+                FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                firebaseCrashlytics.sendUnsentReports();
+                firebaseCrashlytics.recordException(e);
+            }
             throw new RuntimeException(e);
         }
-        if(update) {
+        if (update) {
 
             if (binding != null)
                 binding.progressBar2.setVisibility(View.VISIBLE);
@@ -251,7 +284,7 @@ public class FloridaFragment extends Fragment {
                 String url;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     url = "https://cubanapp.info/api/resultado.php";
-                }else{
+                } else {
                     url = "http://cubanapp.info/api/resultado.php";
                 }
                 JSONObject json = new JSONObject();
@@ -259,7 +292,14 @@ public class FloridaFragment extends Fragment {
                 try {
                     json.put("apiKey", apiKey);
                 } catch (JSONException e) {
-                    //try {
+                    if (e.getMessage() != null) {
+                        Log.e(DEBUG_TAG, e.getMessage());
+                    }
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                        firebaseCrashlytics.sendUnsentReports();
+                        firebaseCrashlytics.recordException(e);
+                    }
                     if (getActivity() != null && binding != null) {
                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                 getString(R.string.errorData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> startSync());
@@ -268,7 +308,6 @@ public class FloridaFragment extends Fragment {
                     //} catch (Exception ei) {
                     // Log.e(DEBUG_TAG, "SnackbarError1 : " + ei.getMessage());
                     //}
-                    Log.e(DEBUG_TAG, "JSONException : " + e.getMessage());
                     //throw new RuntimeException(e);
                     //startLaunch(false);
                 }
@@ -318,14 +357,21 @@ public class FloridaFragment extends Fragment {
                                         binding.D1.setText(yearOut.format(yearText));
                                         binding.D.setText(getString(R.string.dia));
                                         binding.SD.setText(diaSemana);
-                                        if(fijo1.length() < 3){
+                                        if (fijo1.length() < 3) {
                                             binding.F11.setText(fijo1);
-                                        }
-                                        else {
+                                        } else {
                                             try {
                                                 binding.F10.setText(fijo1.substring(0, 1));
                                                 binding.F11.setText(fijo1.substring(1, 3));
                                             } catch (StringIndexOutOfBoundsException e) {
+                                                if (e.getMessage() != null) {
+                                                    Log.e(DEBUG_TAG, e.getMessage());
+                                                }
+                                                if (Build.VERSION.SDK_INT >= 19) {
+                                                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                                    firebaseCrashlytics.sendUnsentReports();
+                                                    firebaseCrashlytics.recordException(e);
+                                                }
                                                 throw new RuntimeException(e);
                                             }
                                         }
@@ -335,14 +381,21 @@ public class FloridaFragment extends Fragment {
                                         binding.N1.setText(yearOut.format(yearText2));
                                         binding.N.setText(getString(R.string.noche));
                                         binding.SN.setText(nocheSemana);
-                                        if(fijo2.length() < 3){
+                                        if (fijo2.length() < 3) {
                                             binding.F21.setText(fijo2);
-                                        }
-                                        else {
+                                        } else {
                                             try {
                                                 binding.F20.setText(fijo2.substring(0, 1));
                                                 binding.F21.setText(fijo2.substring(1, 3));
                                             } catch (StringIndexOutOfBoundsException e) {
+                                                if (e.getMessage() != null) {
+                                                    Log.e(DEBUG_TAG, e.getMessage());
+                                                }
+                                                if (Build.VERSION.SDK_INT >= 19) {
+                                                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                                    firebaseCrashlytics.sendUnsentReports();
+                                                    firebaseCrashlytics.recordException(e);
+                                                }
                                                 throw new RuntimeException(e);
                                             }
                                         }
@@ -369,10 +422,24 @@ public class FloridaFragment extends Fragment {
                                 // } catch (Exception ei) {
                                 //    Log.e(DEBUG_TAG, "SnackbarError3 : " + ei.getMessage());
                                 //}
-                                Log.e(DEBUG_TAG, "JSONException2 : " + e.getMessage());
+                                if (e.getMessage() != null) {
+                                    Log.e(DEBUG_TAG, e.getMessage());
+                                }
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                    firebaseCrashlytics.sendUnsentReports();
+                                    firebaseCrashlytics.recordException(e);
+                                }
                                 //throw new RuntimeException(e);
                             } catch (ParseException e) {
-                                //throw new RuntimeException(e);
+                                if (e.getMessage() != null) {
+                                    Log.e(DEBUG_TAG, e.getMessage());
+                                }
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                    firebaseCrashlytics.sendUnsentReports();
+                                    firebaseCrashlytics.recordException(e);
+                                }
                             }
 
                         }, error -> {
@@ -436,6 +503,7 @@ public class FloridaFragment extends Fragment {
         }*/
         super.onPause();
     }
+
     @Override
     public void onResume() {
         //Log.d(DEBUG_TAG, "onResume()");
