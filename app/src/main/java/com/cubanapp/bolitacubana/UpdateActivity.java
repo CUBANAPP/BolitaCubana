@@ -4,12 +4,10 @@
 
 package com.cubanapp.bolitacubana;
 
-import android.Manifest;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
@@ -66,15 +64,21 @@ public class UpdateActivity extends AppCompatActivity {
                 .setMessage(R.string.updatmsg)
                 .setTitle(R.string.update)
                 .setNegativeButton(getString(R.string.opensettings), (dialog, id) -> openSettings())
-                //.setNeutralButton(getString(R.string.updatalt), (dialog, id) -> update2())
+                .setNeutralButton(getString(R.string.updatalt), (dialog, id) -> update2())
                 .setPositiveButton(getString(R.string.googleplay), (dialog, id) -> googlePlay())
                 .create();
 
         updateApp();
 
     }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(!builder.isShowing())
+            builder.show();
+    }
 
-    private boolean installPermission() {
+    /*private boolean installPermission() {
         if (android.os.Build.VERSION.SDK_INT >= 26) {
             String permission = Manifest.permission.REQUEST_INSTALL_PACKAGES;
             int res = getApplicationContext().checkCallingPermission(permission);
@@ -82,13 +86,15 @@ public class UpdateActivity extends AppCompatActivity {
         } else {
             return false;
         }
-    }
+    }*/
 
     private void openSettings() {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", getPackageName(), null);
         intent.setData(uri);
         startActivity(intent);
+        if(!builder.isShowing())
+            builder.show();
     }
 
     private void updateApp() {
@@ -140,7 +146,7 @@ public class UpdateActivity extends AppCompatActivity {
     }
 
     private void update2() {
-        boolean pass = installPermission();
+        /*boolean pass = installPermission();
         if (BuildConfig.DEBUG)
             pass = true;
         if (pass) {
@@ -148,11 +154,12 @@ public class UpdateActivity extends AppCompatActivity {
             // TODO: INSTALAR DESDE LA APP
             //downloadTask.execute("https://cubanapp.info/BolitaCubana.apk");
 
-        } else { // DESCARGAR DESDE EL NAVEGADOR
-            Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://cubanapp.info/BolitaCubana.apk"));
-            startActivity(webIntent);
-        }
+        } else { */// DESCARGAR DESDE EL NAVEGADOR
+        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://cubanapp.info/BolitaCubana.apk"));
+        startActivity(webIntent);
+        finish();
+        //}
     }
 
     private void googlePlay() {

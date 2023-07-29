@@ -400,7 +400,7 @@ public class LauncherActivity extends AppCompatActivity {
             } else {
                 if (ConnSuccess) {
                     if (BuildConfig.VERSION_CODE > preferences.getInt("version_install", 105)) {
-                        if (BuildConfig.VERSION_CODE == 106) {
+                        if (BuildConfig.VERSION_CODE == 107) {
                             SharedPreferences.Editor sharedPrefEditor = preferences.edit();
                             sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
                             sharedPrefEditor.putInt("gad_rdp", 1);
