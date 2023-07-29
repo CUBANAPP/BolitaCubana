@@ -22,9 +22,9 @@
             app:defaultValue="0"
             app:entries="@array/delete"
             app:entryValues="@array/deletea"/>
-        <Preference
+        <!--<Preference
             app:key="resetapp"
-            app:title="@string/erase" />
+            app:title="@string/erase" />-->
     </PreferenceCategory>
     <PreferenceCategory app:title="@string/notification">
         <SwitchPreferenceCompat
@@ -89,9 +89,9 @@
             app:defaultValue="true"
             app:key="allowAdsPerso"
             app:title="@string/adspersonal" />
-        <Preference
+        <!--<Preference
             app:key="adsconfig"
-            app:title="@string/adstitle" />
+            app:title="@string/adstitle" />-->
     </PreferenceCategory>
     <PreferenceCategory app:title="@string/errorInformes">
         <SwitchPreferenceCompat
@@ -107,6 +107,8 @@
         <SwitchPreferenceCompat
             app:defaultValue="false"
             app:key="copyID"
+            app:summaryOff="@string/copyidsummary"
+            app:summaryOn="@string/copyidsummaryon"
             app:title="@string/copyid" />
     </PreferenceCategory>
 </PreferenceScreen>

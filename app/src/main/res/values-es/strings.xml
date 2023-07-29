@@ -109,4 +109,6 @@
     <string name="completed">¡Completado!</string>
     <string name="copied">ID copiado al portapapeles</string>
     <string name="copyid">Copiar ID al portapapeles</string>
+    <string name="copyidsummary">Sólo Administradores</string>
+    <string name="copyidsummaryon">Es sólo para hacer Debug</string>
 </resources>

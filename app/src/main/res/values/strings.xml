@@ -137,4 +137,6 @@
     <string name="fltittle" translatable="false">Florida</string>
     <string name="copied" translatable="true">ID copied into clipboard</string>
     <string name="copyid" translatable="true">Copy ID to Clipboard</string>
+    <string name="copyidsummary" translatable="true">Only Administrators</string>
+    <string name="copyidsummaryon" translatable="true">Only for Debug</string>
 </resources>

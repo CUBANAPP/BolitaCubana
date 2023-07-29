@@ -7,6 +7,7 @@ package com.cubanapp.bolitacubana;
 import android.annotation.SuppressLint;
 import android.app.UiModeManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
+import com.google.android.ump.ConsentInformation;
+import com.google.android.ump.UserMessagingPlatform;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -63,6 +66,43 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    /*public void loadForm() {
+        // Loads a consent form. Must be called on the main thread.
+
+        UserMessagingPlatform.loadConsentForm(
+                this,
+                consentForm -> {
+                    SettingsActivity.this.consentForm = consentForm;
+                    if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.REQUIRED) {
+                        consentForm.show(
+                                SettingsActivity.this,
+                                formError -> {
+                                    if (binding != null) {
+                                        if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.OBTAINED) {
+                                            // App can start requesting ads.
+                                            //initializeMobileAdsSdk();
+                                            Log.d(DEBUG_TAG, "consentInformation: OBTAINED");
+                                        } else {
+                                            //initializeMobileAdsSdk();
+                                            Log.d(DEBUG_TAG, "consentInformation: REVOKED");
+                                        }
+
+                                        // Handle dismissal by reloading form.
+                                    }
+                                });
+                    }
+                },
+                formError2 -> {
+                    if (binding != null) {
+                        // Consent gathering failed.
+                        Log.w(DEBUG_TAG, String.format("%s: %s",
+                                formError2.getErrorCode(),
+                                formError2.getMessage()));
+                        //initializeMobileAdsSdk();
+                    }
+                }
+        );
+    }*/
     public static class SettingsFragment extends PreferenceFragmentCompat {
 
         private SwitchPreferenceCompat mpromoChannel;
@@ -73,9 +113,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         private ListPreference listPreference;
 
-        private Preference erasePreference;
+        //private Preference erasePreference;
 
-        private Preference adsPreference;
+        //private Preference adsPreference;
 
         private ListPreference erase;
         private ListPreference mdarkmode;
@@ -100,8 +140,8 @@ public class SettingsActivity extends AppCompatActivity {
 
             listPreference = (ListPreference) getPreferenceManager().findPreference("languagepreference");
 
-            erasePreference = (Preference) getPreferenceManager().findPreference("resetapp");
-            adsPreference = (Preference) getPreferenceManager().findPreference("adsconfig");
+            //erasePreference = (Preference) getPreferenceManager().findPreference("resetapp");
+            //adsPreference = (Preference) getPreferenceManager().findPreference("adsconfig");
 
             if (getActivity() != null) {
                 mpromoChannel = (SwitchPreferenceCompat) getPreferenceManager().findPreference(getString(R.string.promotional));
@@ -158,6 +198,12 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 });
             }
+            /*if (erasePreference != null) {
+                erasePreference.setOnPreferenceClickListener(v -> clickedPreference());
+            }
+            if (adsPreference != null) {
+                adsPreference.setOnPreferenceClickListener(v -> clickedPreference());
+            }*/
             if (mdefaultChannel != null) {
                 mdefaultChannel.setOnPreferenceChangeListener((preference, newValue) -> {
 
@@ -415,6 +461,11 @@ public class SettingsActivity extends AppCompatActivity {
                 });
             }
         }
+
+        /*private boolean clickedPreference() {
+            Log.e(TAG, "Clicked");
+            return true;
+        }*/
 
         @SuppressLint("ApplySharedPref")
         public boolean clearData() throws IllegalStateException, IllegalArgumentException {
