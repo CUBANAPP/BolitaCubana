@@ -34,7 +34,6 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;

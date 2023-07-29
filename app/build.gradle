@@ -37,7 +37,7 @@ android {
         minSdk 16
         targetSdk 34
         versionCode 106
-        versionName "1.2.5 Debug"
+        versionName "1.3.0 Debug"
         resourceConfigurations += ['en', 'es']
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug

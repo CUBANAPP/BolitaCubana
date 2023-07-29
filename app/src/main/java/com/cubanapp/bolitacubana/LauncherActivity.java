@@ -40,10 +40,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.cubanapp.bolitacubana.databinding.ActivityLauncherBinding;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.ump.ConsentForm;
-import com.google.android.ump.ConsentInformation;
-import com.google.android.ump.ConsentRequestParameters;
-import com.google.android.ump.UserMessagingPlatform;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
@@ -75,10 +71,6 @@ public class LauncherActivity extends AppCompatActivity {
     private FirebaseMessaging mFirebaseMessages;
 
     private ActivityLauncherBinding binding;
-
-    private ConsentInformation consentInformation;
-
-    private ConsentForm consentForm;
 
     private WebView myWebView;
     private ImageView imageView;
@@ -274,7 +266,7 @@ public class LauncherActivity extends AppCompatActivity {
                 boolean isWifiConn;
                 if (networkInfo != null) {
                     try {
-                        isWifiConn = networkInfo.isConnected();
+                        isWifiConn = networkInfo.isConnectedOrConnecting();
                         Log.d(DEBUG_TAG, "Wifi connected: " + isWifiConn);
                     } catch (NullPointerException e) {
                         if (e.getMessage() != null) {
@@ -294,7 +286,7 @@ public class LauncherActivity extends AppCompatActivity {
 
                 if (networkInfo != null) {
                     try {
-                        isMobileConn = networkInfo.isConnected();
+                        isMobileConn = networkInfo.isConnectedOrConnecting();
                         Log.d(DEBUG_TAG, "Mobile connected: " + isMobileConn);
                     } catch (NullPointerException e) {
                         if (e.getMessage() != null) {
@@ -316,9 +308,9 @@ public class LauncherActivity extends AppCompatActivity {
             }
             firstTime = sharedPref.getBoolean("root", true);
 
-            if (Build.VERSION.SDK_INT >= 19) {
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
+            if (Build.VERSION.SDK_INT >= 19) {
                 Boolean bool = preferences.getBoolean("dataCollection", true);
                 FirebaseApp firebaseApp = FirebaseApp.getInstance();
                 firebaseApp.setDataCollectionDefaultEnabled(bool);
@@ -347,40 +339,21 @@ public class LauncherActivity extends AppCompatActivity {
             progressBar.setProgress(20);
             if (firstTime && ConnSuccess) {
                 if (Build.VERSION.SDK_INT >= 19) {
-                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-                    SharedPreferences.Editor sharedPrefEditor = sharedPref.edit();
+                    SharedPreferences.Editor sharedPrefEditor = preferences.edit();
+                    sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
                     sharedPrefEditor.putInt("gad_rdp", 1);
                     sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
                     sharedPrefEditor.apply();
                     mFirebaseMessages = FirebaseMessaging.getInstance();
-                    if(BuildConfig.DEBUG)
+                    if (BuildConfig.DEBUG)
                         mFirebaseMessages.subscribeToTopic("Debug");
                     mFirebaseMessages.subscribeToTopic("Florida");
                     mFirebaseMessages.subscribeToTopic(getString(R.string.cubanapp_channel_name_topic));
                     mFirebaseMessages.subscribeToTopic(getString(R.string.promotional_topic));
 
-                    ConsentRequestParameters params = new ConsentRequestParameters
-                            .Builder()
-                            .setTagForUnderAgeOfConsent(false)
-                            .build();
-
-                    consentInformation = UserMessagingPlatform.getConsentInformation(this);
-                    consentInformation.requestConsentInfoUpdate(
-                            this,
-                            params,
-                            () -> {
-                                // The consent information state was updated.
-                                // You are now ready to check if a form is available.
-                                if (consentInformation.isConsentFormAvailable()) {
-                                    loadForm();
-                                }
-                            },
-                            formError -> {
-                                // Handle the error.
-                            });
                 }
                 Locale language = Locale.getDefault();
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
                 String idiomaSave;
                 if (language.getLanguage().equals("es")) {
                     idiomaSave = preferences.getString("languagepreference", "es");
@@ -425,6 +398,26 @@ public class LauncherActivity extends AppCompatActivity {
                     builder.show();
                 }
             } else {
+                if (ConnSuccess) {
+                    if (BuildConfig.VERSION_CODE > preferences.getInt("version_install", 105)) {
+                        if (BuildConfig.VERSION_CODE == 106) {
+                            SharedPreferences.Editor sharedPrefEditor = preferences.edit();
+                            sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
+                            sharedPrefEditor.putInt("gad_rdp", 1);
+                            sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
+                            sharedPrefEditor.apply();
+                            mFirebaseMessages = FirebaseMessaging.getInstance();
+                            if (BuildConfig.DEBUG)
+                                mFirebaseMessages.subscribeToTopic("Debug");
+                            mFirebaseMessages.subscribeToTopic("Florida");
+                            mFirebaseMessages.subscribeToTopic(getString(R.string.cubanapp_channel_name_topic));
+                            mFirebaseMessages.subscribeToTopic(getString(R.string.promotional_topic));
+                            Log.d(DEBUG_TAG, "Update DEBUG");
+                        }
+                    } else {
+                        Log.d(DEBUG_TAG, "VERSION_CODE " + BuildConfig.VERSION_CODE);
+                    }
+                }
                 startLaunch(ConnSuccess, false, "");
             }
 
@@ -507,13 +500,14 @@ public class LauncherActivity extends AppCompatActivity {
                                 editor.putString("hora", hora);
                                 editor.putString("msg", msg);
                                 Log.d(DEBUG_TAG, "Response is: " + error);
-                                Log.i(DEBUG_TAG, "Version is: " + version);
+                                Log.d(DEBUG_TAG, "Version is: " + version);
                                 editor.apply();
 
                                 if (builder != null)
                                     if (builder.isShowing())
                                         builder.dismiss();
                                 progressBar.setProgress(100);
+                                Log.d(DEBUG_TAG, "UPDATED Launcher");
                                 startLaunch(true, true, msg);
 
                             } else {
@@ -603,31 +597,6 @@ public class LauncherActivity extends AppCompatActivity {
         }
         startActivity(myIntent);
         finish();
-    }
-
-    public void loadForm() {
-        // Loads a consent form. Must be called on the main thread.
-        UserMessagingPlatform.loadConsentForm(
-                this,
-                consentForm -> {
-                    LauncherActivity.this.consentForm = consentForm;
-                    if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.REQUIRED) {
-                        consentForm.show(
-                                LauncherActivity.this,
-                                formError -> {
-                                    if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.OBTAINED) {
-                                        // App can start requesting ads.
-                                    }
-
-                                    // Handle dismissal by reloading form.
-                                    loadForm();
-                                });
-                    }
-                },
-                formError -> {
-                    // Handle Error.
-                }
-        );
     }
 
     private boolean internetPermission() {

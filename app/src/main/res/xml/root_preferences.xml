@@ -29,7 +29,7 @@
     <PreferenceCategory app:title="@string/notification">
         <SwitchPreferenceCompat
             app:defaultValue="true"
-            app:key="defaulChannel"
+            app:key="floridaChannel"
             app:summaryOff="@string/notification_disabled"
             app:summaryOn="@string/notification_enabled"
             app:title="@string/notificaciontitle" />
@@ -47,13 +47,13 @@
             app:title="@string/notificaciontitle2" />
         <SwitchPreferenceCompat
             app:defaultValue="true"
-            app:key="@string/promotional"
+            app:key="@string/promotional_topic"
             app:summaryOff="@string/promotional_disabled"
             app:summaryOn="@string/notificacionpromotional"
             app:title="@string/promotional" />
         <SwitchPreferenceCompat
             app:defaultValue="true"
-            app:key="@string/cubanapp_channel_name"
+            app:key="@string/cubanapp_channel_name_topic"
             app:summaryOff="@string/promotional_disabled"
             app:summaryOn="@string/cubanapp_channel_name_enabled"
             app:title="@string/cubanapp_channel_name" />

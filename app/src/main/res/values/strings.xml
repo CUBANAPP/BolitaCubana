@@ -139,4 +139,10 @@
     <string name="copyid" translatable="true">Copy ID to Clipboard</string>
     <string name="copyidsummary" translatable="true">Only Administrators</string>
     <string name="copyidsummaryon" translatable="true">Only for Debug</string>
+    <string name="updatmsg" translatable="true">You need to allow Bolita Cubana in Settings to update from \'Unknown Sources\'</string>
+    <string name="updat" translatable="true">Update</string>
+    <string name="updat2" translatable="true">Outdated Version</string>
+    <string name="googleplay" translatable="false">Google Play</string>
+    <string name="updatalt" translatable="true">Download APK</string>
+    <string name="opensettings" translatable="true">Open Settings</string>
 </resources>

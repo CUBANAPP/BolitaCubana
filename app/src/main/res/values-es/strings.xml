@@ -111,4 +111,9 @@
     <string name="copyid">Copiar ID al portapapeles</string>
     <string name="copyidsummary">Sólo Administradores</string>
     <string name="copyidsummaryon">Es sólo para hacer Debug</string>
+    <string name="updatmsg">Necesita permitir en Ajustes que Bolita Cubana actualice desde \'Orígenes Desconocidos\'</string>
+    <string name="updat">Actualizar</string>
+    <string name="updat2">Versión desactualizada</string>
+    <string name="updatalt">Descargar APK</string>
+    <string name="opensettings">Abrir Ajustes</string>
 </resources>

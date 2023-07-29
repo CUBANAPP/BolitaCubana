@@ -7,7 +7,6 @@ package com.cubanapp.bolitacubana;
 import android.annotation.SuppressLint;
 import android.app.UiModeManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,12 +20,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.os.LocaleListCompat;
 import androidx.preference.ListPreference;
-import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
-import com.google.android.ump.ConsentInformation;
-import com.google.android.ump.UserMessagingPlatform;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -248,7 +244,7 @@ public class SettingsActivity extends AppCompatActivity {
                 mcubanappChannel.setOnPreferenceChangeListener((preference, newValue) -> {
                     if (Build.VERSION.SDK_INT >= 19) {
                         FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
-                        if (Objects.equals(preference.getKey(), getString(R.string.cubanapp_channel_name))) {
+                        if (Objects.equals(preference.getKey(), getString(R.string.cubanapp_channel_name_topic))) {
                             if (newValue.equals(false)) {
                                 if (getActivity() != null) {
                                     mFirebaseMessages.unsubscribeFromTopic(getString(R.string.cubanapp_channel_name_topic)).addOnCompleteListener(task -> {
@@ -292,7 +288,7 @@ public class SettingsActivity extends AppCompatActivity {
                 mpromoChannel.setOnPreferenceChangeListener((preference, newValue) -> {
                     if (Build.VERSION.SDK_INT >= 19) {
                         FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
-                        if (Objects.equals(preference.getKey(), getString(R.string.promotional))) {
+                        if (Objects.equals(preference.getKey(), getString(R.string.promotional_topic))) {
                             if (newValue.equals(false)) {
                                 if (getActivity() != null) {
                                     mFirebaseMessages.unsubscribeFromTopic(getString(R.string.promotional_topic)).addOnCompleteListener(task -> {

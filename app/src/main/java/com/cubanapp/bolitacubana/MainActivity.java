@@ -650,13 +650,20 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
                                     editor.putInt("version", version.get());
                                 }
+                                int vermin = (Integer) response.get("ver-min");
                                 editor.putBoolean("fix", fix);
                                 editor.putBoolean("ads", ads);
                                 editor.putString("fecha", fecha);
                                 editor.putString("hora", hora);
                                 Log.d(DEBUG_TAG, "Response is: " + error);
-                                Log.i(DEBUG_TAG, "Version is: " + version);
+                                Log.d(DEBUG_TAG, "Version is: " + version.get());
                                 editor.apply();
+                                if(vermin >= BuildConfig.VERSION_CODE){
+                                    Intent i = new Intent(MainActivity.this, UpdateActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                    return;
+                                }
                                 if (version.get() > BuildConfig.VERSION_CODE) {
                                     if (builder != null) {
                                         builder.setTitle(getString(R.string.obsolete));
