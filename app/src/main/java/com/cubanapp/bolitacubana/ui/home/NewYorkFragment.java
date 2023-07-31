@@ -192,7 +192,6 @@ public class NewYorkFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         if (mySnackbar != null) {
             if (mySnackbar.isShown())
                 mySnackbar.dismiss();
@@ -204,6 +203,7 @@ public class NewYorkFragment extends Fragment {
             }
         }
         binding = null;
+        super.onDestroyView();
     }
 
     private void startSync() {
@@ -520,37 +520,6 @@ public class NewYorkFragment extends Fragment {
             edit.putString("updateCheckDate3", fechaStringz);
             edit.apply();
         }
-    }
-
-
-    @Override
-    public void onPause() {
-        //Log.d(DEBUG_TAG, "onPause()");
-        /*if (requestQueue != null) {
-            requestQueue.stop();
-        }*/
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        //Log.d(DEBUG_TAG, "onResume()");
-        /*if (requestQueue != null) {
-            requestQueue.start();
-        }*/
-        super.onResume();
-    }
-
-    @Override
-    public void onDetach() {
-        //Log.d(DEBUG_TAG, "onDetach()");
-        super.onDetach();
-    }
-
-    @Override
-    public void onStop() {
-        //Log.d(DEBUG_TAG, "onStop()");
-        super.onStop();
     }
 
     private void cacheData(String data, String name) throws IOException {

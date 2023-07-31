@@ -359,7 +359,6 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         if (mySnackbar != null) {
             if (mySnackbar.isShown())
                 mySnackbar.dismiss();
@@ -375,5 +374,6 @@ public class SearchFragment extends Fragment {
             if (builder.isShowing())
                 builder.dismiss();
         }
+        super.onDestroyView();
     }
 }

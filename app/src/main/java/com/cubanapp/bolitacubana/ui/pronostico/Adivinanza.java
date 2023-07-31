@@ -315,7 +315,6 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         if (mySnackbar != null) {
             if (mySnackbar.isShown())
                 mySnackbar.dismiss();
@@ -344,6 +343,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
         recyclerView = null;
         adapter = null;
         //mInterstitialAd = null;
+        super.onDestroyView();
     }
 
     private void downloadData() {

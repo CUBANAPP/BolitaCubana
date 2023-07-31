@@ -114,4 +114,10 @@ public class ImageFragment extends Fragment {
             Toast.makeText(getContext(), getString(R.string.copied), Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onDestroyView() {
+        binding = null;
+        super.onDestroyView();
+    }
 }

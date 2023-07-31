@@ -29,15 +29,15 @@ android {
         }
     }
     namespace 'com.cubanapp.bolitacubana'
-    compileSdk 34
+    compileSdk 33
 
     defaultConfig {
         // should correspond to key/value pairs inside the file
         applicationId "com.cubanapp.bolitacubana"
         minSdk 16
-        targetSdk 34
-        versionCode 107
-        versionName "1.3.0 Debug"
+        targetSdk 33
+        versionCode 109
+        versionName "1.3.2 Debug"
         resourceConfigurations += ['en', 'es']
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
@@ -90,7 +90,7 @@ android {
             // configuration APKs for language resources. These
             // resources are instead packaged with each base and
             // feature APK.
-            enableSplit = true
+            enableSplit = false
         }
         density {
             // This property is set to true by default.
@@ -103,7 +103,7 @@ android {
     }
     splits{
         // Configures multiple APKs based on screen density.
-        density {
+        /*density {
 
             // Configures multiple APKs based on screen density.
             enable false
@@ -113,7 +113,7 @@ android {
 
             // Specifies a list of compatible screen size settings for the manifest.
             //compatibleScreens 'small', 'normal', 'large', 'xlarge'
-        }
+        }*/
         // Configures multiple APKs based on ABI.
         abi {
 
@@ -144,7 +144,7 @@ android {
         includeInApk false
         includeInBundle false
     }
-    buildToolsVersion '34.0.0'
+    //buildToolsVersion '34.0.0'
 }
 
 dependencies {
@@ -158,7 +158,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.6.1'
     implementation 'androidx.navigation:navigation-fragment:2.6.0'
     implementation 'androidx.navigation:navigation-ui:2.6.0'
-    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.preference:preference:1.2.1'
     implementation 'androidx.core:core-ktx:1.10.1'
     //testImplementation 'junit:junit:4.13.2'
     //androidTestImplementation 'androidx.test.ext:junit:1.1.5'

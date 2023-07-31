@@ -149,7 +149,6 @@ public class SevenDaysFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         if (mySnackbar != null) {
             if (mySnackbar.isShown())
                 mySnackbar.dismiss();
@@ -161,6 +160,7 @@ public class SevenDaysFragment extends Fragment {
             }
         }
         binding = null;
+        super.onDestroyView();
     }
 
     private void runCustomUpdate() throws IOException, JSONException, ParseException {

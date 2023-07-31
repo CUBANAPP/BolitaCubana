@@ -11,7 +11,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,7 +62,7 @@ public class UpdateActivity extends AppCompatActivity {
         builder = new AlertDialog.Builder(this)
                 .setMessage(R.string.updatmsg)
                 .setTitle(R.string.update)
-                .setNegativeButton(getString(R.string.opensettings), (dialog, id) -> openSettings())
+                //.setNegativeButton(getString(R.string.opensettings), (dialog, id) -> openSettings())
                 .setNeutralButton(getString(R.string.updatalt), (dialog, id) -> update2())
                 .setPositiveButton(getString(R.string.googleplay), (dialog, id) -> googlePlay())
                 .create();
@@ -71,11 +70,26 @@ public class UpdateActivity extends AppCompatActivity {
         updateApp();
 
     }
+
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
-        if(!builder.isShowing())
+        if (!builder.isShowing())
             builder.show();
+    }
+
+    @Override
+    protected void onPause() {
+        if (builder.isShowing())
+            builder.dismiss();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        context = null;
+        binding = null;
+        super.onDestroy();
     }
 
     /*private boolean installPermission() {
@@ -88,14 +102,14 @@ public class UpdateActivity extends AppCompatActivity {
         }
     }*/
 
-    private void openSettings() {
+    /*private void openSettings() {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", getPackageName(), null);
         intent.setData(uri);
         startActivity(intent);
         if(!builder.isShowing())
             builder.show();
-    }
+    }*/
 
     private void updateApp() {
         // you can also use BuildConfig.APPLICATION_ID

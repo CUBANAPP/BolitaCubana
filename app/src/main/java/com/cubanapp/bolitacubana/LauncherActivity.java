@@ -175,8 +175,10 @@ public class LauncherActivity extends AppCompatActivity {
                 .setNegativeButton(getString(R.string.cancel), (dialog, id) -> finish())
                 .create();
 
-        mFirebaseMessages = FirebaseMessaging.getInstance();
-        mFirebaseMessages.setAutoInitEnabled(true);
+        if (Build.VERSION.SDK_INT >= 19) {
+            mFirebaseMessages = FirebaseMessaging.getInstance();
+            mFirebaseMessages.setAutoInitEnabled(true);
+        }
 
         imageView = binding.imageViewBackground;
         button = binding.btnAccept;
@@ -344,12 +346,19 @@ public class LauncherActivity extends AppCompatActivity {
                     sharedPrefEditor.putInt("gad_rdp", 1);
                     sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
                     sharedPrefEditor.apply();
-                    mFirebaseMessages = FirebaseMessaging.getInstance();
+                    //mFirebaseMessages = FirebaseMessaging.getInstance();
                     if (BuildConfig.DEBUG)
                         mFirebaseMessages.subscribeToTopic("Debug");
-                    mFirebaseMessages.subscribeToTopic("Florida");
-                    mFirebaseMessages.subscribeToTopic(getString(R.string.cubanapp_channel_name_topic));
-                    mFirebaseMessages.subscribeToTopic(getString(R.string.promotional_topic));
+                    if(preferences.getBoolean("floridaChannel", false))
+                        mFirebaseMessages.subscribeToTopic("Florida");
+                    if(preferences.getBoolean("georgiaChannel", false))
+                        mFirebaseMessages.subscribeToTopic("Georgia");
+                    if(preferences.getBoolean("newyorkChannel", false))
+                        mFirebaseMessages.subscribeToTopic("NewYork");
+                    if(preferences.getBoolean(getString(R.string.cubanapp_channel_name_topic), false))
+                        mFirebaseMessages.subscribeToTopic(getString(R.string.cubanapp_channel_name_topic));
+                    if(preferences.getBoolean(getString(R.string.promotional_topic), false))
+                        mFirebaseMessages.subscribeToTopic(getString(R.string.promotional_topic));
 
                 }
                 Locale language = Locale.getDefault();
@@ -399,23 +408,36 @@ public class LauncherActivity extends AppCompatActivity {
                 }
             } else {
                 if (ConnSuccess) {
-                    if (BuildConfig.VERSION_CODE > preferences.getInt("version_install", 105)) {
-                        if (BuildConfig.VERSION_CODE == 107) {
-                            SharedPreferences.Editor sharedPrefEditor = preferences.edit();
-                            sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
-                            sharedPrefEditor.putInt("gad_rdp", 1);
-                            sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
-                            sharedPrefEditor.apply();
-                            mFirebaseMessages = FirebaseMessaging.getInstance();
-                            if (BuildConfig.DEBUG)
-                                mFirebaseMessages.subscribeToTopic("Debug");
-                            mFirebaseMessages.subscribeToTopic("Florida");
-                            mFirebaseMessages.subscribeToTopic(getString(R.string.cubanapp_channel_name_topic));
-                            mFirebaseMessages.subscribeToTopic(getString(R.string.promotional_topic));
-                            Log.d(DEBUG_TAG, "Update DEBUG");
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        if (BuildConfig.VERSION_CODE > preferences.getInt("version_install", 105)) {
+                            if (BuildConfig.VERSION_CODE == 108 && preferences.getInt("version_install", 105) == 107) {
+                                mFirebaseMessages.unsubscribeFromTopic("Default");
+                                Log.d(DEBUG_TAG, "Update DEBUG");
+                            } else if (BuildConfig.VERSION_CODE == 108 && preferences.getInt("version_install", 105) == 105) {
+                                SharedPreferences.Editor sharedPrefEditor = preferences.edit();
+                                sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
+                                sharedPrefEditor.putInt("gad_rdp", 1);
+                                sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
+                                sharedPrefEditor.apply();
+                                //mFirebaseMessages = FirebaseMessaging.getInstance();
+                                mFirebaseMessages.unsubscribeFromTopic("Default");
+                                if (BuildConfig.DEBUG)
+                                    mFirebaseMessages.subscribeToTopic("Debug");
+                                if(preferences.getBoolean("floridaChannel", false))
+                                    mFirebaseMessages.subscribeToTopic("Florida");
+                                if(preferences.getBoolean("georgiaChannel", false))
+                                    mFirebaseMessages.subscribeToTopic("Georgia");
+                                if(preferences.getBoolean("newyorkChannel", false))
+                                    mFirebaseMessages.subscribeToTopic("NewYork");
+                                if(preferences.getBoolean(getString(R.string.cubanapp_channel_name_topic), false))
+                                    mFirebaseMessages.subscribeToTopic(getString(R.string.cubanapp_channel_name_topic));
+                                if(preferences.getBoolean(getString(R.string.promotional_topic), false))
+                                    mFirebaseMessages.subscribeToTopic(getString(R.string.promotional_topic));
+                                Log.d(DEBUG_TAG, "Update DEBUG");
+                            }
+                        } else {
+                            Log.d(DEBUG_TAG, "VERSION_CODE " + BuildConfig.VERSION_CODE);
                         }
-                    } else {
-                        Log.d(DEBUG_TAG, "VERSION_CODE " + BuildConfig.VERSION_CODE);
                     }
                 }
                 startLaunch(ConnSuccess, false, "");
@@ -563,7 +585,6 @@ public class LauncherActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        super.onStop();
         if (mySnackbar != null) {
             if (mySnackbar.isShown())
                 mySnackbar.dismiss();
@@ -578,6 +599,14 @@ public class LauncherActivity extends AppCompatActivity {
                 stringRequest.cancel();
             }
         }
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        context = null;
+        binding = null;
+        super.onDestroy();
     }
 
     private void startLaunch(boolean connection, boolean first, String msg) {

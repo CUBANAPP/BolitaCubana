@@ -123,6 +123,8 @@ public class MainActivity extends AppCompatActivity {
     private ConsentInformation consentInformation;
     private ConsentForm consentForm;
 
+    private boolean webviewOpen;
+
     private static final String IAB_STRING = "1---";
 
     private static final String DEBUG_TAG = "MainActivity";
@@ -142,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
         myWebView = binding.webviewpriv2;
         Button button = binding.btnAccept2;
         Button button2 = binding.btnCancel2;
+        webviewOpen = false;
 
         Typeface font = null;
         if (binding != null && getAssets() != null)
@@ -658,7 +661,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(DEBUG_TAG, "Response is: " + error);
                                 Log.d(DEBUG_TAG, "Version is: " + version.get());
                                 editor.apply();
-                                if(vermin >= BuildConfig.VERSION_CODE){
+                                if (vermin >= BuildConfig.VERSION_CODE) {
                                     Intent i = new Intent(MainActivity.this, UpdateActivity.class);
                                     startActivity(i);
                                     finish();
@@ -800,7 +803,12 @@ public class MainActivity extends AppCompatActivity {
                 builder.setTitle(getString(R.string.app_name));
                 builder.setMessage(getString(R.string.aboutinfo1) + BuildConfig.VERSION_NAME + getString(R.string.aboutinfo2));
                 builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> builder.dismiss());
-                builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.openprivacy), (dialog, which) -> loadToS());
+                builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.openprivacy), (dialog, which) -> {
+                    if (!webviewOpen) {
+                        webviewOpen = true;
+                        loadToS();
+                    }
+                });
                 builder.show();
             }
             return true;
@@ -838,7 +846,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        super.onStop();
         if (mySnackbar != null) {
             if (mySnackbar.isShown())
                 mySnackbar.dismiss();
@@ -853,12 +860,15 @@ public class MainActivity extends AppCompatActivity {
                 stringRequest.cancel();
             }
         }
+        super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        context = null;
+        binding = null;
         mInterstitialAd = null;
+        super.onDestroy();
     }
 
     @Override

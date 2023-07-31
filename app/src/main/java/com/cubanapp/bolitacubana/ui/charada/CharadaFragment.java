@@ -183,20 +183,9 @@ public class CharadaFragment extends Fragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
     public void onDestroyView() {
-        super.onDestroyView();
         binding = null;
-
+        super.onDestroyView();
     }
 
     private void searchWord(CharSequence s) {
@@ -644,4 +633,3 @@ public class CharadaFragment extends Fragment {
 
     }
 }
-
