@@ -37,7 +37,7 @@ android {
         minSdk 16
         targetSdk 33
         versionCode 109
-        versionName "1.3.2 Debug"
+        versionName "1.3.2"
         resourceConfigurations += ['en', 'es']
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
@@ -94,11 +94,11 @@ android {
         }
         density {
             // This property is set to true by default.
-            enableSplit = true
+            enableSplit = false
         }
         abi {
             // This property is set to true by default.
-            enableSplit = true
+            enableSplit = false
         }
     }
     splits{

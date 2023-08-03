@@ -20,7 +20,7 @@
         android:name="androidx.multidex.MultiDexApplication"
         android:allowBackup="true"
 		android:usesCleartextTraffic="true"
-        android:enableOnBackInvokedCallback="false"
+        android:enableOnBackInvokedCallback="true"
 		android:allowClearUserData="true"
         android:appCategory="news"
         android:backupInForeground="true"

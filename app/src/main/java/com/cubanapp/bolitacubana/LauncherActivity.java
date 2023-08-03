@@ -410,11 +410,13 @@ public class LauncherActivity extends AppCompatActivity {
                 if (ConnSuccess) {
                     if (Build.VERSION.SDK_INT >= 19) {
                         if (BuildConfig.VERSION_CODE > preferences.getInt("version_install", 105)) {
-                            if (BuildConfig.VERSION_CODE == 108 && preferences.getInt("version_install", 105) == 107) {
+                            SharedPreferences.Editor sharedPrefEditor = preferences.edit();
+                            if (preferences.getInt("version_install", 105) == 107) {
+                                sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
                                 mFirebaseMessages.unsubscribeFromTopic("Default");
                                 Log.d(DEBUG_TAG, "Update DEBUG");
-                            } else if (BuildConfig.VERSION_CODE == 108 && preferences.getInt("version_install", 105) == 105) {
-                                SharedPreferences.Editor sharedPrefEditor = preferences.edit();
+                                sharedPrefEditor.apply();
+                            } else if (preferences.getInt("version_install", 105) < 107) {
                                 sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
                                 sharedPrefEditor.putInt("gad_rdp", 1);
                                 sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
