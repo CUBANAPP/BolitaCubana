@@ -4,8 +4,7 @@
 
 package com.cubanapp.bolitacubana.ui.pronostico;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -20,7 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -87,6 +86,8 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
     private AdivinanzaAdapter adapter;
     private boolean isClicked;
 
+    private boolean forceDownload;
+
     private static final String DEBUG_TAG = "Adivinanza";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -95,6 +96,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
         binding = FragmentAdivinanzasBinding.inflate(inflater, container, false);
         apiKey = BuildConfig.API_KEY;
         keyNames = new ArrayList<>();
+        forceDownload = false;
         View root = binding.getRoot();
         return root;
     }
@@ -135,7 +137,8 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                 //adapter = new AdivinanzaAdapter(myListData, this);
 
                 recyclerView.setHasFixedSize(false);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
                 //recyclerView.setAdapter(adapter);
             }
 
@@ -254,6 +257,9 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
             if (nFiles != null) {
                 //downloadData();
                 Log.e(DEBUG_TAG, "Pero hay descargas pendientes, nFiles no NULL");
+            } else if (forceDownload) {
+                //sharedPref.edit().putString("filenames",null).apply();
+                downloadData();
             }
         }
     }
@@ -277,7 +283,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
 
         Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone(TimeZone.getDefault().getID()), Locale.US);
 
-        fecha.add(Calendar.SECOND, 10);
+        fecha.add(Calendar.SECOND, 5);
 
         edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
         edit.apply();
@@ -457,7 +463,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
 
                                             Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone(TimeZone.getDefault().getID()), Locale.US);
 
-                                            fecha.add(Calendar.MINUTE, 30);
+                                            fecha.add(Calendar.MINUTE, 15);
 
                                             edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
                                             edit.apply();
@@ -633,7 +639,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                                                 saveFile(files.get(d), response, true);
 
 
-                                                fecha.add(Calendar.MINUTE, 30);
+                                                fecha.add(Calendar.MINUTE, 15);
 
                                                 edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
                                                 edit.apply();
@@ -794,6 +800,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
 
     }
 
+    @SuppressLint("ApplySharedPref")
     private void loadFile(JSONObject file) throws IOException, JSONException {
 
         JSONArray jsonArray = file.names();
@@ -823,6 +830,11 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                     String base64 = jsonFile.getString("base64");
                     byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
                     tempData.add(new PronosticoData(key, type, decodedString));
+                } else {
+                    //TODO: DOWNLOAD OR BREAK? WHEN FILE DO NOT EXIST?
+                    //downloadData();
+                    Log.d(DEBUG_TAG, "EJECUCION DEL BREAK");
+                    break;
                 }
             }
 
@@ -831,11 +843,15 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
 
                 adapter = new AdivinanzaAdapter(myListData, this);
                 //recyclerView.setHasFixedSize(false);
-                //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
 
                 recyclerView.setAdapter(adapter);
+            } else if (tempData.isEmpty() && recyclerView != null && getActivity() != null && binding != null) {
+                forceDownload = true;
+                filenames = null;
+                //sharedPref.edit().putString("filenames", null).commit();
+                Log.d(DEBUG_TAG, "forceDownload");
             }
-
         }
     }
 
@@ -903,7 +919,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                 try {
                     isClicked = true;
                     NavHostFragment.findNavController(this)
-                            .navigate(R.id.action_navigation_adivinanza_to_navigation_imagefullscreen, bundle);
+                            .navigate(R.id.navigation_imagefullscreen, bundle);
                 } catch (IllegalArgumentException e) {
                     if (e.getMessage() != null) {
                         Log.e(DEBUG_TAG, e.getMessage());
@@ -947,26 +963,5 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
             return data;
         } else
             return null;
-    }
-
-    public long getDataLength(String name) {
-
-        if (getActivity() != null && getContext() != null && binding != null) {
-            File dataFile = new File(getContext().getCacheDir(), name.concat(".json"));
-            if (!dataFile.exists()) {
-                return 0;
-            }
-            return dataFile.length();
-        } else
-            return 0;
-    }
-
-    public void copyName(String text) {
-        if (getActivity() != null && binding != null) {
-            ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("Bolita Cubana ID", text);
-            clipboard.setPrimaryClip(clip);
-            Toast.makeText(getContext(), getString(R.string.copied), Toast.LENGTH_SHORT).show();
-        }
     }
 }

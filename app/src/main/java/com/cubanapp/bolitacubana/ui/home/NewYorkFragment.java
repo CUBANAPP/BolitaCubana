@@ -94,7 +94,7 @@ public class NewYorkFragment extends Fragment {
                 getParentFragmentManager().setFragmentResult("SevenDays", bundle);
                 try {
                     NavHostFragment.findNavController(this)
-                            .navigate(R.id.action_fragment_newyork_to_fragment_sevendays, bundle);
+                            .navigate(R.id.navigation_sevendays, bundle);
                 } catch (IllegalArgumentException e) {
                     if (e.getMessage() != null) {
                         Log.e(DEBUG_TAG, e.getMessage());

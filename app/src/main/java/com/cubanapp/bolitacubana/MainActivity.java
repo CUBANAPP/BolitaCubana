@@ -486,7 +486,7 @@ public class MainActivity extends AppCompatActivity {
                             // Handle the error
                             if (binding != null) {
                                 Log.d(DEBUG_TAG, loadAdError.toString());
-                                mInterstitialAd = null;
+                                //mInterstitialAd = null;
                             }
                         }
                     });
@@ -999,14 +999,14 @@ public class MainActivity extends AppCompatActivity {
                     // Called when ad is dismissed.
                     // Set the ad reference to null so you don't show the ad a second time.
                     Log.d(DEBUG_TAG, "Ad dismissed fullscreen content.");
-                    mInterstitialAd = null;
+                    //mInterstitialAd = null;
                 }
 
                 @Override
                 public void onAdFailedToShowFullScreenContent(AdError adError) {
                     // Called when ad fails to show.
                     Log.e(DEBUG_TAG, "Ad failed to show fullscreen content.");
-                    mInterstitialAd = null;
+                    //mInterstitialAd = null;
                 }
 
                 @Override

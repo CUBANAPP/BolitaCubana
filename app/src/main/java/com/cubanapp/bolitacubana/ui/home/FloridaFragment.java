@@ -84,7 +84,7 @@ public class FloridaFragment extends Fragment {
                 binding.button3.setClickable(false);
                 try {
                     NavHostFragment.findNavController(this)
-                            .navigate(R.id.action_fragment_florida_to_fragment_sevendays);
+                            .navigate(R.id.navigation_sevendays);
 
                 } catch (IllegalArgumentException e) {
                     if (e.getMessage() != null) {

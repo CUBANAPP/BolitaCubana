@@ -29,15 +29,15 @@ android {
         }
     }
     namespace 'com.cubanapp.bolitacubana'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         // should correspond to key/value pairs inside the file
         applicationId "com.cubanapp.bolitacubana"
         minSdk 16
-        targetSdk 33
-        versionCode 109
-        versionName "1.3.2"
+        targetSdk 34
+        versionCode 111
+        versionName "1.4.0 Debug"
         resourceConfigurations += ['en', 'es']
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
@@ -150,14 +150,15 @@ android {
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.2.0')
     implementation "androidx.multidex:multidex:2.0.1"
+    implementation "androidx.multidex:multidex-instrumentation:2.0.0"
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-livedata:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.6.1'
-    implementation 'androidx.navigation:navigation-fragment:2.6.0'
-    implementation 'androidx.navigation:navigation-ui:2.6.0'
+    implementation 'androidx.navigation:navigation-fragment:2.7.0'
+    implementation 'androidx.navigation:navigation-ui:2.7.0'
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'androidx.core:core-ktx:1.10.1'
     //testImplementation 'junit:junit:4.13.2'
@@ -180,7 +181,7 @@ dependencies {
     //implementation 'com.google.guava:guava:32.1.1-android'
     implementation group: 'com.google.guava', name: 'guava', version: '32.0.1-android'
 
-
+    //implementation 'com.github.bumptech.glide:glide:4.15.1'
 
     // Nuevas politicas
     implementation 'com.google.android.ump:user-messaging-platform:2.1.0'

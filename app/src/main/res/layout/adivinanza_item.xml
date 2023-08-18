@@ -6,41 +6,42 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/adivinanza_linear"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:orientation="horizontal"
+    android:layout_margin="4dp"
+    android:orientation="vertical"
     android:weightSum="3">
     <ImageView
         android:gravity="start"
         android:layout_gravity="center"
         android:id="@+id/imageshort"
         android:cropToPadding="true"
-        android:src="@drawable/ic_cubanapp"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:scaleType="fitCenter"
+        android:src="@mipmap/txtfile"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
         android:layout_weight="1"
         android:contentDescription="@string/image" />
     <TextView
         android:gravity="center"
         android:layout_gravity="center"
         android:id="@+id/nameid"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textColor="?attr/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="" />
+        android:text="TEST" />
     <TextView
+        android:visibility="gone"
         android:gravity="end"
         android:layout_gravity="center"
         android:id="@+id/typ"
-        android:textSize="20sp"
+        android:textSize="14sp"
         android:textColor="@android:color/holo_red_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="" />
+        android:text="TEST" />
 
 </LinearLayout>
