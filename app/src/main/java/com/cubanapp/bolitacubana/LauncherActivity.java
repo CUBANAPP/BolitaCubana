@@ -397,8 +397,8 @@ public class LauncherActivity extends AppCompatActivity {
             } else {
                 if (ConnSuccess) {
                     if (Build.VERSION.SDK_INT >= 19) {
-                        if (BuildConfig.VERSION_CODE > preferences.getInt("version_install", 105)) {
-                            if (preferences.getInt("version_install", 105) > 107 && BuildConfig.VERSION_CODE == 112) {
+                        if (BuildConfig.VERSION_CODE > preferences.getInt("version_install", 100)) {
+                            if (preferences.getInt("version_install", 100) > 107 && BuildConfig.VERSION_CODE == 112) {
                                 SharedPreferences.Editor sharedPrefEditor = preferences.edit();
                                 sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
                                 sharedPrefEditor.putInt("gad_rdp", 1);
@@ -406,7 +406,7 @@ public class LauncherActivity extends AppCompatActivity {
                                 sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
                                 sharedPrefEditor.apply();
                             }
-                            else if (preferences.getInt("version_install", 105) == 107) {
+                            else if (preferences.getInt("version_install", 100) == 107) {
                                 SharedPreferences.Editor sharedPrefEditor = preferences.edit();
                                 sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
                                 mFirebaseMessages.unsubscribeFromTopic("Default");
@@ -414,7 +414,7 @@ public class LauncherActivity extends AppCompatActivity {
                                 Log.d(DEBUG_TAG, "Update DEBUG");
                                 sharedPrefEditor.apply();
                             }
-                            else if (preferences.getInt("version_install", 105) < 107) {
+                            else if (preferences.getInt("version_install", 100) < 107 && preferences.getInt("version_install", 100) > 100) {
                                 SharedPreferences.Editor sharedPrefEditor = preferences.edit();
                                 sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
                                 sharedPrefEditor.putInt("gad_rdp", 1);

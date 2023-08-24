@@ -358,12 +358,26 @@ public class MainActivity extends AppCompatActivity {
         ///////////////////////////////////////////////////////
 
 
-        if (savedInstanceState == null)
+        /*if (savedInstanceState == null) {
             navController.addOnDestinationChangedListener((navController1, navDestination, bundle1) -> {
                 try {
                     Log.e(DEBUG_TAG, navDestination.getDisplayName());
                     if (navDestination.getId() == R.id.navigation_adivinanza) {
-                        navController1.clearBackStack(navDestination.getId());
+                        navController1.clearBackStack(R.id.navigation_adivinanza);
+                        //navController1.popBackStack(navDestination.getId(),false);
+                    }
+                    if (navDestination.getId() == R.id.navigation_imagefullscreen) {
+                        //navController1.clearBackStack(R.id.navigation_imagefullscreen);
+                        navController1.popBackStack(R.id.navigation_imagefullscreen, false);
+                    }
+                    if (navDestination.getId() == R.id.navigation_home) {
+                        navController1.popBackStack(R.id.navigation_home, false);
+                    }
+                    if (navDestination.getId() == R.id.navigation_florida) {
+                        navController1.popBackStack(R.id.navigation_florida, false);
+                    }
+                    if (navDestination.getId() == R.id.navigation_charada) {
+                        navController1.popBackStack(R.id.navigation_charada, false);
                     }
                 } catch (NullPointerException e) {
                     if (e.getMessage() != null) {
@@ -376,6 +390,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+        }*/
 
         askNotificationPermission();
 

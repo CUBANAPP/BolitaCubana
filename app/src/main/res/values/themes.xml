@@ -84,7 +84,7 @@
 
         <!-- Status bar color. 66FFFB C1E8FF-->
         <item name="elevationOverlayColor">#FFFFFF</item>
-        <item name="colorPrimaryInverse">#003C56</item>
+        <item name="colorPrimaryInverse">#006E9A</item>
 
         <item name="android:textColorHighlight">#001E2C</item>
         <item name="android:textColorHighlightInverse">#FFFFFF</item>
