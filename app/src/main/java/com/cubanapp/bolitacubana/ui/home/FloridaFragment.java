@@ -6,7 +6,6 @@ package com.cubanapp.bolitacubana.ui.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -74,18 +73,19 @@ public class FloridaFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        /*mViewModel =
-                new ViewModelProvider(this).get(FloridaViewModel.class);
-        */
+
         binding = FragmentFloridaBinding.inflate(inflater, container, false);
 
         binding.button3.setOnClickListener(view1q -> {
             if (binding != null && binding.button3.isClickable() && getActivity() != null) {
                 binding.button3.setClickable(false);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("name", null);
+                getParentFragmentManager().setFragmentResult("SevenDays", bundle);
                 try {
                     NavHostFragment.findNavController(this)
                             .navigate(R.id.navigation_sevendays);
-
                 } catch (IllegalArgumentException e) {
                     if (e.getMessage() != null) {
                         Log.e(DEBUG_TAG, e.getMessage());
@@ -95,7 +95,6 @@ public class FloridaFragment extends Fragment {
                         firebaseCrashlytics.sendUnsentReports();
                         firebaseCrashlytics.recordException(e);
                     }
-                    //
                 }
             }
         });
@@ -109,23 +108,10 @@ public class FloridaFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Typeface font = null;
-        if (binding != null && getActivity() != null)
-            font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
-
         if (binding != null) {
             String savedFechaString = sharedPref.getString("updateCheckDate", null);
             if (savedFechaString != null)
                 binding.updateDate.setText(savedFechaString);
-            if (font != null) {
-                binding.titlefl.setTypeface(font);
-                binding.D1.setTypeface(font);
-                binding.D.setTypeface(font);
-                binding.SD.setTypeface(font);
-                binding.N1.setTypeface(font);
-                binding.N.setTypeface(font);
-                binding.SN.setTypeface(font);
-            }
 
             String fijo1 = sharedPref.getString("F1", "---");
             String fijo2 = sharedPref.getString("F2", "---");

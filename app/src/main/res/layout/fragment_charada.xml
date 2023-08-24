@@ -21,7 +21,7 @@
         android:background="#99000000"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="67dp"
+        android:layout_marginBottom="61dp"
         app:layout_constraintBottom_toTopOf="@id/edittextbox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edittextbox"
-        android:background="#99000000"
         android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,11 +40,13 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edittext"
             android:inputType="textAutoCorrect|textAutoComplete|textEnableTextConversionSuggestions"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:maxLines="1"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:visibility="visible"
-            android:textColorHint="@color/light_white"
+            android:imeOptions="actionDone"
+            android:textColorHint="@color/black"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/searchword" />

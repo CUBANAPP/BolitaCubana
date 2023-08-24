@@ -14,7 +14,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -56,6 +55,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -73,6 +73,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -146,14 +147,6 @@ public class MainActivity extends AppCompatActivity {
         Button button2 = binding.btnCancel2;
         webviewOpen = false;
 
-        Typeface font = null;
-        if (binding != null && getAssets() != null)
-            font = Typeface.createFromAsset(getAssets(), "burbank_normal.otf");
-
-        if (font != null) {
-            binding.btnAccept2.setTypeface(font);
-            binding.btnCancel2.setTypeface(font);
-        }
         BottomNavigationView navigationView = binding.navView;
 
         ImageView imageView = binding.imageViewBackground2;
@@ -346,9 +339,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-        navController.enableOnBackPressed(true);
+        /*navController.enableOnBackPressed(true);
 
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
@@ -356,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
-        callback.setEnabled(false);
+        callback.setEnabled(false);*/
 
         askNotificationPermission();
 
@@ -456,13 +449,20 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(DEBUG_TAG, "Ads Running");
                 adView.setVisibility(View.VISIBLE);
             });
-            //RequestConfiguration.Builder adRequestBuilder = new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("27257B0AF4890D7241E824CB06C35D83"));
-            Bundle networkExtrasBundle = new Bundle();
+
+            /*Bundle networkExtrasBundle = new Bundle();
             networkExtrasBundle.putInt("rdp", 1);
             networkExtrasBundle.putInt("gad_rdp", 1); // TODO: Añadido por si acaso
-            networkExtrasBundle.putString("IABUSPrivacy_String", IAB_STRING);
-            AdRequest adRequest = new AdRequest.Builder()
+            networkExtrasBundle.putString("IABUSPrivacy_String", IAB_STRING);*/
+            //.addNetworkExtrasBundle(AdMobAdapter.class, networkExtrasBundle)
+            if (BuildConfig.DEBUG) {
+                RequestConfiguration.Builder builder = new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("27257B0AF4890D7241E824CB06C35D83"));
+                builder.build();
+            }
+            /*AdRequest adRequest = new AdRequest.Builder()
                     .addNetworkExtrasBundle(AdMobAdapter.class, networkExtrasBundle)
+                    .build();*/
+            AdRequest adRequest = new AdRequest.Builder()
                     .build();
             String adUnitID = BuildConfig.INTERSTICIAL_ID;
             String adUnitIDTest = "ca-app-pub-3940256099942544/1033173712";
@@ -780,7 +780,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main); // R.id.nav_host_fragment_content_main
-        return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
+
+        if (navController != null) {
+            return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
+        }else return super.onSupportNavigateUp();
     }
 
     @Override
@@ -987,6 +990,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void configureInterstitial() {
         if (mInterstitialAd != null) {
+            mInterstitialAd.setImmersiveMode(false);
+
             mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
                 @Override
                 public void onAdClicked() {

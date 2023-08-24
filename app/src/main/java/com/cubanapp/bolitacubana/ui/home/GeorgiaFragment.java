@@ -6,7 +6,6 @@ package com.cubanapp.bolitacubana.ui.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,10 +60,6 @@ public class GeorgiaFragment extends Fragment {
     private Snackbar mySnackbar;
     private static final String DEBUG_TAG = "GeorgiaFragment";
 
-    /*public static FloridaFragment newInstance() {
-        return new FloridaFragment();
-    }*/
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,21 +75,17 @@ public class GeorgiaFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        /*mViewModel =
-                new ViewModelProvider(this).get(FloridaViewModel.class);
-        */
         binding = FragmentGeorgiaBinding.inflate(inflater, container, false);
         binding.button30.setOnClickListener(view1w -> {
             if (binding != null && binding.button30.isClickable() && getActivity() != null) {
                 binding.button30.setClickable(false);
-                //NavHostFragment.findNavController(this).navigate(R.id.action_fragment_georgia_to_fragment_sevendays);
+
                 Bundle bundle = new Bundle();
                 bundle.putString("name", "georgiaSavedFile");
                 getParentFragmentManager().setFragmentResult("SevenDays", bundle);
                 try {
                     NavHostFragment.findNavController(this)
                             .navigate(R.id.navigation_sevendays, bundle);
-
                 } catch (IllegalArgumentException e) {
                     if (e.getMessage() != null) {
                         Log.e(DEBUG_TAG, e.getMessage());
@@ -104,7 +95,6 @@ public class GeorgiaFragment extends Fragment {
                         firebaseCrashlytics.sendUnsentReports();
                         firebaseCrashlytics.recordException(e);
                     }
-                    //
                 }
             }
         });
@@ -117,26 +107,10 @@ public class GeorgiaFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Typeface font = null;
-        if (binding != null && getActivity() != null)
-            font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
-
         if (binding != null) {
             String savedFechaString = sharedPref.getString("updateCheckDate2", null);
             if (savedFechaString != null)
                 binding.updateDate.setText(savedFechaString);
-            if (font != null) {
-                binding.titlege.setTypeface(font);
-                binding.D1.setTypeface(font);
-                binding.D.setTypeface(font);
-                binding.SD.setTypeface(font);
-                binding.MD1.setTypeface(font);
-                binding.MD.setTypeface(font);
-                binding.MSD.setTypeface(font);
-                binding.N1.setTypeface(font);
-                binding.N.setTypeface(font);
-                binding.SN.setTypeface(font);
-            }
 
             String fijo1 = sharedPref.getString("gF1", "---");
             String fijoTarde = sharedPref.getString("gMF1", "---");

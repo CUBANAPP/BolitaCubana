@@ -22,7 +22,8 @@
         android:id="@+id/sFecha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="14sp"
+        android:textStyle="bold"
         android:textColor="@color/light_yellow"
         android:layout_weight="1"
         android:gravity="left|start"
@@ -34,7 +35,8 @@
         android:id="@+id/sD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="14sp"
+        android:textStyle="bold"
         android:textColor="@color/light_yellow"
         android:layout_weight="1"
         android:gravity="right"
@@ -52,6 +54,7 @@
             <TextView
                 android:id="@+id/sF1_0"
                 android:textSize="34sp"
+                android:textStyle="bold"
                 android:textColor="@color/black_yellow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,6 +63,7 @@
             <TextView
                 android:id="@+id/sF1_1"
                 android:textSize="34sp"
+                android:textStyle="bold"
                 android:textColor="@color/yellow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,6 +80,7 @@
             <TextView
                 android:id="@+id/sC1_1"
                 android:textSize="34sp"
+                android:textStyle="bold"
                 android:textColor="@color/light_blue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,7 +89,8 @@
             <TextView
                 android:id="@+id/sC1_2"
                 android:textSize="34sp"
-                android:textColor="@color/holo_green"
+                android:textStyle="bold"
+                android:textColor="@color/light_green"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="" />

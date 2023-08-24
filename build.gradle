@@ -15,11 +15,11 @@ buildscript {
         maven { url "https://mvnrepository.com/artifact/com.google.guava/guava" }
     }
     dependencies {
-        classpath 'com.google.gms:google-services:4.3.15'
+        classpath 'com.google.gms:google-services:latest.release'
         // Add the dependency for the Performance Monitoring Gradle plugin
-        classpath 'com.google.firebase:perf-plugin:1.4.2'
+        classpath 'com.google.firebase:perf-plugin:latest.release'
         // Add the dependency for the Crashlytics Gradle plugin
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.7'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:latest.release'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
 

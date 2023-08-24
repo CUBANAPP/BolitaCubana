@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
@@ -59,6 +60,13 @@ public class ImageFragment extends Fragment {
     private RequestQueue requestQueue;
 
     private String apiKey;
+
+    private byte[] image;
+
+    private byte[] data;
+
+    private String type;
+    private String name;
     private final String DEBUG_TAG = "ImageFragment";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -68,193 +76,13 @@ public class ImageFragment extends Fragment {
 
         apiKey = BuildConfig.API_KEY;
 
+        image = null;
+        data = null;
+        type = null;
+        name = null;
+
         getParentFragmentManager().setFragmentResultListener("CUBANAPPImage", getViewLifecycleOwner(), (key, bundle) -> {
-
-            if (bundle != null) {
-                String type = bundle.getString("type", null);
-                if (type != null) {
-                    Log.e(DEBUG_TAG, type);
-                    String name = bundle.getString("name", null);
-                    if (getActivity() != null) {
-                        if (((MainActivity) getActivity()).getSupportActionBar() != null) {
-                            ((MainActivity) getActivity()).getSupportActionBar().setTitle(Objects.requireNonNullElse(name, "ERROR NAME"));
-                            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                            if (preferences.getBoolean("copyID", false)) {
-                                boolean copy = preferences.getBoolean("copyID", false);
-                                Log.e(DEBUG_TAG, "copyID" + copy);
-                                copyName(Objects.requireNonNullElse(name, ""));
-                            }
-                        }
-                    }
-                    if (type.equals("jpg")) {
-                        byte[] image = bundle.getByteArray("base64");
-                        if (image != null) {
-                            binding.imageFragmentViewer.setVisibility(View.VISIBLE);
-                            Bitmap decodedByte = BitmapFactory.decodeByteArray(image, 0, image.length);
-                            binding.imageFragmentViewer.setImageBitmap(decodedByte);
-                            String hdName = name + "_HD";
-                            String cache = null;
-                            try {
-                                cache = readData(hdName);
-
-                            } catch (IOException e) {
-                                Log.d(DEBUG_TAG, "Error de la CACHE: " + e.getMessage());
-                                downloadFiles(name);
-                            } catch (Exception e) {
-                                Log.d(DEBUG_TAG, "Exception");
-                                downloadFiles(name);
-                            }
-                            if (cache != null) {
-                                JSONObject jsonFile = null;
-                                try {
-                                    jsonFile = new JSONObject(cache);
-                                } catch (JSONException e) {
-                                    //throw new RuntimeException(e);
-                                }
-                                String base64 = null;
-                                try {
-                                    base64 = jsonFile.getString("base64");
-                                } catch (JSONException e) {
-                                    //throw new RuntimeException(e);
-                                }
-                                byte[] image2 = Base64.decode(base64, Base64.DEFAULT);
-                                if (image2 != null) {
-                                    binding.imageFragmentViewer.setVisibility(View.VISIBLE);
-                                    Bitmap decodedByte2 = BitmapFactory.decodeByteArray(image2, 0, image2.length);
-                                    binding.imageFragmentViewer.setImageBitmap(decodedByte2);
-                                    binding.progressBar5.setVisibility(View.GONE);
-                                }
-                            } else downloadFiles(name);
-                        }
-                    } else {
-                        binding.progressBar5.setVisibility(View.GONE);
-                        byte[] data = bundle.getByteArray("base64");
-                        if (data != null) {
-                            String text;
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                                text = new String(data, StandardCharsets.UTF_8);
-                            } else {
-                                try {
-                                    text = new String(data, "UTF-8");
-                                } catch (UnsupportedEncodingException e) {
-                                    if (e.getMessage() != null) {
-                                        Log.e(DEBUG_TAG, e.getMessage());
-                                    }
-                                    if (Build.VERSION.SDK_INT >= 19) {
-                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
-                                        firebaseCrashlytics.sendUnsentReports();
-                                        firebaseCrashlytics.recordException(e);
-                                    }
-                                    throw new RuntimeException(e);
-                                }
-                            }
-                            if (text != null) {
-                                binding.nestcontainer2.setVisibility(View.VISIBLE);
-                                binding.textFragmentViewer.setText(text);
-                                //Typeface font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
-                                //binding.textFragmentViewer.setTypeface(font);
-                            }
-                        }
-                    }
-                }
-            } else {
-                if (savedInstanceState != null) {
-                    if (bundle == null) {
-                        bundle = new Bundle();
-                        try {
-                            bundle.putAll(savedInstanceState);
-                        } catch (NullPointerException e) {
-                            Log.d(DEBUG_TAG, "NullPointerException: bundle");
-                        }
-                    }
-                    String type = savedInstanceState.getString("type", null);
-                    if (type != null) {
-                        Log.e(DEBUG_TAG, type);
-                        String name = savedInstanceState.getString("name", null);
-                        if (getActivity() != null) {
-                            if (((MainActivity) getActivity()).getSupportActionBar() != null) {
-                                ((MainActivity) getActivity()).getSupportActionBar().setTitle(Objects.requireNonNullElse(name, "ERROR NOMBRE"));
-                                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-                                if (preferences.getBoolean("copyID", false)) {
-                                    boolean copy = preferences.getBoolean("copyID", false);
-                                    Log.e(DEBUG_TAG, "copyID" + copy);
-                                    copyName(Objects.requireNonNullElse(name, ""));
-                                }
-                            }
-                        }
-                        if (type.equals("jpg")) {
-                            byte[] image = savedInstanceState.getByteArray("base64");
-                            if (image != null) {
-                                binding.imageFragmentViewer.setVisibility(View.VISIBLE);
-                                Bitmap decodedByte = BitmapFactory.decodeByteArray(image, 0, image.length);
-                                binding.imageFragmentViewer.setImageBitmap(decodedByte);
-                                String hdName = name + "_HD";
-                                String cache = null;
-                                try {
-                                    cache = readData(hdName);
-
-                                } catch (IOException e) {
-                                    Log.d(DEBUG_TAG, "Error de la CACHE: " + e.getMessage());
-                                    downloadFiles(name);
-                                } catch (Exception e) {
-                                    Log.d(DEBUG_TAG, "Exception");
-                                    downloadFiles(name);
-                                }
-                                if (cache != null) {
-                                    JSONObject jsonFile = null;
-                                    try {
-                                        jsonFile = new JSONObject(cache);
-                                    } catch (JSONException e) {
-                                        //throw new RuntimeException(e);
-                                    }
-                                    String base64 = null;
-                                    try {
-                                        base64 = jsonFile.getString("base64");
-                                    } catch (JSONException e) {
-                                        //throw new RuntimeException(e);
-                                    }
-                                    byte[] image2 = Base64.decode(base64, Base64.DEFAULT);
-                                    if (image2 != null) {
-                                        binding.imageFragmentViewer.setVisibility(View.VISIBLE);
-                                        Bitmap decodedByte2 = BitmapFactory.decodeByteArray(image2, 0, image2.length);
-                                        binding.imageFragmentViewer.setImageBitmap(decodedByte2);
-                                        binding.progressBar5.setVisibility(View.GONE);
-                                    }
-                                } else downloadFiles(name);
-                            }
-                        } else {
-                            binding.progressBar5.setVisibility(View.GONE);
-                            byte[] data = savedInstanceState.getByteArray("base64");
-                            if (data != null) {
-                                String text;
-                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                                    text = new String(data, StandardCharsets.UTF_8);
-                                } else {
-                                    try {
-                                        text = new String(data, "UTF-8");
-                                    } catch (UnsupportedEncodingException e) {
-                                        if (e.getMessage() != null) {
-                                            Log.e(DEBUG_TAG, e.getMessage());
-                                        }
-                                        if (Build.VERSION.SDK_INT >= 19) {
-                                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
-                                            firebaseCrashlytics.sendUnsentReports();
-                                            firebaseCrashlytics.recordException(e);
-                                        }
-                                        throw new RuntimeException(e);
-                                    }
-                                }
-                                if (text != null) {
-                                    binding.nestcontainer2.setVisibility(View.VISIBLE);
-                                    binding.textFragmentViewer.setText(text);
-                                    //Typeface font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
-                                    //binding.textFragmentViewer.setTypeface(font);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            buildView(bundle);
         });
         return root;
     }
@@ -402,6 +230,95 @@ public class ImageFragment extends Fragment {
 
     }
 
+    private void buildView(@Nullable Bundle bundle){
+        if(bundle != null) {
+            type = bundle.getString("type", null);
+            if (type != null) {
+                Log.e(DEBUG_TAG, type);
+                name = bundle.getString("name", null);
+                if (getActivity() != null) {
+                    if (((MainActivity) getActivity()).getSupportActionBar() != null) {
+                        ((MainActivity) getActivity()).getSupportActionBar().setTitle(Objects.requireNonNullElse(name, "ERROR NAME"));
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                        if (preferences.getBoolean("copyID", false)) {
+                            boolean copy = preferences.getBoolean("copyID", false);
+                            Log.e(DEBUG_TAG, "copyID" + copy);
+                            copyName(Objects.requireNonNullElse(name, ""));
+                        }
+                    }
+                }
+                if (type.equals("jpg")) {
+                    image = bundle.getByteArray("base64");
+                    if (image != null) {
+                        binding.imageFragmentViewer.setVisibility(View.VISIBLE);
+                        Bitmap decodedByte = BitmapFactory.decodeByteArray(image, 0, image.length);
+                        binding.imageFragmentViewer.setImageBitmap(decodedByte);
+                        String hdName = name + "_HD";
+                        String cache = null;
+                        try {
+                            cache = readData(hdName);
+
+                        } catch (IOException e) {
+                            Log.d(DEBUG_TAG, "Error de la CACHE: " + e.getMessage());
+                            downloadFiles(name);
+                        } catch (Exception e) {
+                            Log.d(DEBUG_TAG, "Exception");
+                            downloadFiles(name);
+                        }
+                        if (cache != null) {
+                            JSONObject jsonFile = null;
+                            try {
+                                jsonFile = new JSONObject(cache);
+                            } catch (JSONException e) {
+                                //throw new RuntimeException(e);
+                            }
+                            String base64 = null;
+                            try {
+                                base64 = jsonFile.getString("base64");
+                            } catch (JSONException e) {
+                                //throw new RuntimeException(e);
+                            }
+                            byte[] image2 = Base64.decode(base64, Base64.DEFAULT);
+                            if (image2 != null) {
+                                binding.imageFragmentViewer.setVisibility(View.VISIBLE);
+                                Bitmap decodedByte2 = BitmapFactory.decodeByteArray(image2, 0, image2.length);
+                                binding.imageFragmentViewer.setImageBitmap(decodedByte2);
+                                binding.progressBar5.setVisibility(View.GONE);
+                            }
+                        } else downloadFiles(name);
+                    }
+                } else {
+                    binding.progressBar5.setVisibility(View.GONE);
+                    byte[] data = bundle.getByteArray("base64");
+                    if (data != null) {
+                        String text;
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                            text = new String(data, StandardCharsets.UTF_8);
+                        } else {
+                            try {
+                                text = new String(data, "UTF-8");
+                            } catch (UnsupportedEncodingException e) {
+                                if (e.getMessage() != null) {
+                                    Log.e(DEBUG_TAG, e.getMessage());
+                                }
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                    firebaseCrashlytics.sendUnsentReports();
+                                    firebaseCrashlytics.recordException(e);
+                                }
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        if (text != null) {
+                            binding.nestcontainer2.setVisibility(View.VISIBLE);
+                            binding.textFragmentViewer.setText(text);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public String readData(String name) throws IOException {
 
         if (getActivity() != null && getContext() != null && binding != null) {
@@ -418,5 +335,22 @@ public class ImageFragment extends Fragment {
             return data;
         } else
             return null;
+    }
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        if(image != null)
+            outState.putByteArray("base64", image);
+        else outState.putByteArray("base64", data);
+
+        if(type != null) outState.putString("type",type);
+
+        if(name != null) outState.putString("name",name);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        if(savedInstanceState != null) buildView(savedInstanceState);
+        super.onViewStateRestored(savedInstanceState);
     }
 }

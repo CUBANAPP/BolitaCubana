@@ -4,15 +4,17 @@
   -->
 
 <resources>
+    <color name="light_red">#FF9292</color>
     <color name="red_200">#DB0101</color>
     <color name="red_500">#a90000</color>
     <color name="red_500_50">#80A90000</color>
     <color name="red_700">#770000</color>
     <color name="light_blue">#66FFFB</color>
+    <color name="light_green">#99FF66</color>
     <color name="dark_green">#004A1F</color>
     <color name="blue_200">#006e9a</color>
     <color name="blue_700">#003C56</color>
-    <color name="navy_blue">#3E57A8</color>
+    <color name="navy_blue">#92ACFF</color>
     <color name="dark_blue">#000A36</color>
     <color name="light_yellow">#FFFAA4</color>
     <color name="yellow">#FFFF00</color>

@@ -30,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="24sp"
+            android:textStyle="bold"
             android:textColor="@color/white"
             android:gravity="center"
             android:text="@string/fltittle" />
@@ -49,8 +50,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="left|start"
                     android:text="@string/dia"
+                    android:textStyle="bold"
                     android:textColor="@color/light_yellow"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/SDs"
@@ -59,7 +61,7 @@
                     android:gravity="left|start"
                     android:text=""
                     android:textColor="@color/light_yellow"
-                    android:textSize="22sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/D1s"
@@ -90,6 +92,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
+                        android:textStyle="bold"
                         android:textColor="@color/black_yellow"
                         android:textSize="34sp" />
 
@@ -98,6 +101,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
+                        android:textStyle="bold"
                         android:textColor="@color/yellow"
                         android:textSize="34sp" />
                 </LinearLayout>
@@ -114,6 +118,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
+                        android:textStyle="bold"
                         android:textColor="@color/light_blue"
                         android:textSize="34sp" />
 
@@ -122,7 +127,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textColor="@color/holo_green"
+                        android:textStyle="bold"
+                        android:textColor="@color/light_green"
                         android:textSize="34sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -146,8 +152,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="left|start"
                     android:text="@string/noche"
+                    android:textStyle="bold"
                     android:textColor="@color/navy_blue"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/SNs"
@@ -155,8 +162,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="left|start"
                     android:text=""
+                    android:textStyle="normal"
                     android:textColor="@color/navy_blue"
-                    android:textSize="22sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/N1s"
@@ -187,6 +195,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
+                        android:textStyle="bold"
                         android:textColor="@color/black_yellow"
                         android:textSize="34sp" />
 
@@ -195,6 +204,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
+                        android:textStyle="bold"
                         android:textColor="@color/yellow"
                         android:textSize="34sp" />
                 </LinearLayout>
@@ -211,6 +221,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
+                        android:textStyle="bold"
                         android:textColor="@color/light_blue"
                         android:textSize="34sp" />
 
@@ -219,7 +230,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:textColor="@color/holo_green"
+                        android:textStyle="bold"
+                        android:textColor="@color/light_green"
                         android:textSize="34sp" />
                 </LinearLayout>
             </LinearLayout>

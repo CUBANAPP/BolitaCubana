@@ -27,6 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:textStyle="italic|bold"
         android:textColor="?attr/colorPrimary"
         android:gravity="center"
         android:text="@string/copyright"
@@ -40,6 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="40sp"
+        android:textStyle="bold"
         android:gravity="center"
         android:textColor="?attr/colorPrimaryVariant"
         android:text="@string/loading"
@@ -52,6 +54,7 @@
         android:layout_height="wrap_content"
         android:textSize="50sp"
         android:gravity="center"
+        android:textStyle="bold"
         android:textColor="?attr/colorPrimaryInverse"
         android:text="@string/app_name"
         app:layout_constraintTop_toTopOf="parent"
@@ -81,25 +84,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_accept"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:text="@string/accept"
-        android:textColor="@android:color/holo_green_dark"
+        android:textColor="@color/holo_green"
         android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-    <Button
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_cancel"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:text="@string/cancel"
-        android:textColor="@android:color/holo_red_dark"
+        android:textColor="@color/holo_red"
         android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

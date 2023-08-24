@@ -2,19 +2,21 @@
 <!--
   ~ Copyright (c) CUBANAPP LLC 2019-2023 .
   -->
-
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/adivinanzaLayout"
+    tools:context=".ui.pronostico.Adivinanza">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    android:id="@+id/adivinanzaLayout"
-    tools:context=".ui.pronostico.Adivinanza">
+    app:layout_constraintTop_toTopOf="parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:isScrollContainer="true"
@@ -47,6 +49,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:textSize="24sp"
+        android:textStyle="bold"
         android:shadowColor="@color/black"
         android:shadowRadius="6"
         android:text="@string/leyendo_archivos"
@@ -56,3 +59,4 @@
         app:layout_constraintTop_toBottomOf="@id/progressbar6"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

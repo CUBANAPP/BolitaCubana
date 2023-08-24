@@ -6,7 +6,6 @@ package com.cubanapp.bolitacubana.ui.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,10 +60,6 @@ public class NewYorkFragment extends Fragment {
     private Snackbar mySnackbar;
     private static final String DEBUG_TAG = "NewYorkFragment";
 
-    /*public static FloridaFragment newInstance() {
-        return new FloridaFragment();
-    }*/
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,14 +76,12 @@ public class NewYorkFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        /*mViewModel =
-                new ViewModelProvider(this).get(FloridaViewModel.class);
-        */
+
         binding = FragmentNewyorkBinding.inflate(inflater, container, false);
         binding.button31.setOnClickListener(viewe -> {
             if (binding != null && binding.button31.isClickable() && getActivity() != null) {
                 binding.button31.setClickable(false);
-                //NavHostFragment.findNavController(this).navigate(R.id.action_fragment_georgia_to_fragment_sevendays);
+
                 Bundle bundle = new Bundle();
                 bundle.putString("name", "newyorkSavedFile");
                 getParentFragmentManager().setFragmentResult("SevenDays", bundle);
@@ -104,7 +97,6 @@ public class NewYorkFragment extends Fragment {
                         firebaseCrashlytics.sendUnsentReports();
                         firebaseCrashlytics.recordException(e);
                     }
-                    //
                 }
             }
         });
@@ -117,23 +109,10 @@ public class NewYorkFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Typeface font = null;
-        if (binding != null && getActivity() != null)
-            font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
-
         if (binding != null) {
             String savedFechaString = sharedPref.getString("updateCheckDate3", null);
             if (savedFechaString != null)
                 binding.updateDate.setText(savedFechaString);
-            if (font != null) {
-                binding.titleny.setTypeface(font);
-                binding.D1.setTypeface(font);
-                binding.D.setTypeface(font);
-                binding.SD.setTypeface(font);
-                binding.N1.setTypeface(font);
-                binding.N.setTypeface(font);
-                binding.SN.setTypeface(font);
-            }
 
             String fijo1 = sharedPref.getString("nyF1", "---");
             String fijo2 = sharedPref.getString("nyF2", "---");

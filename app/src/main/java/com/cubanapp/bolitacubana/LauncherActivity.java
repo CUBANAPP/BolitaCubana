@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -106,18 +105,6 @@ public class LauncherActivity extends AppCompatActivity {
         } catch (KeyManagementException e) {
             throw new RuntimeException(e);
         }*/
-
-        Typeface font = null;
-        if (binding != null && getAssets() != null)
-            font = Typeface.createFromAsset(getAssets(), "burbank_normal.otf");
-
-        if (font != null) {
-            binding.btnAccept.setTypeface(font);
-            binding.btnCancel.setTypeface(font);
-            binding.textView7.setTypeface(font);
-            binding.textView40.setTypeface(font);
-            binding.textView41.setTypeface(font);
-        }
 
         if (Build.VERSION.SDK_INT >= 19) {
             FirebaseApp.initializeApp(this);
@@ -344,6 +331,7 @@ public class LauncherActivity extends AppCompatActivity {
                     SharedPreferences.Editor sharedPrefEditor = preferences.edit();
                     sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
                     sharedPrefEditor.putInt("gad_rdp", 1);
+                    sharedPrefEditor.putInt("rdp", 1);
                     sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
                     sharedPrefEditor.apply();
                     //mFirebaseMessages = FirebaseMessaging.getInstance();
@@ -410,15 +398,27 @@ public class LauncherActivity extends AppCompatActivity {
                 if (ConnSuccess) {
                     if (Build.VERSION.SDK_INT >= 19) {
                         if (BuildConfig.VERSION_CODE > preferences.getInt("version_install", 105)) {
-                            SharedPreferences.Editor sharedPrefEditor = preferences.edit();
-                            if (preferences.getInt("version_install", 105) == 107) {
-                                sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
-                                mFirebaseMessages.unsubscribeFromTopic("Default");
-                                Log.d(DEBUG_TAG, "Update DEBUG");
-                                sharedPrefEditor.apply();
-                            } else if (preferences.getInt("version_install", 105) < 107) {
+                            if (preferences.getInt("version_install", 105) > 107 && BuildConfig.VERSION_CODE == 112) {
+                                SharedPreferences.Editor sharedPrefEditor = preferences.edit();
                                 sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
                                 sharedPrefEditor.putInt("gad_rdp", 1);
+                                sharedPrefEditor.putInt("rdp", 1);
+                                sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
+                                sharedPrefEditor.apply();
+                            }
+                            else if (preferences.getInt("version_install", 105) == 107) {
+                                SharedPreferences.Editor sharedPrefEditor = preferences.edit();
+                                sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
+                                mFirebaseMessages.unsubscribeFromTopic("Default");
+                                sharedPrefEditor.putInt("rdp", 1);
+                                Log.d(DEBUG_TAG, "Update DEBUG");
+                                sharedPrefEditor.apply();
+                            }
+                            else if (preferences.getInt("version_install", 105) < 107) {
+                                SharedPreferences.Editor sharedPrefEditor = preferences.edit();
+                                sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
+                                sharedPrefEditor.putInt("gad_rdp", 1);
+                                sharedPrefEditor.putInt("rdp", 1);
                                 sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
                                 sharedPrefEditor.apply();
                                 //mFirebaseMessages = FirebaseMessaging.getInstance();

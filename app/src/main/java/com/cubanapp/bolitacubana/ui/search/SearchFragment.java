@@ -5,7 +5,6 @@
 package com.cubanapp.bolitacubana.ui.search;
 
 import android.app.Dialog;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +15,7 @@ import android.widget.CalendarView;
 import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
@@ -65,40 +65,6 @@ public class SearchFragment extends Fragment {
         //final TextView textView = binding;
         //dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
-    }
-
-    /*private void pickDate(View v){
-        CalendarView calendarView = .findViewById(R.id.calendarid);
-        calendarView.getDate();
-        Log.d(DEBUG_TAG, "DATE Selected: " + calendarView.getDate());
-
-    }*/
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        Typeface font = null;
-        if (binding != null && getActivity() != null) {
-
-            font = Typeface.createFromAsset(requireContext().getAssets(), "burbank_normal.otf");
-            if (font != null) {
-                binding.titlefl2.setTypeface(font);
-                binding.D1s.setTypeface(font);
-                binding.Ds.setTypeface(font);
-                binding.SDs.setTypeface(font);
-                /*binding.F10s.setTypeface(font);
-                binding.F11s.setTypeface(font);
-                binding.C11s.setTypeface(font);
-                binding.C12s.setTypeface(font);*/
-                binding.N1s.setTypeface(font);
-                binding.Ns.setTypeface(font);
-                binding.SNs.setTypeface(font);
-                /*binding.F20s.setTypeface(font);
-                binding.F21s.setTypeface(font);
-                binding.C21s.setTypeface(font);
-                binding.C22s.setTypeface(font);*/
-            }
-        }
     }
 
     private void openDate(View v) {
@@ -375,5 +341,48 @@ public class SearchFragment extends Fragment {
                 builder.dismiss();
         }
         super.onDestroyView();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString("D1s", binding.D1s.getText().toString());
+        outState.putString("Ds", binding.Ds.getText().toString());
+        outState.putString("SDs", binding.SDs.getText().toString());
+        outState.putString("F10s", binding.F10s.getText().toString());
+        outState.putString("F11s", binding.F11s.getText().toString());
+        outState.putString("C11s", binding.C11s.getText().toString());
+        outState.putString("C12s", binding.C12s.getText().toString());
+        outState.putString("N1s", binding.N1s.getText().toString());
+        outState.putString("Ns", binding.Ns.getText().toString());
+        outState.putString("SNs", binding.SNs.getText().toString());
+        outState.putString("F20s", binding.F20s.getText().toString());
+        outState.putString("F21s", binding.F21s.getText().toString());
+        outState.putString("C21s", binding.C21s.getText().toString());
+        outState.putString("C22s", binding.C22s.getText().toString());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        if(savedInstanceState != null) buildView(savedInstanceState);
+        super.onViewStateRestored(savedInstanceState);
+    }
+    private void buildView(@Nullable Bundle bundle){
+        if(bundle != null) {
+            binding.D1s.setText(bundle.getString("D1s",""));
+            binding.Ds.setText(bundle.getString("Ds",""));
+            binding.SDs.setText(bundle.getString("SDs",""));
+            binding.F10s.setText(bundle.getString("F10s",""));
+            binding.F11s.setText(bundle.getString("F11s",""));
+            binding.C11s.setText(bundle.getString("C11s",""));
+            binding.C12s.setText(bundle.getString("C12s",""));
+            binding.N1s.setText(bundle.getString("N1s",""));
+            binding.Ns.setText(bundle.getString("Ns",""));
+            binding.SNs.setText(bundle.getString("SNs",""));
+            binding.F20s.setText(bundle.getString("F20s",""));
+            binding.F21s.setText(bundle.getString("F21s",""));
+            binding.C21s.setText(bundle.getString("C21s",""));
+            binding.C22s.setText(bundle.getString("C22s",""));
+        }
     }
 }

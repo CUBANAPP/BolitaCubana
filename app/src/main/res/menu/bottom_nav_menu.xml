@@ -3,7 +3,8 @@
   ~ Copyright (c) CUBANAPP LLC 2019-2023 .
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@id/navigation_home"

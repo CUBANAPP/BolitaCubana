@@ -6,26 +6,45 @@
     <!-- Base application theme. -->
     <style name="Theme.BolitaCubana" parent="Theme.Material3.DayNight">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#00668B</item>
-        <item name="colorPrimaryVariant">#003549</item>
+        <!-- Fondo Botones. -->
+        <item name="colorPrimary">#1A1A1A</item>
+        <item name="colorPrimaryVariant">#DB0101</item>
+
+        <!-- Texto opciones. -->
+        <item name="android:textColorPrimary">#003C56</item>
+        <!-- Texto Lista -->
+        <item name="textColorAlertDialogListItem">#000000</item>
+        <!-- Fondo. -->
+        <item name="android:colorBackground">#FFFFFF</item>
+
+        <!-- Color Tick. -->
+        <item name="colorPrimaryContainer">#A90000</item>
+
+        <item name="colorSecondaryContainer">#1A1A1A</item>
+        <item name="colorOnSecondaryContainer">#FFFFFF</item>
+
+        <!-- Texto Botones. -->
         <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="android:textColorPrimary">#001E2C</item>
-        <item name="textColorAlertDialogListItem">#001E2C</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#76D1FF</item>
-        <item name="colorSecondaryVariant">#219BCC</item>
+        <!-- Titulo texto opciones. -->
+        <item name="colorSecondary">#DB0101</item>
+        <item name="colorSecondaryVariant">#A90000</item>
         <item name="colorOnSecondary">#001E2C</item>
 
-        <item name="colorTertiary">#747679</item>
-        <item name="colorTertiaryContainer">#747679</item>
+        <item name="colorTertiary">#1A1A1A</item>
+        <item name="colorTertiaryContainer">#FFFFFF</item>
+        <item name="colorOnTertiary">#003C56</item>
+        <item name="colorOnSurfaceVariant">#1A1A1A</item>
 
-        <!-- Status bar color. -->
-        <item name="elevationOverlayColor">#66FFFB</item>
-        <item name="colorPrimaryInverse">#A90000</item>
+        <!-- Status bar color. 66FFFB C1E8FF-->
+        <item name="elevationOverlayColor">#FFFFFF</item>
+        <item name="colorPrimaryInverse">#000000</item>
 
         <item name="android:textColorHighlight">#001E2C</item>
-        <item name="android:textColorHighlightInverse">#C1E8FF</item>
+        <item name="android:textColorHighlightInverse">#FFFFFF</item>
 
+        <!-- StatusBar-->
+        <item name="colorSurface">#FFFFFF</item>
         <!-- Transparent system bars for edge-to-edge. -->
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -34,30 +53,44 @@
     </style>
     <style name="Theme.BolitaCubana.Full" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#00668B</item>
-        <item name="colorPrimaryVariant">#003549</item>
+        <!-- Fondo Botones. -->
+        <item name="colorPrimary">#A90000</item>
+        <item name="colorPrimaryVariant">#DB0101</item>
+
+        <!-- Texto opciones. -->
+        <item name="android:textColorPrimary">#003C56</item>
+        <!-- Texto Lista -->
+        <item name="textColorAlertDialogListItem">#000000</item>
+        <!-- Fondo. -->
+        <item name="android:colorBackground">#FFFFFF</item>
+
+        <!-- Color Tick. -->
+        <item name="colorPrimaryContainer">#A90000</item>
+
+        <item name="colorSecondaryContainer">#1A1A1A</item>
+        <item name="colorOnSecondaryContainer">#FFFFFF</item>
+
+        <!-- Texto Botones. -->
         <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="android:textColorPrimary">#001E2C</item>
-        <item name="textColorAlertDialogListItem">#001E2C</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#76D1FF</item>
-        <item name="colorSecondaryVariant">#219BCC</item>
+        <!-- Titulo texto opciones. -->
+        <item name="colorSecondary">#DB0101</item>
+        <item name="colorSecondaryVariant">#A90000</item>
         <item name="colorOnSecondary">#001E2C</item>
 
-        <item name="colorTertiary">#747679</item>
-        <item name="colorTertiaryContainer">#747679</item>
+        <item name="colorTertiary">#1A1A1A</item>
+        <item name="colorTertiaryContainer">#FFFFFF</item>
+        <item name="colorOnTertiary">#003C56</item>
+        <item name="colorOnSurfaceVariant">#1A1A1A</item>
 
-        <!-- Status bar color. -->
-        <item name="elevationOverlayColor">#66FFFB</item>
-        <item name="colorPrimaryInverse">#A90000</item>
+        <!-- Status bar color. 66FFFB C1E8FF-->
+        <item name="elevationOverlayColor">#FFFFFF</item>
+        <item name="colorPrimaryInverse">#003C56</item>
 
         <item name="android:textColorHighlight">#001E2C</item>
-        <item name="android:textColorHighlightInverse">#C1E8FF</item>
+        <item name="android:textColorHighlightInverse">#FFFFFF</item>
 
-        <!-- Transparent system bars for edge-to-edge. -->
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
-        <!-- Customize your theme here. -->
+        <!-- StatusBar-->
+        <item name="colorSurface">#FFFFFF</item>
     </style>
 </resources>
