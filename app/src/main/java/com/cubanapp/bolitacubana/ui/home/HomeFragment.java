@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -25,18 +24,11 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private static final String DEBUG_TAG = "HomeFragment";
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        /*HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-*/
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
         binding.buttonFlorida.setOnClickListener(view1a -> {
             if (binding != null && binding.buttonFlorida.isClickable() && getActivity() != null) {
                 binding.buttonFlorida.setClickable(false);
@@ -96,36 +88,10 @@ public class HomeFragment extends Fragment {
                         firebaseCrashlytics.sendUnsentReports();
                         firebaseCrashlytics.recordException(e);
                     }
-                    //
                 }
             }
         });
-
-
-        //binding.textDashboard;
-        /*final Button b = root.findViewById(R.id.button);
-        b.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Log.d(DEBUG_TAG, "Clicked Button1");
-                FloridaFragment nextFrag= new FloridaFragment();
-                requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.homelayout, nextFrag, "findThisFragment")
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });*/
-
-        //final TextView textView = binding.textHome;
-        //homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

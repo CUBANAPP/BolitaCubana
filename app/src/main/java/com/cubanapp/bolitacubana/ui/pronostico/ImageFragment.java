@@ -91,11 +91,7 @@ public class ImageFragment extends Fragment {
         if (getActivity() != null && binding != null) {
             requestQueue = Volley.newRequestQueue(getActivity());
         }
-        //}
-            /*catch (Exception e){
-                Log.e(DEBUG_TAG, "Volley Error : " + e.getMessage());
-                //throw new RuntimeException(e);
-            }*/
+
         if (requestQueue != null && binding != null && getActivity() != null) {
 
             //binding.progressbar6.setVisibility(View.GONE);
@@ -234,7 +230,6 @@ public class ImageFragment extends Fragment {
         if(bundle != null) {
             type = bundle.getString("type", null);
             if (type != null) {
-                Log.e(DEBUG_TAG, type);
                 name = bundle.getString("name", null);
                 if (getActivity() != null) {
                     if (((MainActivity) getActivity()).getSupportActionBar() != null) {
@@ -242,7 +237,7 @@ public class ImageFragment extends Fragment {
                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
                         if (preferences.getBoolean("copyID", false)) {
                             boolean copy = preferences.getBoolean("copyID", false);
-                            Log.e(DEBUG_TAG, "copyID" + copy);
+                            Log.d(DEBUG_TAG, "copyID" + copy);
                             copyName(Objects.requireNonNullElse(name, ""));
                         }
                     }
@@ -324,7 +319,7 @@ public class ImageFragment extends Fragment {
         if (getActivity() != null && getContext() != null && binding != null) {
             File dataFile = new File(getContext().getCacheDir(), name.concat(".json"));
             if (!dataFile.exists()) {
-                Log.e(DEBUG_TAG, "File do not Exist");
+                Log.w(DEBUG_TAG, "File do not Exist");
                 return null;
             }
             FileInputStream fileInputStream = new FileInputStream(dataFile);

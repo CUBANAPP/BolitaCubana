@@ -42,7 +42,6 @@ public class CharadaFragment extends Fragment {
         View root = binding.getRoot();
 
         TextInputEditText edittext = binding.edittext;
-        //notificationsViewModel.getText().observe(getViewLifecycleOwner(), edittext::setText);
         edittext.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -27,11 +27,12 @@
         android:layout_gravity="center"
         android:id="@+id/nameid"
         android:textSize="12sp"
+        android:textStyle="bold"
         android:textColor="?attr/colorPrimary"
-        android:layout_width="wrap_content"
+        android:layout_width="108dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="TEST" />
+        android:text="8e12cd6ead68bd03d3e3596fe8b6f7e9" />
     <TextView
         android:visibility="gone"
         android:gravity="end"
@@ -39,9 +40,9 @@
         android:id="@+id/typ"
         android:textSize="14sp"
         android:textColor="@android:color/holo_red_dark"
-        android:layout_width="wrap_content"
+        android:layout_width="108dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="TEST" />
+        android:text="" />
 
 </LinearLayout>

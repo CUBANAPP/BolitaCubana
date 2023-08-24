@@ -50,12 +50,12 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
 
         if (Objects.equals(listdata[position].getType(), "jpg")) {
             //holder.type.setText("Image");
-            holder.name.setTextColor(Color.DKGRAY);
-            holder.type.setTextColor(Color.BLACK);
+            holder.name.setTextColor(Color.BLACK);
+            holder.type.setTextColor(Color.WHITE);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(holder.getBytes(), 0, holder.getBytes().length);
             holder.image.setImageBitmap(decodedByte);
         } else {
-            holder.name.setTextColor(Color.LTGRAY);
+            holder.name.setTextColor(Color.BLACK);
             holder.type.setTextColor(Color.WHITE);
             //holder.type.setText("Texto");
         }

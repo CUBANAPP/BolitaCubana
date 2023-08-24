@@ -6,6 +6,7 @@ package com.cubanapp.bolitacubana.ui.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -50,6 +52,7 @@ public class FloridaFragment extends Fragment {
     private RequestQueue requestQueue;
 
     private SharedPreferences sharedPref;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private Snackbar mySnackbar;
     private static final String DEBUG_TAG = "FloridaFragment";
@@ -58,23 +61,24 @@ public class FloridaFragment extends Fragment {
         return new FloridaFragment();
     }*/
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
+        binding = FragmentFloridaBinding.inflate(inflater, container, false);
         apiKey = BuildConfig.API_KEY;
 
         if (getActivity() != null)
             sharedPref = getActivity().getSharedPreferences(
                     getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
-        //FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
-        //firebaseMessaging.getToken().addOnCompleteListener(v -> Log.d(DEBUG_TAG, "FCM Key: " + v.getResult()));
-    }
-
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-
-        binding = FragmentFloridaBinding.inflate(inflater, container, false);
+        swipeRefreshLayout = binding.floridaContainer;
+        swipeRefreshLayout.setColorSchemeColors(Color.RED);
+        swipeRefreshLayout.setOnRefreshListener(
+                () -> {
+                    if (binding != null) {
+                        startSync();
+                    }
+                });
 
         binding.button3.setOnClickListener(view1q -> {
             if (binding != null && binding.button3.isClickable() && getActivity() != null) {
@@ -258,11 +262,8 @@ public class FloridaFragment extends Fragment {
         }
         if (update) {
 
-            if (binding != null)
-                binding.progressBar2.setVisibility(View.VISIBLE);
-
-
-            if (getActivity() != null && binding != null) {
+            if (binding != null && getActivity() != null) {
+                swipeRefreshLayout.setRefreshing(true);
                 requestQueue = Volley.newRequestQueue(getActivity());
             }
 
@@ -395,8 +396,7 @@ public class FloridaFragment extends Fragment {
                                         mySnackbar.show();
                                     }
                                 }
-                                if (binding != null)
-                                    binding.progressBar2.setVisibility(View.GONE);
+                                if (binding != null) swipeRefreshLayout.setRefreshing(false);
                             } catch (JSONException e) {
                                 //errorStart.set(true);
                                 //try {
@@ -429,8 +429,7 @@ public class FloridaFragment extends Fragment {
                             }
 
                         }, error -> {
-                    if (binding != null)
-                        binding.progressBar2.setVisibility(View.GONE);
+                    if (binding != null) swipeRefreshLayout.setRefreshing(false);
                     if (error instanceof TimeoutError) {
                         //try {
                         if (getActivity() != null && binding != null) {
@@ -477,6 +476,6 @@ public class FloridaFragment extends Fragment {
             SharedPreferences.Editor edit = sharedPref.edit();
             edit.putString("updateCheckDate", fechaStringz);
             edit.apply();
-        }
+        } else if (binding != null) swipeRefreshLayout.setRefreshing(false);
     }
 }

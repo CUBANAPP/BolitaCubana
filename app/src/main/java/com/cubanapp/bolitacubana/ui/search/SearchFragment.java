@@ -54,16 +54,10 @@ public class SearchFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        /*DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
-*/
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         apiKey = BuildConfig.API_KEY;
         binding.button4.setOnClickListener(this::openDate);
-
-        //final TextView textView = binding;
-        //dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

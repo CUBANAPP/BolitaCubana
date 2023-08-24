@@ -6,6 +6,7 @@ package com.cubanapp.bolitacubana.ui.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -56,26 +58,29 @@ public class GeorgiaFragment extends Fragment {
     private RequestQueue requestQueue;
 
     private SharedPreferences sharedPref;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private Snackbar mySnackbar;
     private static final String DEBUG_TAG = "GeorgiaFragment";
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        binding = FragmentGeorgiaBinding.inflate(inflater, container, false);
         apiKey = BuildConfig.API_KEY;
 
         if (getActivity() != null)
             sharedPref = getActivity().getSharedPreferences(
                     getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
-        //FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
-        //firebaseMessaging.getToken().addOnCompleteListener(v -> Log.d(DEBUG_TAG, "FCM Key: " + v.getResult()));
-    }
+        swipeRefreshLayout = binding.georgiaContainer;
+        swipeRefreshLayout.setColorSchemeColors(Color.RED);
+        swipeRefreshLayout.setOnRefreshListener(
+                () -> {
+                    if (binding != null) {
+                        startSync();
+                    }
+                });
 
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        binding = FragmentGeorgiaBinding.inflate(inflater, container, false);
         binding.button30.setOnClickListener(view1w -> {
             if (binding != null && binding.button30.isClickable() && getActivity() != null) {
                 binding.button30.setClickable(false);
@@ -297,11 +302,8 @@ public class GeorgiaFragment extends Fragment {
         }
         if (update) {
 
-            if (binding != null)
-                binding.progressBar2.setVisibility(View.VISIBLE);
-
-
-            if (getActivity() != null && binding != null) {
+            if (binding != null && getActivity() != null) {
+                swipeRefreshLayout.setRefreshing(true);
                 requestQueue = Volley.newRequestQueue(getActivity());
             }
 
@@ -479,8 +481,10 @@ public class GeorgiaFragment extends Fragment {
                                             binding.C21.setText(corrido3.substring(0, 2));
                                             binding.C22.setText(corrido3.substring(2, 4));
                                         }
-                                        if (binding != null)
-                                            binding.progressBar2.setVisibility(View.GONE);
+                                        if (binding != null) {
+                                            binding.button30.setEnabled(true);
+                                            swipeRefreshLayout.setRefreshing(false);
+                                        }
                                     }
                                 } catch (JSONException e) {
                                     //errorStart.set(true);
@@ -526,8 +530,7 @@ public class GeorgiaFragment extends Fragment {
                             }
 
                         }, error -> {
-                    if (binding != null)
-                        binding.progressBar2.setVisibility(View.GONE);
+                    if (binding != null) swipeRefreshLayout.setRefreshing(false);
                     if (error instanceof TimeoutError) {
                         //try {
                         if (getActivity() != null && binding != null) {
@@ -574,6 +577,11 @@ public class GeorgiaFragment extends Fragment {
             SharedPreferences.Editor edit = sharedPref.edit();
             edit.putString("updateCheckDate2", fechaStringz);
             edit.apply();
+        } else {
+            if (binding != null) {
+                binding.button30.setEnabled(true);
+                swipeRefreshLayout.setRefreshing(false);
+            }
         }
     }
 

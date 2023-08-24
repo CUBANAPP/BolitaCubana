@@ -33,10 +33,12 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -148,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
         webviewOpen = false;
 
         BottomNavigationView navigationView = binding.navView;
+
+        navigationView.setItemHorizontalTranslationEnabled(true);
 
         ImageView imageView = binding.imageViewBackground2;
         ProgressBar progressBar = binding.progressBarPriv;
@@ -339,9 +343,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-        /*navController.enableOnBackPressed(true);
+        navController.enableOnBackPressed(true);
 
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+        // TODO: Para activar el backstack nuevo
+        /*OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
@@ -350,6 +355,27 @@ public class MainActivity extends AppCompatActivity {
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
         callback.setEnabled(false);*/
+        ///////////////////////////////////////////////////////
+
+
+        if (savedInstanceState == null)
+            navController.addOnDestinationChangedListener((navController1, navDestination, bundle1) -> {
+                try {
+                    Log.e(DEBUG_TAG, navDestination.getDisplayName());
+                    if (navDestination.getId() == R.id.navigation_adivinanza) {
+                        navController1.clearBackStack(navDestination.getId());
+                    }
+                } catch (NullPointerException e) {
+                    if (e.getMessage() != null) {
+                        Log.e(DEBUG_TAG, "NullPointerException: " + e.getMessage());
+                    }
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                        firebaseCrashlytics.sendUnsentReports();
+                        firebaseCrashlytics.recordException(e);
+                    }
+                }
+            });
 
         askNotificationPermission();
 
@@ -507,7 +533,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError adError) {
                     // Code to be executed when an ad request fails.
-                    Log.e(DEBUG_TAG, "Ads Error");
+                    Log.w(DEBUG_TAG, "Ads Error");
                 }
 
                 @Override
@@ -738,7 +764,7 @@ public class MainActivity extends AppCompatActivity {
                         mySnackbar.show();
                     }
                 }*/
-                Log.e(DEBUG_TAG, "ERROR");
+                Log.w(DEBUG_TAG, "ERROR");
             });
             stringRequest.setRetryPolicy(new DefaultRetryPolicy(60000,
                     3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
@@ -782,8 +808,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main); // R.id.nav_host_fragment_content_main
 
         if (navController != null) {
-            return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
-        }else return super.onSupportNavigateUp();
+            return NavigationUI.navigateUp(navController, appBarConfiguration) | super.onSupportNavigateUp();
+        } else return super.onSupportNavigateUp();
     }
 
     @Override
@@ -1010,7 +1036,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onAdFailedToShowFullScreenContent(AdError adError) {
                     // Called when ad fails to show.
-                    Log.e(DEBUG_TAG, "Ad failed to show fullscreen content.");
+                    Log.w(DEBUG_TAG, "Ad failed to show fullscreen content.");
                     //mInterstitialAd = null;
                 }
 

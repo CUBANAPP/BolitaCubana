@@ -6,6 +6,7 @@ package com.cubanapp.bolitacubana.ui.home;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -66,6 +68,8 @@ public class SevenDaysFragment extends Fragment {
 
     private SharedPreferences sharedPref;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private static final String DEBUG_TAG = "SevenDaysFragment";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -80,7 +84,15 @@ public class SevenDaysFragment extends Fragment {
 
         sharedPref = getActivity().getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-
+        swipeRefreshLayout = binding.SevenDaysContainer;
+        swipeRefreshLayout.setColorSchemeColors(Color.RED);
+        swipeRefreshLayout.setOnRefreshListener(
+                () -> {
+                    if (binding != null) {
+                        if (!customLastDays) checkUpdate();
+                        else swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
         getParentFragmentManager().setFragmentResultListener("SevenDays", getViewLifecycleOwner(), (key, bundle) -> {
             if (bundle != null) {
                 String name = bundle.getString("name", null);
@@ -120,8 +132,7 @@ public class SevenDaysFragment extends Fragment {
                         }
                         //throw new RuntimeException(e);
                     }
-                }
-                checkUpdate();
+                } else checkUpdate();
             }
         });
 
@@ -216,17 +227,10 @@ public class SevenDaysFragment extends Fragment {
             throw new RuntimeException(e);
         }
 
-
-        if (binding != null) {
-            binding.progressBar3.setVisibility(View.VISIBLE);
-            //binding.linearSeven.removeAllViews();
-        }
-
-
         if (update && !customLastDays) {
 
-
             if (getActivity() != null && binding != null) {
+                swipeRefreshLayout.setRefreshing(true);
                 requestQueue = Volley.newRequestQueue(getActivity());
             }
             //}
@@ -235,7 +239,6 @@ public class SevenDaysFragment extends Fragment {
                 //throw new RuntimeException(e);
             }*/
             if (requestQueue != null && binding != null) {
-                binding.progressBar3.setVisibility(View.VISIBLE);
                 String url;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     url = "https://cubanapp.info/api/suserinfo.php";
@@ -268,7 +271,7 @@ public class SevenDaysFragment extends Fragment {
                     }
                     //throw new RuntimeException(e);
                     //startLaunch(false);
-                    binding.progressBar3.setVisibility(View.GONE);
+                    if (binding != null) swipeRefreshLayout.setRefreshing(false);
                 }
                 // Request a string response from the provided URL.
                 stringRequest = new JsonObjectRequest(Request.Method.POST, url, json,
@@ -281,7 +284,6 @@ public class SevenDaysFragment extends Fragment {
                                 boolean error = (Boolean) response.get("error");
                                 if (!error) {
                                     if (getActivity() != null && binding != null) {
-                                        binding.progressBar3.setProgress(40);
                                         if (response.get("data") != null || response.get("data") != "") {
                                             jsonArray = (JSONArray) response.get("data");
 
@@ -343,7 +345,7 @@ public class SevenDaysFragment extends Fragment {
                                         }
                                     }
                                 } else {
-                                    binding.progressBar3.setVisibility(View.GONE);
+                                    if (binding != null) swipeRefreshLayout.setRefreshing(false);
                                     if (getActivity() != null && !customLastDays && binding != null) {
                                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                                 getString(R.string.internalerror), Snackbar.LENGTH_LONG);
@@ -352,8 +354,7 @@ public class SevenDaysFragment extends Fragment {
                                 }
 
                             } catch (JSONException e) {
-                                if (binding != null)
-                                    binding.progressBar3.setVisibility(View.GONE);
+                                if (binding != null) swipeRefreshLayout.setRefreshing(false);
                                 //errorStart.set(true);
                                 //try {
                                 if (getActivity() != null && !customLastDays && binding != null) {
@@ -376,8 +377,7 @@ public class SevenDaysFragment extends Fragment {
                             }
 
                         }, error -> {
-                    if (binding != null)
-                        binding.progressBar3.setVisibility(View.GONE);
+                    if (binding != null) swipeRefreshLayout.setRefreshing(false);
 
                     if (error instanceof TimeoutError) {
                         //try {
@@ -409,11 +409,11 @@ public class SevenDaysFragment extends Fragment {
                         3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 // Add the request to the RequestQueue.
                 requestQueue.add(stringRequest);
-                if (binding != null)
-                    binding.progressBar3.setProgress(20);
+
             }
         } else {
             if (saved != null && !customLastDays) {
+
                 JSONArray formatted = null;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     byte[] data = Base64.decode(saved, Base64.DEFAULT);
@@ -469,8 +469,7 @@ public class SevenDaysFragment extends Fragment {
                     }
                 }
             } else {
-                if (binding != null)
-                    binding.progressBar3.setVisibility(View.GONE);
+                if (binding != null) swipeRefreshLayout.setRefreshing(false);
             }
         }
     }
@@ -592,15 +591,11 @@ public class SevenDaysFragment extends Fragment {
                 break;
             }
         }
-        if (binding != null && getActivity() != null) {
-            binding.progressBar3.setProgress(100);
-            binding.progressBar3.setVisibility(View.GONE);
-        }
+        if (binding != null && getActivity() != null) swipeRefreshLayout.setRefreshing(false);
     }
 
     private void buildSevenCustom(@NonNull JSONObject json) throws JSONException, ParseException {
-        binding.progressBar3.setVisibility(View.VISIBLE);
-        binding.linearSeven.removeAllViews();
+        if (binding != null) binding.linearSeven.removeAllViews();
         //binding.linearSeven.removeAllViewsInLayout();
 
         SimpleDateFormat dSemana = new SimpleDateFormat("EEEE", Locale.getDefault());
@@ -813,10 +808,7 @@ public class SevenDaysFragment extends Fragment {
                 Log.d(DEBUG_TAG, s1.toString());
             }
         }
-        if (binding != null && getActivity() != null) {
-            binding.progressBar3.setProgress(100);
-            binding.progressBar3.setVisibility(View.GONE);
-        }
+        if (binding != null && getActivity() != null) swipeRefreshLayout.setRefreshing(false);
     }
 
     private String readData(String name) throws IOException {
