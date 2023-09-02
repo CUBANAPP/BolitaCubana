@@ -516,7 +516,6 @@ public class LauncherActivity extends AppCompatActivity {
                                 boolean ads = (Boolean) response.get("ads");
                                 String fecha = (String) response.get("fecha");
                                 String hora = (String) response.get("hora");
-                                editor.putString("msg", msg);
                                 //editor.putInt("version", version);
                                 editor.putBoolean("fix", fix);
                                 editor.putBoolean("ads", ads);
@@ -572,12 +571,23 @@ public class LauncherActivity extends AppCompatActivity {
                         builder.show();
                     }
                 }
+                if(BuildConfig.DEBUG)
+                {
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putBoolean("root", false);
+                    editor.putInt("version", BuildConfig.VERSION_CODE);
+                    editor.putBoolean("fix", true);
+                    editor.putBoolean("ads", false);
+                    editor.putString("msg", "");
+                    editor.apply();
+                    startLaunch(true, true, "NO CONNECTION");
+                }
                 Log.e(DEBUG_TAG, "ERROR");
             }
 
             );
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(60000,
-                    1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(120000,
+                    3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             // Add the request to the RequestQueue.
             requestQueue.add(stringRequest);
         }

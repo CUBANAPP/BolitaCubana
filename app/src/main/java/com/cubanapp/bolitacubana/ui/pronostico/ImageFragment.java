@@ -49,7 +49,6 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class ImageFragment extends Fragment {
 
@@ -172,7 +171,7 @@ public class ImageFragment extends Fragment {
             });
 
             stringRequest.setRetryPolicy(new DefaultRetryPolicy(60000,
-                    1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                    3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             requestQueue.add(stringRequest);
 
         }
@@ -230,15 +229,15 @@ public class ImageFragment extends Fragment {
         if(bundle != null) {
             type = bundle.getString("type", null);
             if (type != null) {
-                name = bundle.getString("name", null);
+                name = bundle.getString("name", "");
                 if (getActivity() != null) {
                     if (((MainActivity) getActivity()).getSupportActionBar() != null) {
-                        ((MainActivity) getActivity()).getSupportActionBar().setTitle(Objects.requireNonNullElse(name, "ERROR NAME"));
+                        ((MainActivity) getActivity()).getSupportActionBar().setTitle(name);
                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
                         if (preferences.getBoolean("copyID", false)) {
                             boolean copy = preferences.getBoolean("copyID", false);
                             Log.d(DEBUG_TAG, "copyID" + copy);
-                            copyName(Objects.requireNonNullElse(name, ""));
+                            copyName(name);
                         }
                     }
                 }

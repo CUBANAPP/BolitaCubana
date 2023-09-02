@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment {
                 binding.buttonGeorgia.setClickable(false);
                 try {
                     NavHostFragment.findNavController(this)
-                            .navigate(R.id.navigation_florida);
+                            .navigate(R.id.action_navigation_home_to_navigation_florida);
                 } catch (IllegalArgumentException e) {
                     if (e.getMessage() != null) {
                         Log.e(DEBUG_TAG, e.getMessage());
@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
                 binding.buttonNewYork.setClickable(false);
                 try {
                     NavHostFragment.findNavController(this)
-                            .navigate(R.id.navigation_georgia);
+                            .navigate(R.id.action_navigation_home_to_navigation_georgia);
                 } catch (IllegalArgumentException e) {
                     if (e.getMessage() != null) {
                         Log.e(DEBUG_TAG, e.getMessage());
@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
                 binding.buttonGeorgia.setClickable(false);
                 try {
                     NavHostFragment.findNavController(this)
-                            .navigate(R.id.navigation_newyork);
+                            .navigate(R.id.action_navigation_home_to_navigation_newyork);
                 } catch (IllegalArgumentException e) {
                     if (e.getMessage() != null) {
                         Log.e(DEBUG_TAG, e.getMessage());

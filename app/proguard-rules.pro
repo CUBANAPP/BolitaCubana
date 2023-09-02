@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keepattributes Signature,SourceFile,LineNumberTable        # Keep file names and line numbers.
+-keepattributes Exceptions,Signature,SourceFile,LineNumberTable        # Keep file names and line numbers.
 -renamesourcefileattribute SourceFile
 -keep public class * extends java.lang.Exception  # Optional: Keep custom exceptions.
 

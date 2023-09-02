@@ -90,7 +90,7 @@ public class GeorgiaFragment extends Fragment {
                 getParentFragmentManager().setFragmentResult("SevenDays", bundle);
                 try {
                     NavHostFragment.findNavController(this)
-                            .navigate(R.id.navigation_sevendays, bundle);
+                            .navigate(R.id.action_navigation_georgia_to_navigation_sevendays, bundle);
                 } catch (IllegalArgumentException e) {
                     if (e.getMessage() != null) {
                         Log.e(DEBUG_TAG, e.getMessage());

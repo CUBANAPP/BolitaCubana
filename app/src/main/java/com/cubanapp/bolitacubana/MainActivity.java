@@ -29,16 +29,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -49,7 +46,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.cubanapp.bolitacubana.databinding.ActivityMainBinding;
-import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -781,7 +777,7 @@ public class MainActivity extends AppCompatActivity {
                 }*/
                 Log.w(DEBUG_TAG, "ERROR");
             });
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(60000,
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(120000,
                     3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             // Add the request to the RequestQueue.
             requestQueue.add(stringRequest);
@@ -821,10 +817,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main); // R.id.nav_host_fragment_content_main
-
         if (navController != null) {
-            return NavigationUI.navigateUp(navController, appBarConfiguration) | super.onSupportNavigateUp();
-        } else return super.onSupportNavigateUp();
+            return navController.popBackStack() | super.onSupportNavigateUp();
+        } else return false;
     }
 
     @Override

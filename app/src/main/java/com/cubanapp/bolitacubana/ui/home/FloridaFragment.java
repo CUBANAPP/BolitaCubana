@@ -89,7 +89,7 @@ public class FloridaFragment extends Fragment {
                 getParentFragmentManager().setFragmentResult("SevenDays", bundle);
                 try {
                     NavHostFragment.findNavController(this)
-                            .navigate(R.id.navigation_sevendays);
+                            .navigate(R.id.action_navigation_florida_to_navigation_sevendays);
                 } catch (IllegalArgumentException e) {
                     if (e.getMessage() != null) {
                         Log.e(DEBUG_TAG, e.getMessage());
@@ -456,7 +456,7 @@ public class FloridaFragment extends Fragment {
                 }
 
                 );
-                stringRequest.setRetryPolicy(new DefaultRetryPolicy(60000,
+                stringRequest.setRetryPolicy(new DefaultRetryPolicy(120000,
                         3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 // Add the request to the RequestQueue.
                 requestQueue.add(stringRequest);

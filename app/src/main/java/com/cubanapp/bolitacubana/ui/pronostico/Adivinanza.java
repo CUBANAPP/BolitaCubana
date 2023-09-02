@@ -540,7 +540,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                 Log.e(DEBUG_TAG, "ERROR");
             });
 
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(60000,
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(120000,
                     3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             // Add the request to the RequestQueue.
             requestQueue.add(stringRequest);
@@ -718,8 +718,8 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                     }
                 });
 
-                stringRequest.setRetryPolicy(new DefaultRetryPolicy(60000,
-                        1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                stringRequest.setRetryPolicy(new DefaultRetryPolicy(120000,
+                        3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 // Add the request to the RequestQueue.
                 jsonObjectRequestArrayList.add(stringRequest);
 
@@ -863,7 +863,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                 try {
                     isClicked = true;
                     NavHostFragment.findNavController(this)
-                            .navigate(R.id.navigation_imagefullscreen, bundle);
+                            .navigate(R.id.action_navigation_adivinanza_to_navigation_imagefullscreen, bundle);
                 } catch (IllegalArgumentException e) {
                     if (e.getMessage() != null) {
                         Log.e(DEBUG_TAG, e.getMessage());
