@@ -37,6 +37,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -336,57 +337,16 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_search, R.id.navigation_charada, R.id.navigation_adivinanza)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
-        navController.enableOnBackPressed(true);
-
-        // TODO: Para activar el backstack nuevo
-        /*OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                // Handle the back button event
-                Log.e(DEBUG_TAG, "BackPressed");
-            }
-        };
-        getOnBackPressedDispatcher().addCallback(this, callback);
-        callback.setEnabled(false);*/
-        ///////////////////////////////////////////////////////
-
-
-        /*if (savedInstanceState == null) {
-            navController.addOnDestinationChangedListener((navController1, navDestination, bundle1) -> {
-                try {
-                    Log.e(DEBUG_TAG, navDestination.getDisplayName());
-                    if (navDestination.getId() == R.id.navigation_adivinanza) {
-                        navController1.clearBackStack(R.id.navigation_adivinanza);
-                        //navController1.popBackStack(navDestination.getId(),false);
-                    }
-                    if (navDestination.getId() == R.id.navigation_imagefullscreen) {
-                        //navController1.clearBackStack(R.id.navigation_imagefullscreen);
-                        navController1.popBackStack(R.id.navigation_imagefullscreen, false);
-                    }
-                    if (navDestination.getId() == R.id.navigation_home) {
-                        navController1.popBackStack(R.id.navigation_home, false);
-                    }
-                    if (navDestination.getId() == R.id.navigation_florida) {
-                        navController1.popBackStack(R.id.navigation_florida, false);
-                    }
-                    if (navDestination.getId() == R.id.navigation_charada) {
-                        navController1.popBackStack(R.id.navigation_charada, false);
-                    }
-                } catch (NullPointerException e) {
-                    if (e.getMessage() != null) {
-                        Log.e(DEBUG_TAG, "NullPointerException: " + e.getMessage());
-                    }
-                    if (Build.VERSION.SDK_INT >= 19) {
-                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
-                        firebaseCrashlytics.sendUnsentReports();
-                        firebaseCrashlytics.recordException(e);
-                    }
-                }
-            });
-        }*/
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
+        if(navHostFragment != null) {
+            NavController navController = navHostFragment.getNavController();
+            NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+            NavigationUI.setupWithNavController(binding.navView, navController);
+            navController.enableOnBackPressed(true);
+        }else{
+            FirebaseCrashlytics.getInstance().recordException(new Throwable(new IllegalStateException("navHostFragment is NULL")));
+            finish();
+        }
 
         askNotificationPermission();
 
