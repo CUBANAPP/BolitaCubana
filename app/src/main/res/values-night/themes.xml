@@ -45,14 +45,12 @@
 
         <!-- StatusBar-->
         <item name="colorSurface">#1A1A1A</item>
-        <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="21">?attr/colorSurface</item>
-        <!-- Customize your theme here. -->
     </style>
     <style name="Theme.BolitaCubana.Full" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <!-- Fondo Botones. -->
-        <item name="colorPrimary">#A90000</item>
+        <item name="colorPrimary">#000000</item>
         <item name="colorPrimaryVariant">#DB0101</item>
 
         <!-- Texto opciones. -->
