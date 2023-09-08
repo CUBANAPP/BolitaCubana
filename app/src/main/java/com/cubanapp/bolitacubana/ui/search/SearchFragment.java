@@ -339,44 +339,50 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putString("D1s", binding.D1s.getText().toString());
-        outState.putString("Ds", binding.Ds.getText().toString());
-        outState.putString("SDs", binding.SDs.getText().toString());
-        outState.putString("F10s", binding.F10s.getText().toString());
-        outState.putString("F11s", binding.F11s.getText().toString());
-        outState.putString("C11s", binding.C11s.getText().toString());
-        outState.putString("C12s", binding.C12s.getText().toString());
-        outState.putString("N1s", binding.N1s.getText().toString());
-        outState.putString("Ns", binding.Ns.getText().toString());
-        outState.putString("SNs", binding.SNs.getText().toString());
-        outState.putString("F20s", binding.F20s.getText().toString());
-        outState.putString("F21s", binding.F21s.getText().toString());
-        outState.putString("C21s", binding.C21s.getText().toString());
-        outState.putString("C22s", binding.C22s.getText().toString());
+        if (binding != null) {
+            try {
+                outState.putString("D1s", binding.D1s.getText().toString());
+                outState.putString("Ds", binding.Ds.getText().toString());
+                outState.putString("SDs", binding.SDs.getText().toString());
+                outState.putString("F10s", binding.F10s.getText().toString());
+                outState.putString("F11s", binding.F11s.getText().toString());
+                outState.putString("C11s", binding.C11s.getText().toString());
+                outState.putString("C12s", binding.C12s.getText().toString());
+                outState.putString("N1s", binding.N1s.getText().toString());
+                outState.putString("Ns", binding.Ns.getText().toString());
+                outState.putString("SNs", binding.SNs.getText().toString());
+                outState.putString("F20s", binding.F20s.getText().toString());
+                outState.putString("F21s", binding.F21s.getText().toString());
+                outState.putString("C21s", binding.C21s.getText().toString());
+                outState.putString("C22s", binding.C22s.getText().toString());
+            } catch (NullPointerException e) { //
+            }
+        }
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        if(savedInstanceState != null) buildView(savedInstanceState);
+        if (savedInstanceState != null) buildView(savedInstanceState);
         super.onViewStateRestored(savedInstanceState);
     }
-    private void buildView(@Nullable Bundle bundle){
-        if(bundle != null) {
-            binding.D1s.setText(bundle.getString("D1s",""));
-            binding.Ds.setText(bundle.getString("Ds",""));
-            binding.SDs.setText(bundle.getString("SDs",""));
-            binding.F10s.setText(bundle.getString("F10s",""));
-            binding.F11s.setText(bundle.getString("F11s",""));
-            binding.C11s.setText(bundle.getString("C11s",""));
-            binding.C12s.setText(bundle.getString("C12s",""));
-            binding.N1s.setText(bundle.getString("N1s",""));
-            binding.Ns.setText(bundle.getString("Ns",""));
-            binding.SNs.setText(bundle.getString("SNs",""));
-            binding.F20s.setText(bundle.getString("F20s",""));
-            binding.F21s.setText(bundle.getString("F21s",""));
-            binding.C21s.setText(bundle.getString("C21s",""));
-            binding.C22s.setText(bundle.getString("C22s",""));
+
+    private void buildView(@Nullable Bundle bundle) {
+        if (bundle != null && binding != null) {
+            binding.D1s.setText(bundle.getString("D1s", ""));
+            binding.Ds.setText(bundle.getString("Ds", ""));
+            binding.SDs.setText(bundle.getString("SDs", ""));
+            binding.F10s.setText(bundle.getString("F10s", ""));
+            binding.F11s.setText(bundle.getString("F11s", ""));
+            binding.C11s.setText(bundle.getString("C11s", ""));
+            binding.C12s.setText(bundle.getString("C12s", ""));
+            binding.N1s.setText(bundle.getString("N1s", ""));
+            binding.Ns.setText(bundle.getString("Ns", ""));
+            binding.SNs.setText(bundle.getString("SNs", ""));
+            binding.F20s.setText(bundle.getString("F20s", ""));
+            binding.F21s.setText(bundle.getString("F21s", ""));
+            binding.C21s.setText(bundle.getString("C21s", ""));
+            binding.C22s.setText(bundle.getString("C22s", ""));
         }
     }
 }

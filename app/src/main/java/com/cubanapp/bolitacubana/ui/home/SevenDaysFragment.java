@@ -831,14 +831,16 @@ public class SevenDaysFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-
-        if (customLastDays) {
-            if (nameJSON != null) {
-                outState.putString("nameJSON", nameJSON);
-                outState.putBoolean("customLastDays", true);
+        try {
+            if (customLastDays) {
+                if (nameJSON != null) {
+                    outState.putString("nameJSON", nameJSON);
+                    outState.putBoolean("customLastDays", true);
+                }
+            } else {
+                outState.putBoolean("customLastDays", false);
             }
-        } else {
-            outState.putBoolean("customLastDays", false);
+        } catch (NullPointerException e) { //
         }
         super.onSaveInstanceState(outState);
     }

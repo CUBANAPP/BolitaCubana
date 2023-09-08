@@ -338,12 +338,12 @@ public class MainActivity extends AppCompatActivity {
                 R.id.navigation_home, R.id.navigation_search, R.id.navigation_charada, R.id.navigation_adivinanza)
                 .build();
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
-        if(navHostFragment != null) {
+        if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
             NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
             NavigationUI.setupWithNavController(binding.navView, navController);
             navController.enableOnBackPressed(true);
-        }else{
+        } else {
             FirebaseCrashlytics.getInstance().recordException(new Throwable(new IllegalStateException("navHostFragment is NULL")));
             finish();
         }

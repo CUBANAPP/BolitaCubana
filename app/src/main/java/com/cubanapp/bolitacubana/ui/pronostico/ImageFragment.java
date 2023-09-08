@@ -225,8 +225,8 @@ public class ImageFragment extends Fragment {
 
     }
 
-    private void buildView(@Nullable Bundle bundle){
-        if(bundle != null) {
+    private void buildView(@Nullable Bundle bundle) {
+        if (bundle != null) {
             type = bundle.getString("type", null);
             if (type != null) {
                 name = bundle.getString("name", "");
@@ -330,21 +330,25 @@ public class ImageFragment extends Fragment {
         } else
             return null;
     }
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        if(image != null)
-            outState.putByteArray("base64", image);
-        else outState.putByteArray("base64", data);
+        try {
+            if (image != null)
+                outState.putByteArray("base64", image);
+            else outState.putByteArray("base64", data);
 
-        if(type != null) outState.putString("type",type);
+            if (type != null) outState.putString("type", type);
 
-        if(name != null) outState.putString("name",name);
+            if (name != null) outState.putString("name", name);
+        } catch (NullPointerException e) { //
+        }
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        if(savedInstanceState != null) buildView(savedInstanceState);
+        if (savedInstanceState != null) buildView(savedInstanceState);
         super.onViewStateRestored(savedInstanceState);
     }
 }
