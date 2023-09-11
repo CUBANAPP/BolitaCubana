@@ -3,39 +3,28 @@
 <!--
   ~ Copyright (c) CUBANAPP LLC 2019-2023 .
   -->
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/SevenDays_container"
-    tools:context=".ui.home.SevenDaysFragment">
 <androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
-
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#99000000"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
-    <LinearLayout
-        android:id="@+id/linearSeven"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
-        android:orientation="vertical"
-        android:layout_marginStart="5dp">
-    </LinearLayout>
-</ScrollView>
+        android:layout_height="match_parent"
+        android:id="@+id/swipeRefreshLayoutSeven"
+        tools:context=".ui.home.sevendays.SevenDaysFragment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:isScrollContainer="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#99000000"
+            android:id="@+id/linearSeven"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

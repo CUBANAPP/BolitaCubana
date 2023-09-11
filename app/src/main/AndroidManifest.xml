@@ -51,6 +51,7 @@
             android:parentActivityName="com.cubanapp.bolitacubana.MainActivity"
             android:excludeFromRecents="true"
             android:hardwareAccelerated="true"
+            android:theme="@style/Theme.BolitaCubana"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />

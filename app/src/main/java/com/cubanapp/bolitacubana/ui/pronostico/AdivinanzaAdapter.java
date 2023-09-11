@@ -40,16 +40,13 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
         return new AdivinanzaView(listItem, photoList);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(AdivinanzaView holder, int position) {
-        holder.linkAdapter(this);
         holder.name.setText(listdata[position].getNameid());
         holder.type.setText(listdata[position].getType());
         holder.setBytes(listdata[position].getBytes());
 
         if (Objects.equals(listdata[position].getType(), "jpg")) {
-            //holder.type.setText("Image");
             holder.name.setTextColor(Color.BLACK);
             holder.type.setTextColor(Color.WHITE);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(holder.getBytes(), 0, holder.getBytes().length);
@@ -57,7 +54,6 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
         } else {
             holder.name.setTextColor(Color.BLACK);
             holder.type.setTextColor(Color.WHITE);
-            //holder.type.setText("Texto");
         }
     }
 
@@ -67,14 +63,7 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
         return listdata.length;
     }
 
-    public PronosticoData[] getListdata() {
-        return listdata;
-    }
-
     public static class AdivinanzaView extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        private AdivinanzaAdapter adapter;
-
         private ImageView image;
         private TextView type;
         private TextView name;
@@ -93,15 +82,6 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
             itemView.setOnClickListener(this);
         }
 
-        public AdivinanzaView linkAdapter(AdivinanzaAdapter adivinanzaLink) {
-            this.adapter = adivinanzaLink;
-            return this;
-        }
-
-        public AdivinanzaAdapter getAdapter() {
-            return adapter;
-        }
-
         public String getName() {
             return (String) name.getText();
         }
@@ -112,19 +92,9 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
 
         @Override
         public void onClick(View v) {
-            //onItemClick();
-           /* LayoutInflater inflater = (LayoutInflater) itemView.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            LinearLayout myRoot = new LinearLayout(itemView.getContext());
-            View itemView2 = inflater.inflate(R.layout.fragment_imageviewer, myRoot,false);
-            //View list = layoutInflater.inflate(R.layout.fragment_imageviewer, null,false);
-            ImageView imageView = (ImageView) itemView2.findViewById(R.id.imageFragmentViewer);
-            Bitmap f = image.getDrawingCache();
-            imageView.setImageBitmap(f);
-*/
             photoListener.onItemClick(getAdapterPosition(), getBytes(), getName(), getType());
             Log.d("Adapter", getAdapterPosition() + " CLICKED: " + getName());
         }
-
         public interface PhotoListener {
             void onItemClick(int position, byte[] map, String name, String type);
         }

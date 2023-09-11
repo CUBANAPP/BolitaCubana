@@ -2,11 +2,10 @@
  * Copyright (c) CUBANAPP LLC 2019-2023 .
  */
 
-package com.cubanapp.bolitacubana.ui.home;
+package com.cubanapp.bolitacubana.ui.home.sevendays;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
@@ -14,12 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -46,6 +45,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -64,11 +64,15 @@ public class SevenDaysFragment extends Fragment {
 
     private String nameJSON;
 
-    //private Set<String> lists;
-
     private SharedPreferences sharedPref;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
+    //private SwipeRefreshLayout swipeRefreshLayout;
+
+    private SevenData[] myListData;
+
+    private RecyclerView recyclerView;
+
+    private SevenDaysAdapter adapter;
 
     private static final String DEBUG_TAG = "SevenDaysFragment";
 
@@ -84,7 +88,15 @@ public class SevenDaysFragment extends Fragment {
 
         sharedPref = getActivity().getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        swipeRefreshLayout = binding.SevenDaysContainer;
+
+        recyclerView = (RecyclerView) binding.linearSeven;
+
+        recyclerView.setHasFixedSize(false);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+
+
+        /*swipeRefreshLayout = binding.swipeRefreshLayoutSeven;
         swipeRefreshLayout.setColorSchemeColors(Color.RED);
         swipeRefreshLayout.setOnRefreshListener(
                 () -> {
@@ -92,7 +104,7 @@ public class SevenDaysFragment extends Fragment {
                         if (!customLastDays) checkUpdate();
                         else swipeRefreshLayout.setRefreshing(false);
                     }
-                });
+                });*/
         getParentFragmentManager().setFragmentResultListener("SevenDays", getViewLifecycleOwner(), (key, bundle) -> {
             if (bundle != null) {
                 String name = bundle.getString("name", null);
@@ -110,7 +122,6 @@ public class SevenDaysFragment extends Fragment {
                             firebaseCrashlytics.sendUnsentReports();
                             firebaseCrashlytics.recordException(e);
                         }
-                        //throw new RuntimeException(e);
                     } catch (JSONException e) {
                         if (e.getMessage() != null) {
                             Log.e(DEBUG_TAG, e.getMessage());
@@ -120,7 +131,6 @@ public class SevenDaysFragment extends Fragment {
                             firebaseCrashlytics.sendUnsentReports();
                             firebaseCrashlytics.recordException(e);
                         }
-                        //throw new RuntimeException(e);
                     } catch (ParseException e) {
                         if (e.getMessage() != null) {
                             Log.e(DEBUG_TAG, e.getMessage());
@@ -130,7 +140,6 @@ public class SevenDaysFragment extends Fragment {
                             firebaseCrashlytics.sendUnsentReports();
                             firebaseCrashlytics.recordException(e);
                         }
-                        //throw new RuntimeException(e);
                     }
                 } else checkUpdate();
             }
@@ -153,6 +162,8 @@ public class SevenDaysFragment extends Fragment {
                 stringRequest.cancel();
             }
         }
+        recyclerView = null;
+        myListData = null;
         binding = null;
         super.onDestroyView();
     }
@@ -181,6 +192,8 @@ public class SevenDaysFragment extends Fragment {
     }
 
     private void checkUpdate() {
+        if (binding == null)
+            return;
         String saved = null;
 
         TimeZone tz = TimeZone.getTimeZone("America/New_York");
@@ -230,14 +243,10 @@ public class SevenDaysFragment extends Fragment {
         if (update && !customLastDays) {
 
             if (getActivity() != null && binding != null) {
-                swipeRefreshLayout.setRefreshing(true);
+                //swipeRefreshLayout.setRefreshing(true);
                 requestQueue = Volley.newRequestQueue(getActivity());
             }
-            //}
-            /*catch (Exception e){
-                Log.e(DEBUG_TAG, "Volley Error : " + e.getMessage());
-                //throw new RuntimeException(e);
-            }*/
+
             if (requestQueue != null && binding != null) {
                 String url;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -245,22 +254,20 @@ public class SevenDaysFragment extends Fragment {
                 } else {
                     url = "http://cubanapp.info/api/suserinfo.php";
                 }
-                //String url = "https://cubanapp.info/api/suserinfo.php";
+
                 JSONObject json = new JSONObject();
 
                 try {
                     json.put("apiKey", apiKey);
                     json.put("func", "old");
                 } catch (JSONException e) {
-                    //try {
+
                     if (getActivity() != null && binding != null) {
                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                 getString(R.string.errorData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
                         mySnackbar.show();
                     }
-                    //} catch (Exception ei) {
-                    // Log.e(DEBUG_TAG, "SnackbarError1 : " + ei.getMessage());
-                    //}
+
                     if (e.getMessage() != null) {
                         Log.e(DEBUG_TAG, e.getMessage());
                     }
@@ -269,18 +276,14 @@ public class SevenDaysFragment extends Fragment {
                         firebaseCrashlytics.sendUnsentReports();
                         firebaseCrashlytics.recordException(e);
                     }
-                    //throw new RuntimeException(e);
-                    //startLaunch(false);
-                    if (binding != null) swipeRefreshLayout.setRefreshing(false);
                 }
                 // Request a string response from the provided URL.
                 stringRequest = new JsonObjectRequest(Request.Method.POST, url, json,
                         response -> {
                             JSONArray jsonArray = null;
-                            // Display the first 500 characters of the response string.
+
                             try {
-                                //JSONObject error = response.getJSONObject("");
-                                //response.get("error");
+
                                 boolean error = (Boolean) response.get("error");
                                 if (!error) {
                                     if (getActivity() != null && binding != null) {
@@ -288,21 +291,6 @@ public class SevenDaysFragment extends Fragment {
                                             jsonArray = (JSONArray) response.get("data");
 
                                             Log.d(DEBUG_TAG, "Response is: " + error);
-
-
-                                            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                                Set<String> save = new ArraySet<>(Collections.singleton(jsonArray.toString()));
-                                                try {
-                                                    SharedPreferences.Editor editor = sharedPref.edit();
-                                                    JSONObject s = jsonArray.getJSONObject(0);
-                                                    editor.putString("sevenDUpdate", (String) s.get("date"));
-                                                    editor.putStringSet("ultimosSiete", save);
-                                                    editor.apply();
-                                                }
-                                                catch (JSONException e){
-                                                    //throw new RuntimeException(e);
-                                                }
-                                            }*/
 
                                             String text = jsonArray.toString();
                                             String base64 = null;
@@ -345,7 +333,7 @@ public class SevenDaysFragment extends Fragment {
                                         }
                                     }
                                 } else {
-                                    if (binding != null) swipeRefreshLayout.setRefreshing(false);
+                                    //if (binding != null) swipeRefreshLayout.setRefreshing(false);
                                     if (getActivity() != null && !customLastDays && binding != null) {
                                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                                 getString(R.string.internalerror), Snackbar.LENGTH_LONG);
@@ -354,17 +342,12 @@ public class SevenDaysFragment extends Fragment {
                                 }
 
                             } catch (JSONException e) {
-                                if (binding != null) swipeRefreshLayout.setRefreshing(false);
-                                //errorStart.set(true);
-                                //try {
+                                //if (binding != null) swipeRefreshLayout.setRefreshing(false);
                                 if (getActivity() != null && !customLastDays && binding != null) {
                                     mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                             getString(R.string.generateData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
                                     mySnackbar.show();
                                 }
-                                // } catch (Exception ei) {
-                                //    Log.e(DEBUG_TAG, "SnackbarError3 : " + ei.getMessage());
-                                //}
                                 if (e.getMessage() != null) {
                                     Log.e(DEBUG_TAG, e.getMessage());
                                 }
@@ -373,33 +356,26 @@ public class SevenDaysFragment extends Fragment {
                                     firebaseCrashlytics.sendUnsentReports();
                                     firebaseCrashlytics.recordException(e);
                                 }
-                                //throw new RuntimeException(e);
                             }
 
                         }, error -> {
-                    if (binding != null) swipeRefreshLayout.setRefreshing(false);
+                    //if (binding != null) swipeRefreshLayout.setRefreshing(false);
 
                     if (error instanceof TimeoutError) {
-                        //try {
+
                         if (getActivity() != null && !customLastDays && binding != null) {
                             mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                     getString(R.string.slowconn), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
                             mySnackbar.show();
                         }
-                        //} catch (Exception e) {
-                        //  Log.e(DEBUG_TAG, "SnackbarError4 : " + e.getMessage());
-                        //}
 
                     } else {
-                        //try {
+
                         if (getActivity() != null && !customLastDays && binding != null) {
                             mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                     getString(R.string.lostsvr), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> checkUpdate());
                             mySnackbar.show();
                         }
-                        //} catch (Exception e) {
-                        //   Log.e(DEBUG_TAG, "SnackbarError5 : " + e.getMessage());
-                        //}
                     }
                     Log.e(DEBUG_TAG, "ERROR");
                 }
@@ -418,7 +394,6 @@ public class SevenDaysFragment extends Fragment {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     byte[] data = Base64.decode(saved, Base64.DEFAULT);
                     String text = new String(data, StandardCharsets.UTF_8);
-                    //Log.d(DEBUG_TAG, "SAVED: " + text);
                     try {
                         formatted = new JSONArray(text);
                     } catch (JSONException e) {
@@ -430,7 +405,6 @@ public class SevenDaysFragment extends Fragment {
                             firebaseCrashlytics.sendUnsentReports();
                             firebaseCrashlytics.recordException(e);
                         }
-                        //throw new RuntimeException(e);
                     }
                     if (formatted != null)
                         buildSevenItems(formatted);
@@ -448,7 +422,6 @@ public class SevenDaysFragment extends Fragment {
                             firebaseCrashlytics.sendUnsentReports();
                             firebaseCrashlytics.recordException(e);
                         }
-                        //throw new RuntimeException(e);
                     }
                     if (text != null) {
                         try {
@@ -462,25 +435,21 @@ public class SevenDaysFragment extends Fragment {
                                 firebaseCrashlytics.sendUnsentReports();
                                 firebaseCrashlytics.recordException(e);
                             }
-                            //throw new RuntimeException(e);
                         }
                         if (formatted != null)
                             buildSevenItems(formatted);
                     }
                 }
             } else {
-                if (binding != null) swipeRefreshLayout.setRefreshing(false);
+                //if (binding != null) swipeRefreshLayout.setRefreshing(false);
             }
         }
     }
 
     private void buildSevenItems(@NonNull JSONArray json) {
-        /*ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
-
-        //AtomicBoolean errorStart = new AtomicBoolean(false);
-        executor.execute(() -> {*/
-        //json.length()
+        if (binding == null)
+            return;
+        else if (binding != null) myListData = null;
         SimpleDateFormat dSemana = new SimpleDateFormat("EEEE", Locale.getDefault());
 
         String root = json.toString();
@@ -491,48 +460,44 @@ public class SevenDaysFragment extends Fragment {
                 break;
 
             try {
-                /*if (list != null)
-                    list.add(json.getJSONObject(i).toString());*/
-
                 JSONObject s = json.getJSONObject(i);
 
-                //editor.putString(String.valueOf(i), s.toString());
-
-                View header = getLayoutInflater().inflate(R.layout.sevenday_item, null, false);
+                /*View header = getLayoutInflater().inflate(R.layout.sevenday_item, null, false);
                 TextView fecha = header.findViewById(R.id.sFecha);
                 TextView hora = header.findViewById(R.id.sD);
                 TextView fijo1 = header.findViewById(R.id.sF1_0);
                 TextView fijo2 = header.findViewById(R.id.sF1_1);
                 TextView corrido1 = header.findViewById(R.id.sC1_1);
-                TextView corrido2 = header.findViewById(R.id.sC1_2);
+                TextView corrido2 = header.findViewById(R.id.sC1_2);*/
+                String fecha = "";
+                String hora = "";
+                String fijo1 = "";
+                String fijo2 = "";
+                String corrido1 = "";
+                String corrido2 = "";
 
 
                 SimpleDateFormat get = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                //get.parse((String) s.get("date"));
+
                 Date d = get.parse((String) s.get("date"));
-                fecha.setText(dSemana.format(d));
+                fecha = dSemana.format(d);
+                int iHora = 0;
 
                 if (((String) s.get("hora")).equals("dia")) {
-                    hora.setText(getString(R.string.dia));
+                    hora = getString(R.string.dia);
                 } else {
-                    hora.setText(getString(R.string.noche));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        hora.setTextColor(getResources().getColor(R.color.navy_blue, requireContext().getTheme()));
-                        fecha.setTextColor(getResources().getColor(R.color.navy_blue, requireContext().getTheme()));
-                    } else {
-                        hora.setTextColor(getResources().getColor(R.color.navy_blue));
-                        fecha.setTextColor(getResources().getColor(R.color.navy_blue));
-                    }
+                    hora = getString(R.string.noche);
+                    iHora = 2;
                 }
                 String s0 = (String) s.get("fijo");
                 if (s0.length() < 3) {
-                    fijo1.setText("0");
-                    fijo2.setText(s0);
+                    fijo1 = "0";
+                    fijo2 = s0;
                 } else {
 
                     try {
-                        fijo1.setText(s0.substring(0, 1));
-                        fijo2.setText(s0.substring(1, 3));
+                        fijo1 = s0.substring(0, 1);
+                        fijo2 = s0.substring(1, 3);
                     } catch (StringIndexOutOfBoundsException e) {
                         if (e.getMessage() != null) {
                             Log.e(DEBUG_TAG, e.getMessage());
@@ -549,11 +514,12 @@ public class SevenDaysFragment extends Fragment {
                 String co2 = (String) s.get("corrido2");
                 if (co1.length() != 2)
                     co1 = "0" + co1;
-                corrido1.setText(co1);
+                corrido1 = co1;
                 if (co2.length() != 2)
                     co2 = "0" + co2;
-                corrido2.setText(co2);
-                binding.linearSeven.addView(header);
+                corrido2 = co2;
+                //binding.linearSeven.addView(header);
+                buildAdapter(fecha, hora, fijo1, fijo2, corrido1, corrido2, iHora);
 
 
             } catch (JSONException e) {
@@ -566,7 +532,6 @@ public class SevenDaysFragment extends Fragment {
                     firebaseCrashlytics.sendUnsentReports();
                     firebaseCrashlytics.recordException(e);
                 }
-                //throw new RuntimeException(e);
                 break;
             } catch (ParseException e) {
                 if (e.getMessage() != null) {
@@ -577,7 +542,6 @@ public class SevenDaysFragment extends Fragment {
                     firebaseCrashlytics.sendUnsentReports();
                     firebaseCrashlytics.recordException(e);
                 }
-                //throw new RuntimeException(e);
                 break;
             } catch (IllegalStateException e) {
                 if (e.getMessage() != null) {
@@ -591,12 +555,14 @@ public class SevenDaysFragment extends Fragment {
                 break;
             }
         }
-        if (binding != null && getActivity() != null) swipeRefreshLayout.setRefreshing(false);
+        //if (binding != null && getActivity() != null) swipeRefreshLayout.setRefreshing(false);
     }
 
     private void buildSevenCustom(@NonNull JSONObject json) throws JSONException, ParseException {
-        if (binding != null) binding.linearSeven.removeAllViews();
-        //binding.linearSeven.removeAllViewsInLayout();
+        if (binding == null)
+            return;
+        else if (binding != null) myListData = null;
+        //binding.linearSeven.removeAllViews();
 
         SimpleDateFormat dSemana = new SimpleDateFormat("EEEE", Locale.getDefault());
         SimpleDateFormat get = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -632,30 +598,44 @@ public class SevenDaysFragment extends Fragment {
                 if (binding == null || getActivity() == null)
                     break;
 
-                View header0 = getLayoutInflater().inflate(R.layout.sevenday_item, null, false);
+                /*View header0 = getLayoutInflater().inflate(R.layout.sevenday_item, null, false);
                 TextView fecha0 = header0.findViewById(R.id.sFecha);
                 TextView hora0 = header0.findViewById(R.id.sD);
                 TextView fijo10 = header0.findViewById(R.id.sF1_0);
                 TextView fijo20 = header0.findViewById(R.id.sF1_1);
                 TextView corrido10 = header0.findViewById(R.id.sC1_1);
-                TextView corrido20 = header0.findViewById(R.id.sC1_2);
+                TextView corrido20 = header0.findViewById(R.id.sC1_2);*/
 
                 JSONObject s1 = mid.getJSONObject(i);
 
-                Date d0 = get.parse((String) s1.get("fecha"));
-                fecha0.setText(dSemana.format(d0));
+                /*View header = getLayoutInflater().inflate(R.layout.sevenday_item, null, false);
+                TextView fecha = header.findViewById(R.id.sFecha);
+                TextView hora = header.findViewById(R.id.sD);
+                TextView fijo1 = header.findViewById(R.id.sF1_0);
+                TextView fijo2 = header.findViewById(R.id.sF1_1);
+                TextView corrido1 = header.findViewById(R.id.sC1_1);
+                TextView corrido2 = header.findViewById(R.id.sC1_2);*/
+                String fecha0 = "";
+                String hora0 = "";
+                String fijo10 = "";
+                String fijo20 = "";
+                String corrido10 = "";
+                String corrido20 = "";
 
-                hora0.setText(getString(R.string.dia));
+                Date d0 = get.parse((String) s1.get("fecha"));
+                fecha0 = dSemana.format(d0);
+
+                hora0 = getString(R.string.dia);
 
                 String s0m = (String) s1.get("num");
                 if (s0m.length() < 3) {
-                    fijo10.setText("0");
-                    fijo20.setText(s0m);
+                    fijo10 = "0";
+                    fijo20 = s0m;
                 } else {
 
                     try {
-                        fijo10.setText(s0m.substring(0, 1));
-                        fijo20.setText(s0m.substring(1, 3));
+                        fijo10 = s0m.substring(0, 1);
+                        fijo20 = s0m.substring(1, 3);
                     } catch (StringIndexOutOfBoundsException e) {
                         if (e.getMessage() != null) {
                             Log.e(DEBUG_TAG, e.getMessage());
@@ -676,46 +656,46 @@ public class SevenDaysFragment extends Fragment {
                             String co0m = (String) s4.get("num");
                             String co1m = co0m.substring(0, 2);
                             String co2m = co0m.substring(2, 4);
-                            corrido10.setText(co1m);
-                            corrido20.setText(co2m);
+                            corrido10 = co1m;
+                            corrido20 = co2m;
                         }
                     }
                 }
-                binding.linearSeven.addView(header0);
+                buildAdapter(fecha0, hora0, fijo10, fijo20, corrido10, corrido20, 0);
 
                 if (eve != null) {
                     if (!eve.isNull(i)) {
-                        View header = getLayoutInflater().inflate(R.layout.sevenday_item, null, false);
+                        /*View header = getLayoutInflater().inflate(R.layout.sevenday_item, null, false);
                         TextView fecha = header.findViewById(R.id.sFecha);
                         TextView hora = header.findViewById(R.id.sD);
                         TextView fijo1 = header.findViewById(R.id.sF1_0);
                         TextView fijo2 = header.findViewById(R.id.sF1_1);
                         TextView corrido1 = header.findViewById(R.id.sC1_1);
-                        TextView corrido2 = header.findViewById(R.id.sC1_2);
+                        TextView corrido2 = header.findViewById(R.id.sC1_2);*/
+                        String fecha = "";
+                        String hora = "";
+                        String fijo1 = "";
+                        String fijo2 = "";
+                        String corrido1 = "";
+                        String corrido2 = "";
 
 
                         JSONObject s2 = eve.getJSONObject(i);
 
                         Date d = get.parse((String) s2.get("fecha"));
-                        fecha.setText(dSemana.format(d));
+                        fecha = dSemana.format(d);
 
-                        hora.setText(getString(R.string.tarde));
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            hora.setTextColor(getResources().getColor(R.color.light_red, requireContext().getTheme()));
-                            fecha.setTextColor(getResources().getColor(R.color.light_red, requireContext().getTheme()));
-                        } else {
-                            hora.setTextColor(getResources().getColor(R.color.light_red));
-                            fecha.setTextColor(getResources().getColor(R.color.light_red));
-                        }
+                        hora = getString(R.string.tarde);
+
                         String s0 = (String) s2.get("num");
                         if (s0.length() < 3) {
-                            fijo1.setText("0");
-                            fijo2.setText(s0);
+                            fijo1 = "0";
+                            fijo2 = s0;
                         } else {
 
                             try {
-                                fijo1.setText(s0.substring(0, 1));
-                                fijo2.setText(s0.substring(1, 3));
+                                fijo1 = s0.substring(0, 1);
+                                fijo2 = s0.substring(1, 3);
                             } catch (StringIndexOutOfBoundsException e) {
                                 if (e.getMessage() != null) {
                                     Log.e(DEBUG_TAG, e.getMessage());
@@ -736,47 +716,53 @@ public class SevenDaysFragment extends Fragment {
                                     String co0 = (String) s5.get("num");
                                     String co1 = co0.substring(0, 2);
                                     String co2 = co0.substring(2, 4);
-                                    corrido1.setText(co1);
-                                    corrido2.setText(co2);
+                                    corrido1 = co1;
+                                    corrido2 = co2;
                                 }
                             }
                         }
-                        binding.linearSeven.addView(header);
+                        buildAdapter(fecha, hora, fijo1, fijo2, corrido1, corrido2, 1);
                     }
                 }
                 if (night != null) {
                     if (!night.isNull(i)) {
-                        View header = getLayoutInflater().inflate(R.layout.sevenday_item, null, false);
+                        /*View header = getLayoutInflater().inflate(R.layout.sevenday_item, null, false);
                         TextView fecha = header.findViewById(R.id.sFecha);
                         TextView hora = header.findViewById(R.id.sD);
                         TextView fijo1 = header.findViewById(R.id.sF1_0);
                         TextView fijo2 = header.findViewById(R.id.sF1_1);
                         TextView corrido1 = header.findViewById(R.id.sC1_1);
-                        TextView corrido2 = header.findViewById(R.id.sC1_2);
+                        TextView corrido2 = header.findViewById(R.id.sC1_2);*/
+                        String fecha = "";
+                        String hora = "";
+                        String fijo1 = "";
+                        String fijo2 = "";
+                        String corrido1 = "";
+                        String corrido2 = "";
 
 
                         JSONObject s3 = night.getJSONObject(i);
 
                         Date d = get.parse((String) s3.get("fecha"));
-                        fecha.setText(dSemana.format(d));
+                        fecha = dSemana.format(d);
 
-                        hora.setText(getString(R.string.noche));
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        hora = getString(R.string.noche);
+                        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             hora.setTextColor(getResources().getColor(R.color.navy_blue, requireContext().getTheme()));
                             fecha.setTextColor(getResources().getColor(R.color.navy_blue, requireContext().getTheme()));
                         } else {
                             hora.setTextColor(getResources().getColor(R.color.navy_blue));
                             fecha.setTextColor(getResources().getColor(R.color.navy_blue));
-                        }
+                        }*/
                         String s0 = (String) s3.get("num");
                         if (s0.length() < 3) {
-                            fijo1.setText("0");
-                            fijo2.setText(s0);
+                            fijo1 = "0";
+                            fijo2 = s0;
                         } else {
 
                             try {
-                                fijo1.setText(s0.substring(0, 1));
-                                fijo2.setText(s0.substring(1, 3));
+                                fijo1 = s0.substring(0, 1);
+                                fijo2 = s0.substring(1, 3);
                             } catch (StringIndexOutOfBoundsException e) {
                                 if (e.getMessage() != null) {
                                     Log.e(DEBUG_TAG, e.getMessage());
@@ -797,18 +783,18 @@ public class SevenDaysFragment extends Fragment {
                                     String co0 = (String) s6.get("num");
                                     String co1 = co0.substring(0, 2);
                                     String co2 = co0.substring(2, 4);
-                                    corrido1.setText(co1);
-                                    corrido2.setText(co2);
+                                    corrido1 = co1;
+                                    corrido2 = co2;
                                 }
                             }
                         }
-                        binding.linearSeven.addView(header);
+                        buildAdapter(fecha, hora, fijo1, fijo2, corrido1, corrido2, 2);
                     }
                 }
                 Log.d(DEBUG_TAG, s1.toString());
             }
         }
-        if (binding != null && getActivity() != null) swipeRefreshLayout.setRefreshing(false);
+        //if (binding != null && getActivity() != null) swipeRefreshLayout.setRefreshing(false);
     }
 
     private String readData(String name) throws IOException {
@@ -840,7 +826,7 @@ public class SevenDaysFragment extends Fragment {
             } else {
                 outState.putBoolean("customLastDays", false);
             }
-        } catch (NullPointerException e) { //
+        } catch (NullPointerException e) {
         }
         super.onSaveInstanceState(outState);
     }
@@ -899,5 +885,25 @@ public class SevenDaysFragment extends Fragment {
                 checkUpdate();
             }
         }
+    }
+
+    private void buildAdapter(String s1, String s2, String s3, String s4, String s5, String s6, int s7) {
+
+        SevenData inputNew = new SevenData(s1, s2, s3, s4, s5, s6, s7);
+        ArrayList<SevenData> tempData = new ArrayList<>();
+
+        if (myListData != null) {
+            for (SevenData item : myListData) {
+                tempData.add(item);
+
+            }
+        }
+        tempData.add(inputNew);
+
+        myListData = tempData.toArray(new SevenData[0]);
+
+        adapter = new SevenDaysAdapter(myListData);
+        if (binding != null && getActivity() != null)
+            recyclerView.setAdapter(adapter);
     }
 }

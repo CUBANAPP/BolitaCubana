@@ -29,16 +29,4 @@ public class PronosticoData {
     public byte[] getBytes() {
         return base64;
     }
-
-    public void setBase64(byte[] base64) {
-        this.base64 = base64;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setNameid(String nameid) {
-        this.nameid = nameid;
-    }
 }

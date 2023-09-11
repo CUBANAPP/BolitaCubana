@@ -6,7 +6,7 @@
 <resources>
     <color name="light_red">#FF9292</color>
     <color name="red_200">#DB0101</color>
-    <color name="red_500">#a90000</color>
+    <color name="red_500">#A90000</color>
     <color name="red_500_50">#80A90000</color>
     <color name="red_700">#770000</color>
     <color name="light_blue">#66FFFB</color>

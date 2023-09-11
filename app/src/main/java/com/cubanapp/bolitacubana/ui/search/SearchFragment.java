@@ -64,15 +64,11 @@ public class SearchFragment extends Fragment {
     private void openDate(View v) {
         builder = new AlertDialog.Builder(v.getContext())
                 .create();
-        //builder.setTitle(getString(R.string.pickDate));
         View datepickerView = getLayoutInflater().inflate(R.layout.calendar_view, binding.getRoot(), false);
         DatePicker datePickers = datepickerView.findViewById(R.id.datepicker);
         Calendar fecha = Calendar.getInstance();
         fecha.add(Calendar.DATE, -1);
         Date currentTimes = fecha.getTime();
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            datePickers.setFirstDayOfWeek(2);
-        }*/
         datePickers.setMaxDate(currentTimes.getTime());
         CalendarView calendarViews = datePickers.getCalendarView();
         calendarViews.setMaxDate(currentTimes.getTime());
@@ -81,19 +77,10 @@ public class SearchFragment extends Fragment {
         builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.open), (dialog, which) -> {
             DatePicker datePicker = builder.findViewById(R.id.datepicker);
             if (datePicker != null) {
-                Date currentTime = Calendar.getInstance().getTime();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     datePicker.setFirstDayOfWeek(2);
                 }
                 CalendarView calendarView = datePicker.getCalendarView();
-                //calendarView.setDate(currentTime.getTime());
-                //Log.e(DEBUG_TAG, "DATE Selected: " + calendarView.getDate());
-                //Log.d(DEBUG_TAG, "currentTime: " + currentTime.getTime());
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                Date format = new Date(calendarView.getDate());
-                String dateString = dateFormat.format(format);
-                //Log.e(DEBUG_TAG, "DATE Parsed: " + dateString);
-
                 searchDate(calendarView.getDate());
             }
         });
@@ -102,6 +89,8 @@ public class SearchFragment extends Fragment {
     }
 
     private void searchDate(Long date) {
+        if (binding == null)
+            return;
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
         Date format = new Date(date);
         String dateString = dateFormat.format(format);
@@ -125,7 +114,6 @@ public class SearchFragment extends Fragment {
             } else {
                 url = "http://cubanapp.info/api/searchcache/index.php";
             }
-            //String url = "https://cubanapp.info/api/searchcache/index.php";
             JSONObject json = new JSONObject();
 
             try {
@@ -133,15 +121,11 @@ public class SearchFragment extends Fragment {
                 json.put("f", dateString);
                 Log.d(DEBUG_TAG, "Date to Search: " + dateString);
             } catch (JSONException e) {
-                //try {
                 if (getActivity() != null) {
                     mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                             getString(R.string.errorData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
                     mySnackbar.show();
                 }
-                //} catch (Exception ei) {
-                // Log.e(DEBUG_TAG, "SnackbarError1 : " + ei.getMessage());
-                //}
                 if (e.getMessage() != null) {
                     Log.e(DEBUG_TAG, e.getMessage());
                 }
@@ -150,28 +134,19 @@ public class SearchFragment extends Fragment {
                     firebaseCrashlytics.sendUnsentReports();
                     firebaseCrashlytics.recordException(e);
                 }
-                //throw new RuntimeException(e);
-                //startLaunch(false);
                 if (binding != null)
                     binding.progressBar4.setVisibility(View.GONE);
             }
-            // Request a string response from the provided URL.
+
             stringRequest = new JsonObjectRequest(Request.Method.POST, url, json,
                     response -> {
-                        // Display the first 500 characters of the response string.
+
                         try {
-                            //JSONObject error = response.getJSONObject("");
-                            //response.get("error");
+
                             boolean error = (Boolean) response.get("error");
                             if (!error) {
                                 if (getActivity() != null && binding != null) {
                                     binding.progressBar4.setProgress(100);
-                                    //SimpleDateFormat semanaOut = new SimpleDateFormat("EEEE", Locale.getDefault());
-                                    //SimpleDateFormat yearOut = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-
-                                    //Date yearText = semanaOut.parse((String) response.get("date"));
-                                    //Date semanaText = yearOut.parse((String) response.get("semana"));
-
 
                                     String fijos = (String) response.get("fijos");
                                     String corridos = (String) response.get("corridos");
@@ -179,6 +154,7 @@ public class SearchFragment extends Fragment {
                                     binding.D1s.setText((String) response.get("date"));
                                     binding.Ds.setText(getString(R.string.dia));
                                     binding.SDs.setText((String) response.get("semana"));
+                                    Log.e(DEBUG_TAG, "FIJO: " + fijos);
                                     try {
                                         binding.F10s.setText(fijos.substring(0, 1));
                                         binding.F11s.setText(fijos.substring(1, 3));
@@ -191,7 +167,8 @@ public class SearchFragment extends Fragment {
                                             firebaseCrashlytics.sendUnsentReports();
                                             firebaseCrashlytics.recordException(e);
                                         }
-                                        throw new RuntimeException(e);
+                                        launchError();
+                                        return;
                                     }
 
 
@@ -207,7 +184,8 @@ public class SearchFragment extends Fragment {
                                             firebaseCrashlytics.sendUnsentReports();
                                             firebaseCrashlytics.recordException(e);
                                         }
-                                        throw new RuntimeException(e);
+                                        launchError();
+                                        return;
                                     }
 
                                     binding.N1s.setText((String) response.get("date"));
@@ -226,7 +204,8 @@ public class SearchFragment extends Fragment {
                                             firebaseCrashlytics.sendUnsentReports();
                                             firebaseCrashlytics.recordException(e);
                                         }
-                                        throw new RuntimeException(e);
+                                        launchError();
+                                        return;
                                     }
 
                                     try {
@@ -241,7 +220,8 @@ public class SearchFragment extends Fragment {
                                             firebaseCrashlytics.sendUnsentReports();
                                             firebaseCrashlytics.recordException(e);
                                         }
-                                        throw new RuntimeException(e);
+                                        launchError();
+                                        return;
                                     }
                                     binding.progressBar4.setVisibility(View.GONE);
                                 }
@@ -258,16 +238,11 @@ public class SearchFragment extends Fragment {
                         } catch (JSONException e) {
                             if (binding != null)
                                 binding.progressBar4.setVisibility(View.GONE);
-                            //errorStart.set(true);
-                            //try {
                             if (getActivity() != null) {
                                 mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                         getString(R.string.generateData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
                                 mySnackbar.show();
                             }
-                            // } catch (Exception ei) {
-                            //    Log.e(DEBUG_TAG, "SnackbarError3 : " + ei.getMessage());
-                            //}
                             if (e.getMessage() != null) {
                                 Log.e(DEBUG_TAG, e.getMessage());
                             }
@@ -276,33 +251,24 @@ public class SearchFragment extends Fragment {
                                 firebaseCrashlytics.sendUnsentReports();
                                 firebaseCrashlytics.recordException(e);
                             }
-                            //throw new RuntimeException(e);
                         }
                     }, error -> {
                 if (binding != null)
                     binding.progressBar4.setVisibility(View.GONE);
 
                 if (error instanceof TimeoutError) {
-                    //try {
                     if (getActivity() != null) {
                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                 getString(R.string.slowconn), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
                         mySnackbar.show();
                     }
-                    //} catch (Exception e) {
-                    //  Log.e(DEBUG_TAG, "SnackbarError4 : " + e.getMessage());
-                    //}
 
                 } else {
-                    //try {
                     if (getActivity() != null) {
                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
                                 getString(R.string.lostsvr), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
                         mySnackbar.show();
                     }
-                    //} catch (Exception e) {
-                    //   Log.e(DEBUG_TAG, "SnackbarError5 : " + e.getMessage());
-                    //}
                 }
                 Log.e(DEBUG_TAG, "ERROR");
             }
@@ -310,7 +276,7 @@ public class SearchFragment extends Fragment {
             );
             stringRequest.setRetryPolicy(new DefaultRetryPolicy(60000,
                     3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            // Add the request to the RequestQueue.
+
             requestQueue.add(stringRequest);
             if (binding != null)
                 binding.progressBar4.setProgress(40);
@@ -383,6 +349,17 @@ public class SearchFragment extends Fragment {
             binding.F21s.setText(bundle.getString("F21s", ""));
             binding.C21s.setText(bundle.getString("C21s", ""));
             binding.C22s.setText(bundle.getString("C22s", ""));
+        }
+    }
+
+    private void launchError() {
+        if (binding != null) {
+            binding.progressBar4.setVisibility(View.GONE);
+            if (getActivity() != null) {
+                mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
+                        getString(R.string.internalerror), Snackbar.LENGTH_LONG);
+                mySnackbar.show();
+            }
         }
     }
 }

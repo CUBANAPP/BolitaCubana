@@ -189,6 +189,8 @@ public class FloridaFragment extends Fragment {
     }
 
     private void startSync() {
+        if (binding == null)
+            return;
         TimeZone tz = TimeZone.getTimeZone("America/New_York");
         TimeZone.setDefault(tz);
 
@@ -472,10 +474,12 @@ public class FloridaFragment extends Fragment {
             SimpleDateFormat fechaFormatoz = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US);
 
             String fechaStringz = fechaFormatoz.format(currentTimesz);
-            binding.updateDate.setText(fechaStringz);
-            SharedPreferences.Editor edit = sharedPref.edit();
-            edit.putString("updateCheckDate", fechaStringz);
-            edit.apply();
+            if (binding != null) {
+                binding.updateDate.setText(fechaStringz);
+                SharedPreferences.Editor edit = sharedPref.edit();
+                edit.putString("updateCheckDate", fechaStringz);
+                edit.apply();
+            }
         } else if (binding != null) swipeRefreshLayout.setRefreshing(false);
     }
 }

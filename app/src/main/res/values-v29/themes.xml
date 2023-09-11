@@ -5,7 +5,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.BolitaCubana" parent="Theme.Material3.DayNight">
-        <!-- Primary brand color. -->
         <!-- Fondo Botones. -->
         <item name="colorPrimary">#1A1A1A</item>
         <item name="colorPrimaryVariant">#DB0101</item>
@@ -13,13 +12,14 @@
         <!-- Texto opciones. -->
         <item name="android:textColorPrimary">#003C56</item>
         <!-- Texto Lista -->
-        <item name="textColorAlertDialogListItem">#000000</item>
+        <item name="textColorAlertDialogListItem">#001E2C</item>
         <!-- Fondo. -->
-        <item name="android:colorBackground">#FFFFFF</item>
+        <item name="android:colorBackground">?attr/colorOnSecondaryContainer</item>
 
         <!-- Color Tick. -->
         <item name="colorPrimaryContainer">#A90000</item>
 
+        <!-- Navigation. -->
         <item name="colorSecondaryContainer">#1A1A1A</item>
         <item name="colorOnSecondaryContainer">#FFFFFF</item>
 
@@ -34,17 +34,21 @@
         <item name="colorTertiary">#1A1A1A</item>
         <item name="colorTertiaryContainer">#FFFFFF</item>
         <item name="colorOnTertiary">#003C56</item>
-        <item name="colorOnSurfaceVariant">#1A1A1A</item>
+
+        <!-- Navigation others. -->
+        <item name="colorOnSurfaceVariant">#333333</item>
 
         <!-- Status bar color. 66FFFB C1E8FF-->
-        <item name="elevationOverlayColor">#FFFFFF</item>
-        <item name="colorPrimaryInverse">#000000</item>
+        <item name="elevationOverlayColor">#F2F2F2</item>
+        <!-- Titulo APP -->
+        <item name="colorPrimaryInverse">#FFFFFF</item>
 
         <item name="android:textColorHighlight">#001E2C</item>
         <item name="android:textColorHighlightInverse">#FFFFFF</item>
 
         <!-- StatusBar-->
-        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorSurface">#EEEEEE</item>
+        <item name="colorSurfaceContainer">#F5F5F5</item>
         <!-- Transparent system bars for edge-to-edge. -->
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -60,13 +64,14 @@
         <!-- Texto opciones. -->
         <item name="android:textColorPrimary">#003C56</item>
         <!-- Texto Lista -->
-        <item name="textColorAlertDialogListItem">#000000</item>
+        <item name="textColorAlertDialogListItem">#001E2C</item>
         <!-- Fondo. -->
-        <item name="android:colorBackground">#FFFFFF</item>
+        <item name="android:colorBackground">?attr/colorOnSecondaryContainer</item>
 
         <!-- Color Tick. -->
         <item name="colorPrimaryContainer">#A90000</item>
 
+        <!-- Navigation. -->
         <item name="colorSecondaryContainer">#1A1A1A</item>
         <item name="colorOnSecondaryContainer">#FFFFFF</item>
 
@@ -81,16 +86,49 @@
         <item name="colorTertiary">#1A1A1A</item>
         <item name="colorTertiaryContainer">#FFFFFF</item>
         <item name="colorOnTertiary">#003C56</item>
-        <item name="colorOnSurfaceVariant">#1A1A1A</item>
+
+        <!-- Navigation others. -->
+        <item name="colorOnSurfaceVariant">#333333</item>
 
         <!-- Status bar color. 66FFFB C1E8FF-->
-        <item name="elevationOverlayColor">#FFFFFF</item>
+        <item name="elevationOverlayColor">#F2F2F2</item>
+        <!-- Titulo APP -->
         <item name="colorPrimaryInverse">#006E9A</item>
 
         <item name="android:textColorHighlight">#001E2C</item>
         <item name="android:textColorHighlightInverse">#FFFFFF</item>
 
         <!-- StatusBar-->
-        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorSurface">#EEEEEE</item>
+        <item name="colorSurfaceContainer">#F5F5F5</item>
+    </style>
+
+    <style name="Theme.BolitaCubana.Btn1" parent="Theme.BolitaCubana">
+        <item name="colorPrimary">#003C56</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+    </style>
+    <style name="Theme.BolitaCubana.Btn2" parent="Theme.BolitaCubana">
+        <item name="colorPrimary">#A90000</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+    </style>
+    <style name="Theme.BolitaCubana.Btn3" parent="Theme.BolitaCubana">
+        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorOnPrimary">#000000</item>
+    </style>
+    <style name="Theme.BolitaCubana.Cancel" parent="Theme.BolitaCubana">
+        <item name="colorPrimary">#CC0000</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+    </style>
+    <style name="Theme.BolitaCubana.Accept" parent="Theme.BolitaCubana">
+        <item name="colorPrimary">#669900</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+    </style>
+    <style name="Theme.BolitaCubana.Cancel2" parent="Theme.BolitaCubana.Full">
+        <item name="colorPrimary">#CC0000</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+    </style>
+    <style name="Theme.BolitaCubana.Accept2" parent="Theme.BolitaCubana.Full">
+        <item name="colorPrimary">#669900</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
     </style>
 </resources>

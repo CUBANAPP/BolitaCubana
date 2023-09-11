@@ -23,8 +23,8 @@
         android:background="#99000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/button31"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,6 +41,7 @@
             android:text="@string/nytittle" />
 
         <LinearLayout
+            android:layout_marginStart="2dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -146,6 +147,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginStart="2dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -254,6 +256,7 @@
             </LinearLayout>
         </LinearLayout>
         <TextView
+            android:layout_marginStart="2dp"
             android:layout_marginTop="10dp"
             android:id="@+id/update"
             android:textSize="11sp"
@@ -263,6 +266,7 @@
             android:gravity="left|start"
             android:text="@string/updatedate" />
         <TextView
+            android:layout_marginStart="2dp"
             android:id="@+id/updateDate"
             android:textSize="12sp"
             android:textStyle="bold"

@@ -6,9 +6,9 @@
     <string name="app_name" translatable="true">Bolita Cubana</string>
     <string name="title_activity_main" translatable="true">Popular Lotteries</string>
     <string name="title_home" translatable="true">Lottery</string>
-    <string name="fragmentHome">Lottery Drawings</string>
+    <string name="fragmentHome" translatable="true">Lottery Drawings</string>
     <string name="title_dashboard" translatable="true">Search</string>
-    <string name="fragmentSearch" translatable="true">Search in a Date </string>
+    <string name="fragmentSearch" translatable="true">Search in a Date</string>
     <string name="title_notifications" translatable="false">Charada</string>
     <string name="title_activity_settings" translatable="true">Settings</string>
 

@@ -91,7 +91,7 @@
 
     <fragment
         android:id="@+id/navigation_sevendays"
-        android:name="com.cubanapp.bolitacubana.ui.home.SevenDaysFragment"
+        android:name="com.cubanapp.bolitacubana.ui.home.sevendays.SevenDaysFragment"
         android:label="@string/sevenDays"
         tools:layout="@layout/fragment_sevendays"/>
 
