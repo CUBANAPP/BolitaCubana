@@ -437,6 +437,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                                             }
 
                                             downloadFiles(keyNames);
+
                                         } else { // Nada nuevo que descargar
                                             Log.i(DEBUG_TAG, "Nada nuevo que descargar");
                                             swipeRefreshLayout.setRefreshing(false);
@@ -548,16 +549,22 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
     }
 
     private void downloadFiles(ArrayList<String> files) throws UnsupportedEncodingException {
+        if(files.get(0) == null)
+            return;
+        if(Objects.equals(files.get(0), ""))
+            return;
+
         if (getActivity() != null && binding != null) {
             swipeRefreshLayout.setRefreshing(true);
             requestQueue = Volley.newRequestQueue(getActivity());
         }
+
         //}
             /*catch (Exception e){
                 Log.e(DEBUG_TAG, "Volley Error : " + e.getMessage());
                 //throw new RuntimeException(e);
             }*/
-        if (requestQueue != null && binding != null && getActivity() != null) {
+        if (requestQueue != null) {
             SharedPreferences.Editor edit = sharedPref.edit();
             TimeZone tz = TimeZone.getTimeZone("America/New_York");
             TimeZone.setDefault(tz);
@@ -573,6 +580,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
             ArrayList<JsonObjectRequest> jsonObjectRequestArrayList = new ArrayList<>();
             //ArrayList<String> filesSuccess = new ArrayList<>();
             for (int i = 0; i < files.size(); i++) {
+
                 int d = i;
                 JSONObject json = new JSONObject();
 
@@ -609,10 +617,6 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
 
                                             }
 
-                                            //filesSuccess.add(files.get(d));
-
-                                            saveFile(files.get(d), response, false);
-
                                             // TODO: Guardar esto para despues?
                                             if (recyclerView != null && getActivity() != null && binding != null) {
                                                 buildAdapter(files.get(d), type, decodedString);
@@ -632,12 +636,36 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                                                     binding.textViewProgress.setVisibility(View.GONE);
                                                 }
                                             }
+                                            else{
+                                                try {
+                                                    saveFile(files.get(d), response, false);
+                                                }catch (IndexOutOfBoundsException e){
+                                                    if (e.getMessage() != null) {
+                                                        Log.e(DEBUG_TAG, e.getMessage());
+                                                    }
+                                                    if (Build.VERSION.SDK_INT >= 19) {
+                                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                                        firebaseCrashlytics.sendUnsentReports();
+                                                        firebaseCrashlytics.recordException(e);
+                                                    }
+                                                }
+                                                catch (IllegalStateException e){
+                                                    if (e.getMessage() != null) {
+                                                        Log.e(DEBUG_TAG, e.getMessage());
+                                                    }
+                                                    if (Build.VERSION.SDK_INT >= 19) {
+                                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                                        firebaseCrashlytics.sendUnsentReports();
+                                                        firebaseCrashlytics.recordException(e);
+                                                    }
+                                                }
+                                            }
 
                                         }
 
                                     } else {
                                         if (d == (files.size() - 1)) {
-                                            fecha.add(Calendar.SECOND, 5);
+                                            fecha.add(Calendar.SECOND, 2);
 
                                             edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
                                             edit.apply();
@@ -653,7 +681,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                                 }
                             } catch (JSONException e) {
                                 if (d == (files.size() - 1)) {
-                                    fecha.add(Calendar.SECOND, 5);
+                                    fecha.add(Calendar.SECOND, 2);
 
                                     edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
                                     edit.apply();
@@ -707,7 +735,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                         }, error -> {
                     Log.e(DEBUG_TAG, "ERROR");
                     if (d == (files.size() - 1)) {
-                        fecha.add(Calendar.SECOND, 5);
+                        fecha.add(Calendar.SECOND, 2);
 
                         edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
                         edit.apply();
