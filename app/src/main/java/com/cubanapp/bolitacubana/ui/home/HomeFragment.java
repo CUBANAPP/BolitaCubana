@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
+        mLastClickTime = SystemClock.elapsedRealtime();
         binding.buttonFlorida.setOnClickListener(view1a -> {
             if (binding != null && binding.buttonFlorida.isClickable() && getActivity() != null) {
                 //binding.buttonGeorgia.setClickable(false);
@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
                 //binding.buttonNewYork.setClickable(false);
 
                 // mis-clicking prevention, using threshold of 1000 ms
-                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
@@ -47,7 +47,6 @@ public class HomeFragment extends Fragment {
                 try {
                     NavHostFragment.findNavController(this)
                             .navigate(R.id.action_navigation_home_to_navigation_florida);
-                    NavHostFragment.findNavController(this).popBackStack();
                 } catch (IllegalArgumentException e) {
                     if (e.getMessage() != null) {
                         Log.e(DEBUG_TAG, e.getMessage());
@@ -64,7 +63,7 @@ public class HomeFragment extends Fragment {
         binding.buttonGeorgia.setOnClickListener(view1b -> {
             if (binding != null && binding.buttonGeorgia.isClickable() && getActivity() != null) {
                 // mis-clicking prevention, using threshold of 1000 ms
-                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
@@ -88,7 +87,7 @@ public class HomeFragment extends Fragment {
         binding.buttonNewYork.setOnClickListener(view1c -> {
             if (binding != null && binding.buttonNewYork.isClickable() && getActivity() != null) {
                 // mis-clicking prevention, using threshold of 1000 ms
-                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();

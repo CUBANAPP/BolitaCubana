@@ -34,6 +34,9 @@ public class UpdateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mLastClickTime = SystemClock.elapsedRealtime();
+
         binding = ActivityUpdateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -76,19 +79,22 @@ public class UpdateActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!builder.isShowing())
-            builder.show();
+        if (builder != null)
+            if (!builder.isShowing())
+                builder.show();
     }
 
     @Override
     protected void onPause() {
-        if (builder.isShowing())
-            builder.dismiss();
+        if (builder != null)
+            if (builder.isShowing())
+                builder.dismiss();
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
+        builder = null;
         context = null;
         binding = null;
         super.onDestroy();

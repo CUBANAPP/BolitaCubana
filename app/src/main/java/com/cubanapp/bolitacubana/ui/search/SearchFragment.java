@@ -43,6 +43,8 @@ import java.util.Locale;
 public class SearchFragment extends Fragment {
 
     private long mLastClickTime = 0;
+
+    private long mLastClickSnackTime = 0;
     private FragmentSearchBinding binding;
     private AlertDialog builder;
     private String apiKey;
@@ -58,6 +60,9 @@ public class SearchFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        mLastClickTime = SystemClock.elapsedRealtime();
+        mLastClickSnackTime = SystemClock.elapsedRealtime();
         apiKey = BuildConfig.API_KEY;
         binding.button4.setOnClickListener(this::openDate);
         return root;
@@ -93,13 +98,33 @@ public class SearchFragment extends Fragment {
                 searchDate(calendarView.getDate());
             }
         });
-        builder.setButton(Dialog.BUTTON_NEGATIVE, getString(R.string.dismiss), (dialog, which) -> builder.dismiss());
+        builder.setButton(Dialog.BUTTON_NEGATIVE, getString(R.string.dismiss), (dialog, which) -> {
+            if (builder != null) {
+                if (builder.isShowing())
+                    builder.dismiss();
+            }
+        });
         builder.show();
     }
 
     private void searchDate(Long date) {
         if (binding == null)
             return;
+
+        if (mySnackbar.isShown()) {
+            // mis-clicking prevention, using threshold of 1000 ms
+            if (SystemClock.elapsedRealtime() - mLastClickSnackTime < 200) {
+                return;
+            }
+            mLastClickSnackTime = SystemClock.elapsedRealtime();
+        }
+
+        // mis-clicking prevention, using threshold of 1000 ms
+        if (SystemClock.elapsedRealtime() - mLastClickSnackTime < 500) {
+            return;
+        }
+        mLastClickSnackTime = SystemClock.elapsedRealtime();
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
         Date format = new Date(date);
         String dateString = dateFormat.format(format);

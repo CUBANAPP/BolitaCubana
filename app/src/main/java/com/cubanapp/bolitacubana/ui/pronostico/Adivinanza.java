@@ -64,6 +64,8 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
 
     private long mLastClickTime = 0;
 
+    private long mLastClickSnackTime = 0;
+
     private FragmentAdivinanzasBinding binding;
 
     private SharedPreferences sharedPref;
@@ -106,6 +108,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mLastClickTime = SystemClock.elapsedRealtime();
 
         nFiles = null;
         if (getActivity() != null) {
@@ -345,6 +348,12 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
 
     private void downloadData() {
 
+        // mis-clicking prevention, using threshold of 1000 ms
+        if (SystemClock.elapsedRealtime() - mLastClickSnackTime < 500) {
+            return;
+        }
+        mLastClickSnackTime = SystemClock.elapsedRealtime();
+
         if (getActivity() != null && binding != null) {
             keyNames.clear();
             requestQueue = Volley.newRequestQueue(getActivity());
@@ -552,9 +561,9 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
     }
 
     private void downloadFiles(ArrayList<String> files) throws UnsupportedEncodingException {
-        if(files.get(0) == null)
+        if (files.get(0) == null)
             return;
-        if(Objects.equals(files.get(0), ""))
+        if (Objects.equals(files.get(0), ""))
             return;
 
         if (getActivity() != null && binding != null) {
@@ -638,11 +647,10 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                                                     swipeRefreshLayout.setRefreshing(false);
                                                     binding.textViewProgress.setVisibility(View.GONE);
                                                 }
-                                            }
-                                            else{
+                                            } else {
                                                 try {
                                                     saveFile(files.get(d), response, false);
-                                                }catch (IndexOutOfBoundsException e){
+                                                } catch (IndexOutOfBoundsException e) {
                                                     if (e.getMessage() != null) {
                                                         Log.e(DEBUG_TAG, e.getMessage());
                                                     }
@@ -651,8 +659,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
                                                         firebaseCrashlytics.sendUnsentReports();
                                                         firebaseCrashlytics.recordException(e);
                                                     }
-                                                }
-                                                catch (IllegalStateException e){
+                                                } catch (IllegalStateException e) {
                                                     if (e.getMessage() != null) {
                                                         Log.e(DEBUG_TAG, e.getMessage());
                                                     }
@@ -887,7 +894,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
         if (getActivity() != null && binding != null) {
 
             // mis-clicking prevention, using threshold of 1000 ms
-            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
                 return;
             }
             mLastClickTime = SystemClock.elapsedRealtime();

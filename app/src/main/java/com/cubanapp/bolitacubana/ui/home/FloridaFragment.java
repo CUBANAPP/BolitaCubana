@@ -46,6 +46,7 @@ import java.util.TimeZone;
 public class FloridaFragment extends Fragment {
 
     private long mLastClickTime = 0;
+    private long mLastClickSnackTime = 0;
     private String apiKey;
     private FragmentFloridaBinding binding;
 
@@ -69,6 +70,7 @@ public class FloridaFragment extends Fragment {
         binding = FragmentFloridaBinding.inflate(inflater, container, false);
         apiKey = BuildConfig.API_KEY;
 
+
         if (getActivity() != null)
             sharedPref = getActivity().getSharedPreferences(
                     getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -87,7 +89,7 @@ public class FloridaFragment extends Fragment {
                 //binding.button3.setClickable(false);
 
                 // mis-clicking prevention, using threshold of 1000 ms
-                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
@@ -199,6 +201,13 @@ public class FloridaFragment extends Fragment {
     private void startSync() {
         if (binding == null)
             return;
+
+        // mis-clicking prevention, using threshold of 1000 ms
+        if (SystemClock.elapsedRealtime() - mLastClickSnackTime < 1000) {
+            return;
+        }
+        mLastClickSnackTime = SystemClock.elapsedRealtime();
+
         TimeZone tz = TimeZone.getTimeZone("America/New_York");
         TimeZone.setDefault(tz);
 

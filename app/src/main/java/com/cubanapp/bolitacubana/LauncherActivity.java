@@ -91,6 +91,9 @@ public class LauncherActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mLastClickTime = SystemClock.elapsedRealtime();
+
         binding = ActivityLauncherBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         //setContentView(R.layout.activity_launcher);
@@ -468,7 +471,7 @@ public class LauncherActivity extends AppCompatActivity {
     private void startSync() {
 
 
-        if (SystemClock.elapsedRealtime() - mLastStartSyncTime < 1000) {
+        if (SystemClock.elapsedRealtime() - mLastStartSyncTime < 200) {
             return;
         }
         mLastStartSyncTime = SystemClock.elapsedRealtime();
@@ -637,6 +640,7 @@ public class LauncherActivity extends AppCompatActivity {
                 stringRequest.cancel();
             }
         }
+        mLastStartSyncTime = 0;
         super.onStop();
     }
 

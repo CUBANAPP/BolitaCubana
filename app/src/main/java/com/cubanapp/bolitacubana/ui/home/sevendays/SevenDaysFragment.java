@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +54,7 @@ import java.util.TimeZone;
 
 public class SevenDaysFragment extends Fragment {
 
+    private long mLastClick = 0;
     private FragmentSevendaysBinding binding;
     private Snackbar mySnackbar;
     private String apiKey;
@@ -192,6 +194,13 @@ public class SevenDaysFragment extends Fragment {
     }
 
     private void checkUpdate() {
+
+        // mis-clicking prevention, using threshold of 1000 ms
+        if (SystemClock.elapsedRealtime() - mLastClick < 1000) {
+            return;
+        }
+        mLastClick = SystemClock.elapsedRealtime();
+
         if (binding == null)
             return;
         String saved = null;

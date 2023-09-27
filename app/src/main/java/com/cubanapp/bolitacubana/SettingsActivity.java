@@ -140,6 +140,14 @@ public class SettingsActivity extends AppCompatActivity {
         public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
 
+            mLastClickEraseTime = SystemClock.elapsedRealtime();
+            mLastClickTime = SystemClock.elapsedRealtime();
+            mLastClickTime0 = SystemClock.elapsedRealtime();
+            mLastClickTime1 = SystemClock.elapsedRealtime();
+            mLastClickTime2 = SystemClock.elapsedRealtime();
+            mLastClickTime3 = SystemClock.elapsedRealtime();
+            mLastClickTime4 = SystemClock.elapsedRealtime();
+
             erase = (ListPreference) getPreferenceManager().findPreference("erase");
 
             listPreference = (ListPreference) getPreferenceManager().findPreference("languagepreference");

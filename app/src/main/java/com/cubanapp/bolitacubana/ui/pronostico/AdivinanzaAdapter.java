@@ -95,7 +95,7 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
 
         @Override
         public void onClick(View v) {
-            if (SystemClock.elapsedRealtime() - mclick < 1000){
+            if (SystemClock.elapsedRealtime() - mclick < 1000) {
                 return;
             }
             mclick = SystemClock.elapsedRealtime();
@@ -103,6 +103,7 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
             photoListener.onItemClick(getAdapterPosition(), getBytes(), getName(), getType());
             Log.d("Adapter", getAdapterPosition() + " CLICKED: " + getName());
         }
+
         public interface PhotoListener {
             void onItemClick(int position, byte[] map, String name, String type);
         }

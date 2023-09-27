@@ -52,6 +52,7 @@ import java.util.TimeZone;
 public class NewYorkFragment extends Fragment {
 
     private long mLastClickTime = 0;
+    private long mLastClickSnackTime = 0;
     private String apiKey;
     private FragmentNewyorkBinding binding;
 
@@ -71,6 +72,7 @@ public class NewYorkFragment extends Fragment {
         binding = FragmentNewyorkBinding.inflate(inflater, container, false);
         apiKey = BuildConfig.API_KEY;
 
+
         if (getActivity() != null)
             sharedPref = getActivity().getSharedPreferences(
                     getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -87,7 +89,7 @@ public class NewYorkFragment extends Fragment {
         binding.button31.setOnClickListener(viewe -> {
             if (binding != null && binding.button31.isClickable() && getActivity() != null) {
                 // mis-clicking prevention, using threshold of 1000 ms
-                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
@@ -199,6 +201,13 @@ public class NewYorkFragment extends Fragment {
     private void startSync() {
         if (binding == null)
             return;
+
+        // mis-clicking prevention, using threshold of 1000 ms
+        if (SystemClock.elapsedRealtime() - mLastClickSnackTime < 1000) {
+            return;
+        }
+        mLastClickSnackTime = SystemClock.elapsedRealtime();
+
         TimeZone tz = TimeZone.getTimeZone("America/New_York");
         TimeZone.setDefault(tz);
 
