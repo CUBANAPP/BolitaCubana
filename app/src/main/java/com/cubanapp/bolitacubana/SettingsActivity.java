@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -101,6 +102,13 @@ public class SettingsActivity extends AppCompatActivity {
     }*/
     public static class SettingsFragment extends PreferenceFragmentCompat {
 
+        private long mLastClickTime = 0;
+        private long mLastClickTime0 = 0;
+        private long mLastClickTime1 = 0;
+        private long mLastClickTime2 = 0;
+        private long mLastClickTime3 = 0;
+        private long mLastClickTime4 = 0;
+        private long mLastClickEraseTime = 0;
         private SwitchPreferenceCompat mpromoChannel;
         private SwitchPreferenceCompat mcubanappChannel;
         private SwitchPreferenceCompat mdefaultChannel;
@@ -151,6 +159,13 @@ public class SettingsActivity extends AppCompatActivity {
             AtomicBoolean response = new AtomicBoolean(false);
             if (erase != null) {
                 erase.setOnPreferenceChangeListener((preference, newvelue) -> {
+
+                    // mis-clicking prevention, using threshold of 1000 ms
+                    if (SystemClock.elapsedRealtime() - mLastClickEraseTime < 1000) {
+                        return false;
+                    }
+                    mLastClickEraseTime = SystemClock.elapsedRealtime();
+
                     try {
                         response.set(clearData());
                     } catch (IllegalStateException e) {
@@ -184,6 +199,12 @@ public class SettingsActivity extends AppCompatActivity {
             }
             if (listPreference != null) {
                 listPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    // mis-clicking prevention, using threshold of 1000 ms
+                    if (SystemClock.elapsedRealtime() - mLastClickTime0 < 500) {
+                        return false;
+                    }
+                    mLastClickTime0 = SystemClock.elapsedRealtime();
+
                     if (getActivity() != null) {
                         Locale config = new Locale(newValue.toString());
                         Locale.setDefault(config);
@@ -202,6 +223,11 @@ public class SettingsActivity extends AppCompatActivity {
             }*/
             if (mdefaultChannel != null) {
                 mdefaultChannel.setOnPreferenceChangeListener((preference, newValue) -> {
+                    // mis-clicking prevention, using threshold of 1000 ms
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 500) {
+                        return false;
+                    }
+                    mLastClickTime = SystemClock.elapsedRealtime();
 
                     if (Build.VERSION.SDK_INT >= 19) {
                         FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
@@ -242,6 +268,12 @@ public class SettingsActivity extends AppCompatActivity {
             }
             if (mcubanappChannel != null) {
                 mcubanappChannel.setOnPreferenceChangeListener((preference, newValue) -> {
+                    // mis-clicking prevention, using threshold of 1000 ms
+                    if (SystemClock.elapsedRealtime() - mLastClickTime2 < 500) {
+                        return false;
+                    }
+                    mLastClickTime2 = SystemClock.elapsedRealtime();
+
                     if (Build.VERSION.SDK_INT >= 19) {
                         FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
                         if (Objects.equals(preference.getKey(), getString(R.string.cubanapp_channel_name_topic))) {
@@ -286,6 +318,12 @@ public class SettingsActivity extends AppCompatActivity {
             }
             if (mpromoChannel != null) {
                 mpromoChannel.setOnPreferenceChangeListener((preference, newValue) -> {
+                    // mis-clicking prevention, using threshold of 1000 ms
+                    if (SystemClock.elapsedRealtime() - mLastClickTime3 < 500) {
+                        return false;
+                    }
+                    mLastClickTime3 = SystemClock.elapsedRealtime();
+
                     if (Build.VERSION.SDK_INT >= 19) {
                         FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
                         if (Objects.equals(preference.getKey(), getString(R.string.promotional_topic))) {
@@ -330,6 +368,12 @@ public class SettingsActivity extends AppCompatActivity {
             }
             if (mgeorgiaChannel != null) {
                 mgeorgiaChannel.setOnPreferenceChangeListener((preference, newValue) -> {
+                    // mis-clicking prevention, using threshold of 1000 ms
+                    if (SystemClock.elapsedRealtime() - mLastClickTime4 < 500) {
+                        return false;
+                    }
+                    mLastClickTime4 = SystemClock.elapsedRealtime();
+
                     if (Build.VERSION.SDK_INT >= 19) {
                         FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
                         if (Objects.equals(preference.getKey(), "georgiaChannel")) {
@@ -370,6 +414,12 @@ public class SettingsActivity extends AppCompatActivity {
             }
             if (mnewyorkChannel != null) {
                 mnewyorkChannel.setOnPreferenceChangeListener((preference, newValue) -> {
+                    // mis-clicking prevention, using threshold of 1000 ms
+                    if (SystemClock.elapsedRealtime() - mLastClickTime1 < 500) {
+                        return false;
+                    }
+                    mLastClickTime1 = SystemClock.elapsedRealtime();
+
                     if (Build.VERSION.SDK_INT >= 19) {
                         FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
                         if (Objects.equals(preference.getKey(), "newyorkChannel")) {
@@ -411,6 +461,12 @@ public class SettingsActivity extends AppCompatActivity {
             if (mdarkmode != null) {
                 mdarkmode.setOnPreferenceChangeListener((preference, newValue) -> {
                     if (getActivity() != null) {
+
+                        // mis-clicking prevention, using threshold of 1000 ms
+                        if (SystemClock.elapsedRealtime() - mLastClickTime < 500) {
+                            return false;
+                        }
+                        mLastClickTime = SystemClock.elapsedRealtime();
 
                         if (Build.VERSION.SDK_INT >= 17) {
                             if (Objects.equals(newValue, "light")) {
@@ -466,6 +522,13 @@ public class SettingsActivity extends AppCompatActivity {
         @SuppressLint("ApplySharedPref")
         public boolean clearData() throws IllegalStateException, IllegalArgumentException {
             if (getActivity() != null) {
+
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 500) {
+                    return false;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+
                 if (getActivity().getCacheDir() != null) {
                     deleteCache(getActivity());
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences(

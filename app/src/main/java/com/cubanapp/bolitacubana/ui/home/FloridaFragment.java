@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,7 @@ import java.util.TimeZone;
 
 public class FloridaFragment extends Fragment {
 
+    private long mLastClickTime = 0;
     private String apiKey;
     private FragmentFloridaBinding binding;
 
@@ -82,7 +84,13 @@ public class FloridaFragment extends Fragment {
 
         binding.button3.setOnClickListener(view1q -> {
             if (binding != null && binding.button3.isClickable() && getActivity() != null) {
-                binding.button3.setClickable(false);
+                //binding.button3.setClickable(false);
+
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("name", null);

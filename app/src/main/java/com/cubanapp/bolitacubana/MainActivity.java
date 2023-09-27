@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -84,6 +85,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity {
 
+    private long mLastClickTime = 0;
+    private long mLastClickTime0 = 0;
     private final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
@@ -154,6 +157,12 @@ public class MainActivity extends AppCompatActivity {
         ProgressBar progressBar = binding.progressBarPriv;
 
         button.setOnClickListener(v -> {
+            // mis-clicking prevention, using threshold of 1000 ms
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+                return;
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
+
             navigationView.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
             myWebView.setVisibility(View.GONE);
@@ -165,7 +174,15 @@ public class MainActivity extends AppCompatActivity {
             //startSync();
         });
 
-        button2.setOnClickListener(v -> finish());
+        button2.setOnClickListener(v -> {
+            // mis-clicking prevention, using threshold of 1000 ms
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+                return;
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
+
+            finish();
+        });
         myWebView.setWebViewClient(new WebViewClient() {
 
             boolean loadingFinished = true;
@@ -243,14 +260,25 @@ public class MainActivity extends AppCompatActivity {
                         su += message;
                         builder.setMessage(su);
                         builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.open), (dialog, which) -> openlink(message));
-                        builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> builder.dismiss());
+                        builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
+                            if (builder != null) {
+                                if (builder.isShowing())
+                                    builder.dismiss();
+                            }
+                        });
                         builder.show();
                     }
                 } else {
                     if (builder != null) {
                         builder.setTitle(getString(R.string.important));
                         builder.setMessage(message);
-                        builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> builder.dismiss());
+                        builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
+                            if (builder != null) {
+
+                                if (builder.isShowing())
+                                    builder.dismiss();
+                            }
+                        });
                         builder.show();
                     }
                 }
@@ -491,11 +519,22 @@ public class MainActivity extends AppCompatActivity {
             adView.setAdListener(new AdListener() {
                 @Override
                 public void onAdClicked() {
+                    // mis-clicking prevention, using threshold of 1000 ms
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+                        return;
+                    }
+                    mLastClickTime = SystemClock.elapsedRealtime();
                     // Code to be executed when the user clicks on an ad.
                 }
 
                 @Override
                 public void onAdClosed() {
+                    // mis-clicking prevention, using threshold of 1000 ms
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 250) {
+                        return;
+                    }
+                    mLastClickTime = SystemClock.elapsedRealtime();
+
                     // Code to be executed when the user is about to return
                     // to the app after tapping on an ad.
                     adView.loadAd(adRequest);
@@ -572,7 +611,9 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     private void startSync() {
+
         if (builder != null) {
+
             if (builder.isShowing())
                 builder.dismiss();
         }
@@ -583,9 +624,20 @@ public class MainActivity extends AppCompatActivity {
         //executor.execute(() -> {
 
         if (getApplication() != null) {
+
+            // mis-clicking prevention, using threshold of 1000 ms
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 500) {
+                return;
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
+
             //Background work here
             requestQueue = Volley.newRequestQueue(this);
         }
+
+        if (requestQueue == null)
+            return;
+
         String url;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             url = "https://cubanapp.info/api/chksvr.php";
@@ -669,7 +721,12 @@ public class MainActivity extends AppCompatActivity {
                                         builder.setTitle(getString(R.string.obsolete));
                                         builder.setMessage(getString(R.string.update));
                                         builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.open), (dialog, which) -> updateApp());
-                                        builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> builder.dismiss());
+                                        builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
+                                            if (builder != null) {
+                                                if (builder.isShowing())
+                                                    builder.dismiss();
+                                            }
+                                        });
                                         builder.show();
                                     }
                                 } else if (!Objects.equals(message, "")) {
@@ -680,14 +737,24 @@ public class MainActivity extends AppCompatActivity {
                                             s += message;
                                             builder.setMessage(s);
                                             builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.open), (dialog, which) -> openlink(message));
-                                            builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> builder.dismiss());
+                                            builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
+                                                if (builder != null) {
+                                                    if (builder.isShowing())
+                                                        builder.dismiss();
+                                                }
+                                            });
                                             builder.show();
                                         }
                                     } else {
                                         if (builder != null) {
                                             builder.setTitle(getString(R.string.important));
                                             builder.setMessage(message);
-                                            builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> builder.dismiss());
+                                            builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
+                                                if (builder != null) {
+                                                    if (builder.isShowing())
+                                                        builder.dismiss();
+                                                }
+                                            });
                                             builder.show();
                                         }
                                     }
@@ -791,6 +858,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+            return false;
+        }
+        mLastClickTime = SystemClock.elapsedRealtime();
+
         // Handle item selection
         if (item.getItemId() == R.id.options) {
             Intent i = new Intent(MainActivity.this, SettingsActivity.class);
@@ -801,8 +874,16 @@ public class MainActivity extends AppCompatActivity {
             if (builder != null) {
                 builder.setTitle(getString(R.string.app_name));
                 builder.setMessage(getString(R.string.aboutinfo1) + BuildConfig.VERSION_NAME + getString(R.string.aboutinfo2));
-                builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> builder.dismiss());
+                builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
+                    if (builder != null)
+                        if (builder.isShowing())
+                            builder.dismiss();
+                });
                 builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.openprivacy), (dialog, which) -> {
+                    if (SystemClock.elapsedRealtime() - mLastClickTime0 < 1000) {
+                        return;
+                    }
+                    mLastClickTime0 = SystemClock.elapsedRealtime();
                     if (!webviewOpen) {
                         webviewOpen = true;
                         loadToS();
@@ -881,7 +962,12 @@ public class MainActivity extends AppCompatActivity {
                         builder.setTitle(bundle.getString("notifTitle"));
                     }
                     builder.setMessage(bundle.getString("notifMsg"));
-                    builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> builder.dismiss());
+                    builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
+                        if (builder != null) {
+                            if (builder.isShowing())
+                                builder.dismiss();
+                        }
+                    });
                     builder.show();
                 }
                 bundle.clear();
@@ -890,6 +976,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateApp() {
+
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+            return;
+        }
+        mLastClickTime = SystemClock.elapsedRealtime();
+
         // you can also use BuildConfig.APPLICATION_ID
         String appId = context.getPackageName();
         Intent rateIntent = new Intent(Intent.ACTION_VIEW,
@@ -937,6 +1029,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openlink(String s) {
+
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+            return;
+        }
+        mLastClickTime = SystemClock.elapsedRealtime();
+
         Intent webIntent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse(s));
         startActivity(webIntent);
@@ -991,12 +1089,25 @@ public class MainActivity extends AppCompatActivity {
             mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
                 @Override
                 public void onAdClicked() {
+                    // mis-clicking prevention, using threshold of 1000 ms
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+                        return;
+                    }
+                    mLastClickTime = SystemClock.elapsedRealtime();
+
                     // Called when a click is recorded for an ad.
                     Log.d(DEBUG_TAG, "Ad was clicked.");
                 }
 
                 @Override
                 public void onAdDismissedFullScreenContent() {
+
+                    // mis-clicking prevention, using threshold of 1000 ms
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+                        return;
+                    }
+                    mLastClickTime = SystemClock.elapsedRealtime();
+
                     // Called when ad is dismissed.
                     // Set the ad reference to null so you don't show the ad a second time.
                     Log.d(DEBUG_TAG, "Ad dismissed fullscreen content.");

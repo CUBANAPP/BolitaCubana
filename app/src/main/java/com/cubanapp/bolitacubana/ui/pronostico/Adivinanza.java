@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,6 +61,8 @@ import java.util.Set;
 import java.util.TimeZone;
 
 public class Adivinanza extends Fragment implements AdivinanzaAdapter.AdivinanzaView.PhotoListener {
+
+    private long mLastClickTime = 0;
 
     private FragmentAdivinanzasBinding binding;
 
@@ -882,6 +885,14 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
     @Override
     public void onItemClick(int position, byte[] bytes, String name, String type) {
         if (getActivity() != null && binding != null) {
+
+            // mis-clicking prevention, using threshold of 1000 ms
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return;
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
+
+
             Bundle bundle = new Bundle();
             bundle.putByteArray("base64", bytes);
             bundle.putString("name", name);

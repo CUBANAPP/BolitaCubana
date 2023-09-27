@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,7 @@ import java.util.TimeZone;
 
 public class GeorgiaFragment extends Fragment {
 
+    private long mLastClickTime = 0;
     private String apiKey;
     private FragmentGeorgiaBinding binding;
 
@@ -83,7 +85,13 @@ public class GeorgiaFragment extends Fragment {
 
         binding.button30.setOnClickListener(view1w -> {
             if (binding != null && binding.button30.isClickable() && getActivity() != null) {
-                binding.button30.setClickable(false);
+                //binding.button30.setClickable(false);
+
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("name", "georgiaSavedFile");

@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +65,8 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
     }
 
     public static class AdivinanzaView extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private long mclick = 0;
         private ImageView image;
         private TextView type;
         private TextView name;
@@ -92,6 +95,11 @@ public class AdivinanzaAdapter extends RecyclerView.Adapter<AdivinanzaAdapter.Ad
 
         @Override
         public void onClick(View v) {
+            if (SystemClock.elapsedRealtime() - mclick < 1000){
+                return;
+            }
+            mclick = SystemClock.elapsedRealtime();
+
             photoListener.onItemClick(getAdapterPosition(), getBytes(), getName(), getType());
             Log.d("Adapter", getAdapterPosition() + " CLICKED: " + getName());
         }

@@ -11,6 +11,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import java.util.List;
 
 public class UpdateActivity extends AppCompatActivity {
 
+    private long mLastClickTime = 0;
     private ActivityUpdateBinding binding;
 
     private AlertDialog builder;
@@ -160,6 +162,11 @@ public class UpdateActivity extends AppCompatActivity {
     }
 
     private void update2() {
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+            return;
+        }
+        mLastClickTime = SystemClock.elapsedRealtime();
+
         /*boolean pass = installPermission();
         if (BuildConfig.DEBUG)
             pass = true;
@@ -177,6 +184,12 @@ public class UpdateActivity extends AppCompatActivity {
     }
 
     private void googlePlay() {
+
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+            return;
+        }
+        mLastClickTime = SystemClock.elapsedRealtime();
+
         String appId = context.getPackageName();
         Intent rateIntent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse("market://details?id=" + appId));

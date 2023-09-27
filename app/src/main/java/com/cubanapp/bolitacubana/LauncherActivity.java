@@ -18,6 +18,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +53,9 @@ import java.util.Locale;
 
 public class LauncherActivity extends AppCompatActivity {
     //DialogNew permissionDialog;
+
+    private long mLastClickTime = 0;
+    private long mLastStartSyncTime = 0;
     private FirebaseAnalytics mFirebaseAnalytics;
     private AlertDialog builder;
     //DialogNew2 permissionDialog2;
@@ -170,6 +174,12 @@ public class LauncherActivity extends AppCompatActivity {
         imageView = binding.imageViewBackground;
         button = binding.btnAccept;
         button.setOnClickListener(v -> {
+            // mis-clicking prevention, using threshold of 1000 ms
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+                return;
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
+
             progressBar.setVisibility(View.VISIBLE);
             myWebView.setVisibility(View.GONE);
             myWebView.setFocusable(false);
@@ -177,11 +187,20 @@ public class LauncherActivity extends AppCompatActivity {
             button2.setVisibility(View.GONE);
             imageView.setVisibility(View.GONE);
             //startLaunch(ConnSuccess, false, "");
+            button.setEnabled(false);
             startSync();
         });
         button2 = binding.btnCancel;
 
-        button2.setOnClickListener(v -> finish());
+        button2.setOnClickListener(v -> {
+            // mis-clicking prevention, using threshold of 1000 ms
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+                return;
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
+
+            finish();
+        });
 
         myWebView = binding.webviewpriv;
 
@@ -447,6 +466,13 @@ public class LauncherActivity extends AppCompatActivity {
     }
 
     private void startSync() {
+
+
+        if (SystemClock.elapsedRealtime() - mLastStartSyncTime < 1000) {
+            return;
+        }
+        mLastStartSyncTime = SystemClock.elapsedRealtime();
+
         //progressBar.setVisibility(View.VISIBLE);
         //progressBar.animate();
         if (progressBar != null)
@@ -463,6 +489,9 @@ public class LauncherActivity extends AppCompatActivity {
         //Background work here
         if (getApplication() != null)
             requestQueue = Volley.newRequestQueue(this);
+
+        if (requestQueue == null)
+            return;
 
         String url;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

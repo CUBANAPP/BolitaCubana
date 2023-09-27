@@ -7,6 +7,7 @@ package com.cubanapp.bolitacubana.ui.search;
 import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,7 @@ import java.util.Locale;
 
 public class SearchFragment extends Fragment {
 
+    private long mLastClickTime = 0;
     private FragmentSearchBinding binding;
     private AlertDialog builder;
     private String apiKey;
@@ -62,6 +64,13 @@ public class SearchFragment extends Fragment {
     }
 
     private void openDate(View v) {
+        // mis-clicking prevention, using threshold of 1000 ms
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+            return;
+        }
+        mLastClickTime = SystemClock.elapsedRealtime();
+
+
         builder = new AlertDialog.Builder(v.getContext())
                 .create();
         View datepickerView = getLayoutInflater().inflate(R.layout.calendar_view, binding.getRoot(), false);

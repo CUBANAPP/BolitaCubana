@@ -17,7 +17,7 @@ localProperties.load(new FileInputStream(localPropertiesFile))
 android {
     signingConfigs {
         debug {
-            storeFile file('C:\\Users\\CUBANAPP\\.android\\debug.keystore')
+            storeFile file('D:\\Users\\PREDATOR\\.android\\debug.keystore')
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
@@ -37,8 +37,8 @@ android {
         applicationId "com.cubanapp.bolitacubana"
         minSdk 16
         targetSdk 34
-        versionCode 118
-        versionName "2.1.1 Debug"
+        versionCode 119
+        versionName "2.1.2 Debug"
         resourceConfigurations += ['en', 'es']
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
@@ -157,8 +157,8 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:latest.release'
     //implementation 'androidx.lifecycle:lifecycle-livedata:latest.release'
     //implementation 'androidx.lifecycle:lifecycle-viewmodel:latest.release'
-    implementation 'androidx.navigation:navigation-fragment:2.7.2'
-    implementation 'androidx.navigation:navigation-ui:2.7.2'
+    implementation 'androidx.navigation:navigation-fragment:2.7.3'
+    implementation 'androidx.navigation:navigation-ui:2.7.3'
     implementation 'androidx.preference:preference:latest.release'
     implementation 'androidx.core:core:latest.release'
     //testImplementation 'junit:junit:4.13.2'

@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,7 @@ import java.util.TimeZone;
 
 public class NewYorkFragment extends Fragment {
 
+    private long mLastClickTime = 0;
     private String apiKey;
     private FragmentNewyorkBinding binding;
 
@@ -84,7 +86,12 @@ public class NewYorkFragment extends Fragment {
 
         binding.button31.setOnClickListener(viewe -> {
             if (binding != null && binding.button31.isClickable() && getActivity() != null) {
-                binding.button31.setClickable(false);
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+
 
                 Bundle bundle = new Bundle();
                 bundle.putString("name", "newyorkSavedFile");
