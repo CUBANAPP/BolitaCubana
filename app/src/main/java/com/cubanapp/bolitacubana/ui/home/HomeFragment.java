@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        mLastClickTime = SystemClock.elapsedRealtime();
+       //mLastClickTime = SystemClock.elapsedRealtime();
         binding.buttonFlorida.setOnClickListener(view1a -> {
             if (binding != null && binding.buttonFlorida.isClickable() && getActivity() != null) {
                 //binding.buttonGeorgia.setClickable(false);

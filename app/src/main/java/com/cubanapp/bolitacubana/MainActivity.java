@@ -86,7 +86,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class MainActivity extends AppCompatActivity {
 
     private long mLastClickTime = 0;
-
+    private long mLastAdClickTime = 0;
     private long mLastSyncClickTime = 0;
     private long mLastClickTime0 = 0;
     private final ActivityResultLauncher<String> requestPermissionLauncher =
@@ -528,20 +528,20 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onAdClicked() {
                     // mis-clicking prevention, using threshold of 1000 ms
-                    if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+                    if (SystemClock.elapsedRealtime() - mLastAdClickTime < 1000) {
                         return;
                     }
-                    mLastClickTime = SystemClock.elapsedRealtime();
+                    mLastAdClickTime = SystemClock.elapsedRealtime();
                     // Code to be executed when the user clicks on an ad.
                 }
 
                 @Override
                 public void onAdClosed() {
                     // mis-clicking prevention, using threshold of 1000 ms
-                    if (SystemClock.elapsedRealtime() - mLastClickTime < 250) {
+                    if (SystemClock.elapsedRealtime() - mLastAdClickTime < 250) {
                         return;
                     }
-                    mLastClickTime = SystemClock.elapsedRealtime();
+                    mLastAdClickTime = SystemClock.elapsedRealtime();
 
                     // Code to be executed when the user is about to return
                     // to the app after tapping on an ad.
