@@ -111,12 +111,14 @@ public class SearchFragment extends Fragment {
         if (binding == null)
             return;
 
-        if (mySnackbar.isShown()) {
-            // mis-clicking prevention, using threshold of 1000 ms
-            if (SystemClock.elapsedRealtime() - mLastClickSnackTime < 200) {
-                return;
+        if (mySnackbar != null) {
+            if (mySnackbar.isShown()) {
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickSnackTime < 200) {
+                    return;
+                }
+                mLastClickSnackTime = SystemClock.elapsedRealtime();
             }
-            mLastClickSnackTime = SystemClock.elapsedRealtime();
         }
 
         // mis-clicking prevention, using threshold of 1000 ms

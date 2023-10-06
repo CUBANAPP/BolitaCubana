@@ -35,8 +35,6 @@ public class UpdateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mLastClickTime = SystemClock.elapsedRealtime();
-
         binding = ActivityUpdateBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
