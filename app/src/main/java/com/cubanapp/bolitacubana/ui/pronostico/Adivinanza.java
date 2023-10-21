@@ -631,7 +631,27 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
 
                                             // TODO: Guardar esto para despues?
                                             if (recyclerView != null && getActivity() != null && binding != null) {
-                                                buildAdapter(files.get(d), type, decodedString);
+                                                try {
+                                                    buildAdapter(files.get(d), type, decodedString);
+                                                } catch (IndexOutOfBoundsException e) {
+                                                    if (e.getMessage() != null) {
+                                                        Log.e(DEBUG_TAG, e.getMessage());
+                                                    }
+                                                    if (Build.VERSION.SDK_INT >= 19) {
+                                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                                        firebaseCrashlytics.sendUnsentReports();
+                                                        firebaseCrashlytics.recordException(e);
+                                                    }
+                                                } catch (IllegalStateException e) {
+                                                    if (e.getMessage() != null) {
+                                                        Log.e(DEBUG_TAG, e.getMessage());
+                                                    }
+                                                    if (Build.VERSION.SDK_INT >= 19) {
+                                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                                        firebaseCrashlytics.sendUnsentReports();
+                                                        firebaseCrashlytics.recordException(e);
+                                                    }
+                                                }
                                             }
 
                                             if (d == (files.size() - 1)) {
