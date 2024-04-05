@@ -299,7 +299,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        if (Build.VERSION.SDK_INT >= 19) {
+        if (Build.VERSION.SDK_INT >= 21) {
             // Set tag for under age of consent. false means users are not under
             // age.
             ConsentRequestParameters params = new ConsentRequestParameters
@@ -378,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
             NavController navController = navHostFragment.getNavController();
             NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
             NavigationUI.setupWithNavController(binding.navView, navController);
-            navController.enableOnBackPressed(true);
+            //navController.enableOnBackPressed(true);
         } else {
             FirebaseCrashlytics.getInstance().recordException(new Throwable(new IllegalStateException("navHostFragment is NULL")));
             finish();
