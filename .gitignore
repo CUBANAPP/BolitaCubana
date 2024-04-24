@@ -24,6 +24,10 @@ output.json
 *.keystore
 *.pepk
 *.pem
+*.csr
+*.pkcs
+*.key
+*.der
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json

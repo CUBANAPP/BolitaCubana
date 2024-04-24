@@ -36,9 +36,14 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.TimeoutError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.cubanapp.bolitacubana.databinding.ActivityLauncherBinding;
+import com.google.android.gms.ads.RequestConfiguration;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.security.ProviderInstaller;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -49,7 +54,14 @@ import com.google.firebase.perf.FirebasePerformance;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.Objects;
 
 public class LauncherActivity extends AppCompatActivity {
     //DialogNew permissionDialog;
@@ -87,31 +99,63 @@ public class LauncherActivity extends AppCompatActivity {
     private static final String DEBUG_TAG = "LauncherActivity";
 
     private static final String IAB_STRING = "1---";
+    //private PublicKey certClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //certClient = null;
         mLastClickTime = SystemClock.elapsedRealtime();
-
         binding = ActivityLauncherBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        //setContentView(R.layout.activity_launcher);
-        /*try {
-            ProviderInstaller.installIfNeeded(getApplicationContext());
-            SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
-            sslContext.init(null, null, null);
-            SSLEngine engine = sslContext.createSSLEngine();
 
+        if (BuildConfig.DEBUG) {
+            RequestConfiguration.Builder builder = new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("B3EEABB8EE11C2BE770B684D95219ECB"));
+            builder.build();
+        }
+
+        //setContentView(R.layout.activity_launcher);
+        try {
+            ProviderInstaller.installIfNeeded(getApplicationContext());
         } catch (GooglePlayServicesRepairableException e) {
-            //throw new RuntimeException(e);
+            if (e.getMessage() != null) {
+                Log.e(DEBUG_TAG, e.getMessage());
+            }
+            if (Build.VERSION.SDK_INT >= 19) {
+                FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                firebaseCrashlytics.sendUnsentReports();
+                firebaseCrashlytics.recordException(e);
+            }
         } catch (GooglePlayServicesNotAvailableException e) {
+            if (e.getMessage() != null) {
+                Log.e(DEBUG_TAG, e.getMessage());
+            }
+            if (Build.VERSION.SDK_INT >= 19) {
+                FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                firebaseCrashlytics.sendUnsentReports();
+                firebaseCrashlytics.recordException(e);
+            }
+        } catch (IllegalArgumentException e) {
+            if (e.getMessage() != null) {
+                Log.e(DEBUG_TAG, e.getMessage());
+            }
+            if (Build.VERSION.SDK_INT >= 19) {
+                FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                firebaseCrashlytics.sendUnsentReports();
+                firebaseCrashlytics.recordException(e);
+            }
+
+        } catch (NullPointerException e) {
+            if (e.getMessage() != null) {
+                Log.e(DEBUG_TAG, e.getMessage());
+            }
+            if (Build.VERSION.SDK_INT >= 19) {
+                FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                firebaseCrashlytics.sendUnsentReports();
+                firebaseCrashlytics.recordException(e);
+            }
             //throw new RuntimeException(e);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        } catch (KeyManagementException e) {
-            throw new RuntimeException(e);
-        }*/
+        }
 
         if (Build.VERSION.SDK_INT >= 19) {
             FirebaseApp.initializeApp(this);
@@ -191,7 +235,69 @@ public class LauncherActivity extends AppCompatActivity {
             imageView.setVisibility(View.GONE);
             //startLaunch(ConnSuccess, false, "");
             button.setEnabled(false);
-            startSync();
+            try {
+                startSync();
+            } catch (CertificateException e) {
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
+                throw new RuntimeException(e);
+            } catch (KeyStoreException e) {
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
+                throw new RuntimeException(e);
+            } catch (NoSuchAlgorithmException e) {
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
+                throw new RuntimeException(e);
+            } catch (KeyManagementException e) {
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
+                throw new RuntimeException(e);
+            } catch (NullPointerException e) {
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
+                throw new RuntimeException(e);
+            }
         });
         button2 = binding.btnCancel;
 
@@ -252,6 +358,57 @@ public class LauncherActivity extends AppCompatActivity {
         });
     }
 
+    /*private SSLSocketFactory getSocketFactory(Context context)
+            throws CertificateException, IOException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+
+        // Load CAs from an InputStream (could be from a resource or ByteArrayInputStream or ...)
+        CertificateFactory cf = CertificateFactory.getInstance("X.509");
+
+        InputStream caInput = new BufferedInputStream(context.getResources().openRawResource(R.raw.cubanapp));
+        // I paste my myFile.crt in raw folder under res.
+        X509Certificate ca;
+
+        //noinspection TryFinallyCanBeTryWithResources
+        try {
+            ca = (X509Certificate) cf.generateCertificate(caInput);
+            System.out.println("ca=" + ((X509Certificate) ca).getSubjectDN());
+        } finally {
+            caInput.close();
+        }
+        certClient = ca.getPublicKey();
+
+        // Create a KeyStore containing our trusted CAs
+        String keyStoreType = KeyStore.getDefaultType();
+        KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+        keyStore.load(null, null);
+        keyStore.setCertificateEntry("ca", ca);
+
+        // Create a TrustManager that trusts the CAs in our KeyStore
+        String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
+        TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
+        tmf.init(keyStore);
+
+        // Create an SSLContext that uses our TrustManager
+        SSLContext sslContext;
+
+        if (Build.VERSION.SDK_INT < 29)
+            sslContext = SSLContext.getInstance("TLSv1.2");
+        else
+            sslContext = SSLContext.getInstance("TLSv1.3");
+
+        if (sslContext == null) {
+            sslContext = SSLContext.getInstance("TLS");
+            if (sslContext == null)
+                sslContext = SSLContext.getInstance("SSL");
+        }
+
+        sslContext.init(null, tmf.getTrustManagers(), null);
+        SSLEngine engine = sslContext.createSSLEngine();
+        engine.setUseClientMode(true);
+
+        return sslContext.getSocketFactory();
+    }*/
+
     private void openSettings() {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", getPackageName(), null);
@@ -282,10 +439,11 @@ public class LauncherActivity extends AppCompatActivity {
                     } catch (NullPointerException e) {
                         if (e.getMessage() != null) {
                             Log.e(DEBUG_TAG, e.getMessage());
-
-                            if (Build.VERSION.SDK_INT >= 19) {
-                                FirebaseCrashlytics.getInstance().log(e.getMessage());
-                            }
+                        }
+                        if (Build.VERSION.SDK_INT >= 19) {
+                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                            firebaseCrashlytics.sendUnsentReports();
+                            firebaseCrashlytics.recordException(e);
                         }
                         isWifiConn = true;
                     }
@@ -302,10 +460,11 @@ public class LauncherActivity extends AppCompatActivity {
                     } catch (NullPointerException e) {
                         if (e.getMessage() != null) {
                             Log.e(DEBUG_TAG, e.getMessage());
-
-                            if (Build.VERSION.SDK_INT >= 19) {
-                                FirebaseCrashlytics.getInstance().log(e.getMessage());
-                            }
+                        }
+                        if (Build.VERSION.SDK_INT >= 19) {
+                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                            firebaseCrashlytics.sendUnsentReports();
+                            firebaseCrashlytics.recordException(e);
                         }
                         isMobileConn = true;
                     }
@@ -407,13 +566,49 @@ public class LauncherActivity extends AppCompatActivity {
                     }
                 }
 
+
                 //myWebView.loadUrl("http://cubanapp.info/api/prives.html");
                 //myWebView.loadUrl("http://cubanapp.info/api/priv.html");
 
             } else if (firstTime) {
                 if (builder != null) {
                     builder.setMessage(getString(R.string.connection));
-                    builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.retry), (dialog, which) -> startSync());
+                    builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.retry), (dialog, which) -> {
+                        try {
+                            startSync();
+                        } catch (CertificateException e) {
+                            if (Build.VERSION.SDK_INT >= 19) {
+                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                            }
+                            System.out.println(Objects.requireNonNull(e.getMessage()));
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            if (Build.VERSION.SDK_INT >= 19) {
+                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                            }
+                            System.out.println(Objects.requireNonNull(e.getMessage()));
+                            throw new RuntimeException(e);
+                        } catch (KeyStoreException e) {
+                            if (Build.VERSION.SDK_INT >= 19) {
+                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                            }
+                            System.out.println(Objects.requireNonNull(e.getMessage()));
+
+                            throw new RuntimeException(e);
+                        } catch (NoSuchAlgorithmException e) {
+                            if (Build.VERSION.SDK_INT >= 19) {
+                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                            }
+                            System.out.println(Objects.requireNonNull(e.getMessage()));
+                            throw new RuntimeException(e);
+                        } catch (KeyManagementException e) {
+                            if (Build.VERSION.SDK_INT >= 19) {
+                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                            }
+                            System.out.println(Objects.requireNonNull(e.getMessage()));
+                            throw new RuntimeException(e);
+                        }
+                    });
                     builder.show();
                 }
             } else {
@@ -468,7 +663,7 @@ public class LauncherActivity extends AppCompatActivity {
         }
     }
 
-    private void startSync() {
+    private void startSync() throws CertificateException, IOException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
 
 
         if (SystemClock.elapsedRealtime() - mLastStartSyncTime < 200) {
@@ -490,9 +685,58 @@ public class LauncherActivity extends AppCompatActivity {
         //photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
         //byte[] byteArray = stream.toByteArray();
         //Background work here
-        if (getApplication() != null)
-            requestQueue = Volley.newRequestQueue(this);
+        if (getApplication() != null) {
+            //SSLSocketFactory socketFactory = getSocketFactory(context);
+            //HttpsURLConnection.setDefaultSSLSocketFactory(socketFactory);
+            /*HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    // Perform hostname verification based on certificate information
+                    X509Certificate cert = null;
+                    try {
+                        cert = (X509Certificate) session.getPeerCertificates()[0];
+                    } catch (SSLPeerUnverifiedException e) {
+                        if (Build.VERSION.SDK_INT >= 19) {
+                            FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                        }
+                        System.out.println(Objects.requireNonNull(e.getMessage()));
+                        throw new RuntimeException(e);
+                    }
+                    // Compare hostname with CN or SAN in the certificate
+                    // Example:
+                    Log.i(DEBUG_TAG, "certificate verified: " + hostname);
+                    if (hostname.equals("cubanapp.info")) {
+                        PublicKey serverCert = cert.getPublicKey();
+                        return certClient.equals(serverCert);
+                    } else return true;
+                    // Or use a library like javax.net.ssl.SNIHostName to handle SANs
+                }
+            });*/
 
+            /*HurlStack hurlStack = new HurlStack() {
+                @Override
+                protected HttpURLConnection createConnection(URL url) throws IOException {
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    if (url.getProtocol().toLowerCase().equals("https")) {
+                        ((HttpsURLConnection) connection).setSSLSocketFactory(socketFactory);
+                    }
+                    return connection;
+                }
+            };*/
+            requestQueue = Volley.newRequestQueue(this);
+            if (BuildConfig.DEBUG) {
+                requestQueue.getCache().clear(); // Clear cache to ensure logging is enabled
+
+                requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+                    @Override
+                    public void onRequestFinished(Request<Object> request) {
+                        Log.d("Volley", "Request finished: " + request.getUrl());
+                    }
+                });
+
+                VolleyLog.DEBUG = true;
+            }
+        }
         if (requestQueue == null)
             return;
 
@@ -519,6 +763,10 @@ public class LauncherActivity extends AppCompatActivity {
                 firebaseCrashlytics.sendUnsentReports();
                 firebaseCrashlytics.recordException(e);
             }
+            if (Build.VERSION.SDK_INT >= 19) {
+                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+            }
+            System.out.println(Objects.requireNonNull(e.getMessage()));
             throw new RuntimeException(e);
             //startLaunch(false);
         }
@@ -527,6 +775,7 @@ public class LauncherActivity extends AppCompatActivity {
             stringRequest = new JsonObjectRequest(Request.Method.POST, url, json,
                     response -> {
                         // Display the first 500 characters of the response string.
+                        Log.d(DEBUG_TAG, response.toString());
                         try {
                             //JSONObject error = response.getJSONObject("");
                             //response.get("error");
@@ -566,7 +815,41 @@ public class LauncherActivity extends AppCompatActivity {
                             } else {
                                 if (builder != null) {
                                     builder.setMessage(msg);
-                                    builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.retry), (dialog, which) -> startSync());
+                                    builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.retry), (dialog, which) -> {
+                                        try {
+                                            startSync();
+                                        } catch (CertificateException e) {
+                                            if (Build.VERSION.SDK_INT >= 19) {
+                                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                                            }
+                                            System.out.println(Objects.requireNonNull(e.getMessage()));
+                                            throw new RuntimeException(e);
+                                        } catch (IOException e) {
+                                            if (Build.VERSION.SDK_INT >= 19) {
+                                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                                            }
+                                            System.out.println(Objects.requireNonNull(e.getMessage()));
+                                            throw new RuntimeException(e);
+                                        } catch (KeyStoreException e) {
+                                            if (Build.VERSION.SDK_INT >= 19) {
+                                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                                            }
+                                            System.out.println(Objects.requireNonNull(e.getMessage()));
+                                            throw new RuntimeException(e);
+                                        } catch (NoSuchAlgorithmException e) {
+                                            if (Build.VERSION.SDK_INT >= 19) {
+                                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                                            }
+                                            System.out.println(Objects.requireNonNull(e.getMessage()));
+                                            throw new RuntimeException(e);
+                                        } catch (KeyManagementException e) {
+                                            if (Build.VERSION.SDK_INT >= 19) {
+                                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                                            }
+                                            System.out.println(Objects.requireNonNull(e.getMessage()));
+                                            throw new RuntimeException(e);
+                                        }
+                                    });
                                     builder.show();
                                 }
                             }
@@ -584,6 +867,10 @@ public class LauncherActivity extends AppCompatActivity {
                                         getString(R.string.erroSync), Snackbar.LENGTH_LONG);
                                 mySnackbar.show();
                             }
+                            if (Build.VERSION.SDK_INT >= 19) {
+                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                            }
+                            System.out.println(Objects.requireNonNull(e.getMessage()));
                             throw new RuntimeException(e);
                         }
                         //startLaunch(true);
@@ -591,13 +878,111 @@ public class LauncherActivity extends AppCompatActivity {
                 if (volleyerror instanceof TimeoutError) {
                     if (builder != null) {
                         builder.setMessage(getString(R.string.connslow));
-                        builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.retry), (dialog, which) -> startSync());
+                        builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.retry), (dialog, which) -> {
+                            try {
+                                startSync();
+                            } catch (CertificateException e) {
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                                }
+                                System.out.println(Objects.requireNonNull(e.getMessage()));
+                                throw new RuntimeException(e);
+                            } catch (IOException e) {
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                                }
+                                System.out.println(Objects.requireNonNull(e.getMessage()));
+                                throw new RuntimeException(e);
+                            } catch (KeyStoreException e) {
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                                }
+                                System.out.println(Objects.requireNonNull(e.getMessage()));
+                                throw new RuntimeException(e);
+                            } catch (NoSuchAlgorithmException e) {
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                                }
+                                System.out.println(Objects.requireNonNull(e.getMessage()));
+                                throw new RuntimeException(e);
+                            } catch (KeyManagementException e) {
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                                }
+                                System.out.println(Objects.requireNonNull(e.getMessage()));
+                                throw new RuntimeException(e);
+                            }
+                        });
                         builder.show();
                     }
                 } else {
                     if (builder != null) {
                         builder.setMessage(getString(R.string.lostconn));
-                        builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.retry), (dialog, which) -> startSync());
+                        builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.retry), (dialog, which) -> {
+                            try {
+                                startSync();
+                            } catch (CertificateException e) {
+                                if (e.getMessage() != null) {
+                                    Log.e(DEBUG_TAG, e.getMessage());
+                                }
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                    firebaseCrashlytics.sendUnsentReports();
+                                    firebaseCrashlytics.recordException(e);
+                                }
+                                throw new RuntimeException(e);
+                            } catch (IOException e) {
+                                if (e.getMessage() != null) {
+                                    Log.e(DEBUG_TAG, e.getMessage());
+                                }
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                    firebaseCrashlytics.sendUnsentReports();
+                                    firebaseCrashlytics.recordException(e);
+                                }
+                                throw new RuntimeException(e);
+                            } catch (KeyStoreException e) {
+                                if (e.getMessage() != null) {
+                                    Log.e(DEBUG_TAG, e.getMessage());
+                                }
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                    firebaseCrashlytics.sendUnsentReports();
+                                    firebaseCrashlytics.recordException(e);
+                                }
+                                throw new RuntimeException(e);
+                            } catch (NoSuchAlgorithmException e) {
+                                if (e.getMessage() != null) {
+                                    Log.e(DEBUG_TAG, e.getMessage());
+                                }
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                    firebaseCrashlytics.sendUnsentReports();
+                                    firebaseCrashlytics.recordException(e);
+                                }
+                                throw new RuntimeException(e);
+                            } catch (KeyManagementException e) {
+                                if (e.getMessage() != null) {
+                                    Log.e(DEBUG_TAG, e.getMessage());
+                                }
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                    firebaseCrashlytics.sendUnsentReports();
+                                    firebaseCrashlytics.recordException(e);
+                                }
+                                throw new RuntimeException(e);
+                            } catch (NullPointerException e) {
+                                if (e.getMessage() != null) {
+                                    Log.e(DEBUG_TAG, e.getMessage());
+                                }
+                                if (Build.VERSION.SDK_INT >= 19) {
+                                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                    firebaseCrashlytics.sendUnsentReports();
+                                    firebaseCrashlytics.recordException(e);
+                                }
+                                throw new RuntimeException(e);
+                            }
+                        });
                         builder.show();
                     }
                 }
@@ -615,8 +1000,8 @@ public class LauncherActivity extends AppCompatActivity {
             }
 
             );
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(120000,
-                    3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             // Add the request to the RequestQueue.
             requestQueue.add(stringRequest);
         }

@@ -112,7 +112,7 @@
     <string name="aboutinfo2" translatable="true">\n\nEmail: \nhelp@cubanapp.info</string>
     <string name="openprivacy" translatable="true">View Privacy</string>
     <string name="languageselector" translatable="true">Language Selector</string>
-    <string name="copyright" translatable="false">\@CUBANAPPLLC Copyright 2019-2023</string>
+    <string name="copyright" translatable="false">\@CUBANAPPLLC Copyright 2019-2024</string>
     <string name="loading" translatable="true">Loading…</string>
     <string name="searchword" translatable="true">Write word or number…</string>
     <string name="title_pronostico" translatable="true">Riddles</string>

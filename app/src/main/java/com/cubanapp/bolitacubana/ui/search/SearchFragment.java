@@ -84,8 +84,8 @@ public class SearchFragment extends Fragment {
         fecha.add(Calendar.DATE, -1);
         Date currentTimes = fecha.getTime();
         datePickers.setMaxDate(currentTimes.getTime());
-        CalendarView calendarViews = datePickers.getCalendarView();
-        calendarViews.setMaxDate(currentTimes.getTime());
+        //CalendarView calendarViews = datePickers.getCalendarView();
+        //calendarViews.setMaxDate(currentTimes.getTime());
         builder.setView(datepickerView);
 
         builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.open), (dialog, which) -> {

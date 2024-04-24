@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,9 +46,11 @@ import androidx.navigation.ui.NavigationUI;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.cubanapp.bolitacubana.databinding.ActivityMainBinding;
+import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -70,7 +73,20 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -82,6 +98,18 @@ import java.util.Objects;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -134,16 +162,21 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String DEBUG_TAG = "MainActivity";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Obtain the FirebaseAnalytics instance.
-
         mLastClickTime = SystemClock.elapsedRealtime();
         mLastClickTime0 = SystemClock.elapsedRealtime();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        if (BuildConfig.DEBUG) {
+            RequestConfiguration.Builder builder = new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("B3EEABB8EE11C2BE770B684D95219ECB"));
+            builder.build();
+        }
 
         context = getApplicationContext();
         sharedPref = context.getSharedPreferences(
@@ -483,20 +516,17 @@ public class MainActivity extends AppCompatActivity {
                 adView.setVisibility(View.VISIBLE);
             });
 
-            /*Bundle networkExtrasBundle = new Bundle();
+            Bundle networkExtrasBundle = new Bundle();
             networkExtrasBundle.putInt("rdp", 1);
             networkExtrasBundle.putInt("gad_rdp", 1); // TODO: Añadido por si acaso
-            networkExtrasBundle.putString("IABUSPrivacy_String", IAB_STRING);*/
+            networkExtrasBundle.putString("IABUSPrivacy_String", IAB_STRING);
             //.addNetworkExtrasBundle(AdMobAdapter.class, networkExtrasBundle)
-            if (BuildConfig.DEBUG) {
-                RequestConfiguration.Builder builder = new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("27257B0AF4890D7241E824CB06C35D83"));
-                builder.build();
-            }
-            /*AdRequest adRequest = new AdRequest.Builder()
-                    .addNetworkExtrasBundle(AdMobAdapter.class, networkExtrasBundle)
-                    .build();*/
+
             AdRequest adRequest = new AdRequest.Builder()
+                    .addNetworkExtrasBundle(AdMobAdapter.class, networkExtrasBundle)
                     .build();
+            /*AdRequest adRequest = new AdRequest.Builder()
+                    .build();*/
             String adUnitID = BuildConfig.INTERSTICIAL_ID;
             String adUnitIDTest = "ca-app-pub-3940256099942544/1033173712";
             InterstitialAd.load(this, adUnitIDTest, adRequest,
@@ -618,7 +648,7 @@ public class MainActivity extends AppCompatActivity {
         );
     }*/
 
-    private void startSync() {
+    private void startSync() throws CertificateException, IOException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
 
         if (builder != null) {
 
@@ -638,9 +668,43 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             mLastSyncClickTime = SystemClock.elapsedRealtime();
+            //HttpsURLConnection.setDefaultSSLSocketFactory(socketFactory);
+            /*HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    // Perform hostname verification based on certificate information
+                    X509Certificate cert = null;
+                    try {
+                        cert = (X509Certificate) session.getPeerCertificates()[0];
+                    } catch (SSLPeerUnverifiedException e) {
+                        if (Build.VERSION.SDK_INT >= 19) {
+                            FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
+                        }
+                        System.out.println(Objects.requireNonNull(e.getMessage()));
+                        throw new RuntimeException(e);
+                    }
+                    // Compare hostname with CN or SAN in the certificate
+                    // Example:
+                    Log.i(DEBUG_TAG, "certificate verified: " + hostname);
+                    if (hostname.equals("cubanapp.info")) {
+                        PublicKey serverCert = cert.getPublicKey();
+                        return certClient.equals(serverCert);
+                    } else return true;
+                    // Or use a library like javax.net.ssl.SNIHostName to handle SANs
+                }
+            });*/
 
-            //Background work here
             requestQueue = Volley.newRequestQueue(this);
+            if (BuildConfig.DEBUG) {
+                requestQueue.getCache().clear(); // Clear cache to ensure logging is enabled
+                requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+                    @Override
+                    public void onRequestFinished(Request<Object> request) {
+                        Log.d("Volley", "Request finished: " + request.getUrl());
+                    }
+                });
+                VolleyLog.DEBUG = true;
+            }
         }
 
         if (requestQueue == null)
@@ -681,6 +745,7 @@ public class MainActivity extends AppCompatActivity {
             stringRequest = new JsonObjectRequest(Request.Method.POST, url, json,
                     response -> {
                         // Display the first 500 characters of the response string.
+                        Log.d(DEBUG_TAG, response.toString());
                         try {
                             //JSONObject error = response.getJSONObject("");
                             //response.get("error");
@@ -812,8 +877,8 @@ public class MainActivity extends AppCompatActivity {
                 }*/
                 Log.w(DEBUG_TAG, "ERROR");
             });
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(120000,
-                    3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             // Add the request to the RequestQueue.
             requestQueue.add(stringRequest);
         }
@@ -842,11 +907,254 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void syncRetrofit() throws IOException, CertificateException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+// Read the contents of the .PEM file
+        byte[] caCertBytes = readCertificateFile();
+
+        // Calculate the fingerprint of the CA certificate
+        String caCertFingerprint = calculateFingerprint(caCertBytes);
+        String clientCertificate = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            clientCertificate = new String(Base64.encode(caCertBytes, Base64.DEFAULT), StandardCharsets.UTF_8);
+        } else {
+            clientCertificate = new String(Base64.encode(caCertBytes, Base64.DEFAULT), "UTF-8");
+        }
+        String BASE_URL = "https://cubanapp.info/api/";
+// Assuming your .PEM file name is "certificate.pem"
+
+        InputStream inputStream = context.getResources().openRawResource(R.raw.cubanapp);
+
+        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+        X509Certificate certificate = (X509Certificate) certificateFactory.generateCertificate(inputStream);
+
+
+        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        keyStore.load(null, null);
+        keyStore.setCertificateEntry("certificate", certificate);
+
+        X509TrustManager customTrustManager = new X509TrustManager() {
+            @Override
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                // Implementation for client certificate verification, if needed
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                // Implementation for server certificate verification
+                // You can implement your own certificate verification logic here
+
+            }
+
+            @Override
+            public X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[0];
+            }
+        };
+
+// Create a TrustManager array with your custom TrustManager
+        TrustManager[] trustManagers = new TrustManager[]{customTrustManager};
+        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        trustManagerFactory.init(keyStore);
+// Initialize the SSLContext with the custom TrustManager array
+        SSLContext sslContext = SSLContext.getInstance("SSL");
+        sslContext.init(null, trustManagers, new SecureRandom());
+
+// Create OkHttpClient with custom SSLContext
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .sslSocketFactory(sslContext.getSocketFactory(), customTrustManager)
+                .build();
+        // Create Retrofit instance
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        // Create an instance of your API service interface
+        ApiService apiService = retrofit.create(ApiService.class);
+
+
+        // Create a JSONObject containing the apiKey
+        JSONObject apiKeyJson = new JSONObject();
+        try {
+            apiKeyJson.put("apiKey", apiKey);
+            apiKeyJson.put("certFinger", caCertFingerprint);
+            apiKeyJson.put("cert", clientCertificate);
+        } catch (JSONException e) {
+            if (e.getMessage() != null) {
+                Log.e(DEBUG_TAG, e.getMessage());
+            }
+            if (Build.VERSION.SDK_INT >= 19) {
+                FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                firebaseCrashlytics.sendUnsentReports();
+                firebaseCrashlytics.recordException(e);
+            }
+        }
+
+        // Call the server endpoint asynchronously
+        Call<ServerResponse> call = apiService.checkServer(apiKeyJson);
+        call.enqueue(new Callback<ServerResponse>() {
+            @Override
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                if (response.isSuccessful()) {
+                    ServerResponse serverResponse = response.body();
+                    if (serverResponse != null) {
+
+                        //Log.e(DEBUG_TAG, serverResponse);
+                        // Access fields of the ServerResponse object
+                        Log.e(DEBUG_TAG, "Error: " + serverResponse.isError());
+                        Log.e(DEBUG_TAG, "Message: " + serverResponse.getMsg());
+                        Log.e(DEBUG_TAG, "Fecha: " + serverResponse.getFecha());
+                        Log.e(DEBUG_TAG, "Hora: " + serverResponse.getHora());
+                        Log.e(DEBUG_TAG, "Cert: " + serverResponse.getCert());
+                        Log.e(DEBUG_TAG, "Cert_Msg: " + serverResponse.getCert_msg());
+                        Log.e(DEBUG_TAG, "Cert_verify: " + serverResponse.getCert_verify());
+                        Log.e(DEBUG_TAG, "Cert_Finger: " + serverResponse.getcertFinger());
+                    } else {
+                        Log.e(DEBUG_TAG, "ServerResponse is null");
+                    }
+                } else {
+                    Log.e(DEBUG_TAG, "ERROR: " + response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
+                // Handle network errors or other failures
+                Log.e(DEBUG_TAG, "onFailure " + t.getMessage());
+                throw new RuntimeException(t);
+            }
+        });
+    }
+
+    private byte[] readCertificateFile() {
+        try {
+            InputStream inputStream = context.getResources().openRawResource(R.raw.cubanapp);
+            byte[] buffer = new byte[inputStream.available()];
+            inputStream.read(buffer);
+            inputStream.close();
+            return buffer;
+        } catch (Exception e) {
+            if (e.getMessage() != null) {
+                Log.e(DEBUG_TAG, e.getMessage());
+            }
+            if (Build.VERSION.SDK_INT >= 19) {
+                FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                firebaseCrashlytics.sendUnsentReports();
+                firebaseCrashlytics.recordException(e);
+            }
+            return null;
+        }
+    }
+
+    private String calculateFingerprint(byte[] certBytes) {
+        try {
+            CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+            X509Certificate cert = (X509Certificate) certFactory.generateCertificate(new ByteArrayInputStream(certBytes));
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
+            byte[] fingerprintBytes = digest.digest(cert.getEncoded());
+            StringBuilder fingerprint = new StringBuilder();
+            for (byte b : fingerprintBytes) {
+                fingerprint.append(String.format("%02X", b));
+                fingerprint.append(":");
+            }
+            return fingerprint.substring(0, fingerprint.length() - 1);
+        } catch (Exception e) {
+            if (e.getMessage() != null) {
+                Log.e(DEBUG_TAG, e.getMessage());
+            }
+            if (Build.VERSION.SDK_INT >= 19) {
+                FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                firebaseCrashlytics.sendUnsentReports();
+                firebaseCrashlytics.recordException(e);
+            }
+            return null;
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
-        if (!first)
-            startSync();
+        if (!first) {
+            /*try {
+                syncRetrofit();
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            } catch (CertificateException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (KeyStoreException e) {
+                throw new RuntimeException(e);
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            } catch (KeyManagementException e) {
+                throw new RuntimeException(e);
+            }*/
+            try {
+                startSync();
+            } catch (CertificateException e) {
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
+                throw new RuntimeException(e);
+            } catch (KeyStoreException e) {
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
+                throw new RuntimeException(e);
+            } catch (NoSuchAlgorithmException e) {
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
+                throw new RuntimeException(e);
+            } catch (KeyManagementException e) {
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
+                throw new RuntimeException(e);
+            } catch (NullPointerException e) {
+                if (e.getMessage() != null) {
+                    Log.e(DEBUG_TAG, e.getMessage());
+                }
+                if (Build.VERSION.SDK_INT >= 19) {
+                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                    firebaseCrashlytics.sendUnsentReports();
+                    firebaseCrashlytics.recordException(e);
+                }
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override

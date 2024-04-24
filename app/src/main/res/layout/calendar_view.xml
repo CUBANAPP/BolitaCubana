@@ -8,5 +8,5 @@
     style="@android:style/Widget.DatePicker"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:minDate="05/01/2016"
+    android:minDate="01/01/1998"
     tools:context=".ui.search.SearchFragment"/>
