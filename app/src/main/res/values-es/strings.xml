@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) CUBANAPP LLC 2019-2023 .
+  ~ Copyright (c) CUBANAPP LLC 2019-2024 .
   -->
 
 <resources>
@@ -116,4 +116,5 @@
     <string name="updat2">Versión desactualizada</string>
     <string name="updatalt">Descargar APK</string>
     <string name="opensettings">Abrir Ajustes</string>
+    <string name="noresults">Esta fecha no contiene resultados</string>
 </resources>

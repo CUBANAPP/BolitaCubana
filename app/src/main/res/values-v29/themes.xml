@@ -1,8 +1,8 @@
 <!--
-  ~ Copyright (c) CUBANAPP LLC 2019-2023 .
+  ~ Copyright (c) CUBANAPP LLC 2019-2024 .
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.BolitaCubana" parent="Theme.Material3.DayNight">
         <!-- Fondo Botones. -->

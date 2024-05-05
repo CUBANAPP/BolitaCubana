@@ -1,19 +1,22 @@
 /*
- * Copyright (c) CUBANAPP LLC 2019-2023 .
+ * Copyright (c) CUBANAPP LLC 2019-2024 .
  */
 
 package com.cubanapp.bolitacubana.ui.search;
 
 import android.app.Dialog;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class SearchFragment extends Fragment {
 
@@ -54,6 +58,18 @@ public class SearchFragment extends Fragment {
     private RequestQueue requestQueue;
 
     private Snackbar mySnackbar;
+
+    private LinearLayout georgiaLayout;
+
+    private TextView georgiaFecha;
+    private TextView georgiaCorrido1;
+    private TextView georgiaCorrido2;
+    private TextView georgiaDiaSemana;
+    private TextView georgiaFijo1;
+    private TextView georgiaFijo2;
+    private TextView georgiaTarde;
+
+    private String locState;
     private static final String DEBUG_TAG = "SearchDate";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -65,12 +81,20 @@ public class SearchFragment extends Fragment {
         mLastClickSnackTime = SystemClock.elapsedRealtime();
         apiKey = BuildConfig.API_KEY;
         binding.button4.setOnClickListener(this::openDate);
+        georgiaLayout = binding.linearGeorgia;
+        georgiaCorrido1 = binding.MC11;
+        georgiaCorrido2 = binding.MC12;
+        georgiaDiaSemana = binding.MSD;
+        georgiaTarde = binding.MD;
+        georgiaFecha = binding.MD1;
+        georgiaFijo1 = binding.MF10;
+        georgiaFijo2 = binding.MF11;
         return root;
     }
 
     private void openDate(View v) {
         // mis-clicking prevention, using threshold of 1000 ms
-        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 200) {
             return;
         }
         mLastClickTime = SystemClock.elapsedRealtime();
@@ -80,22 +104,30 @@ public class SearchFragment extends Fragment {
                 .create();
         View datepickerView = getLayoutInflater().inflate(R.layout.calendar_view, binding.getRoot(), false);
         DatePicker datePickers = datepickerView.findViewById(R.id.datepicker);
+
+        Spinner locationSpinner = datepickerView.findViewById(R.id.locationSpinner);
+        // Configurar el Spinner con las opciones de ubicación
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.location_options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        locationSpinner.setAdapter(adapter);
+
+
         Calendar fecha = Calendar.getInstance();
         fecha.add(Calendar.DATE, -1);
         Date currentTimes = fecha.getTime();
         datePickers.setMaxDate(currentTimes.getTime());
-        //CalendarView calendarViews = datePickers.getCalendarView();
-        //calendarViews.setMaxDate(currentTimes.getTime());
         builder.setView(datepickerView);
 
         builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.open), (dialog, which) -> {
             DatePicker datePicker = builder.findViewById(R.id.datepicker);
             if (datePicker != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    datePicker.setFirstDayOfWeek(2);
-                }
+                datePicker.setFirstDayOfWeek(2);
                 CalendarView calendarView = datePicker.getCalendarView();
-                searchDate(calendarView.getDate());
+
+                // Obtener la ubicación seleccionada del Spinner
+                String selectedLocation = locationSpinner.getSelectedItem().toString();
+                searchDate(calendarView.getDate(), selectedLocation);
             }
         });
         builder.setButton(Dialog.BUTTON_NEGATIVE, getString(R.string.dismiss), (dialog, which) -> {
@@ -107,7 +139,7 @@ public class SearchFragment extends Fragment {
         builder.show();
     }
 
-    private void searchDate(Long date) {
+    private void searchDate(Long date, String location) {
         if (binding == null)
             return;
 
@@ -122,7 +154,7 @@ public class SearchFragment extends Fragment {
         }
 
         // mis-clicking prevention, using threshold of 1000 ms
-        if (SystemClock.elapsedRealtime() - mLastClickSnackTime < 500) {
+        if (SystemClock.elapsedRealtime() - mLastClickSnackTime < 200) {
             return;
         }
         mLastClickSnackTime = SystemClock.elapsedRealtime();
@@ -134,42 +166,64 @@ public class SearchFragment extends Fragment {
         if (getActivity() != null && binding != null) {
             requestQueue = Volley.newRequestQueue(getActivity());
         }
-        //}
-            /*catch (Exception e){
-                Log.e(DEBUG_TAG, "Volley Error : " + e.getMessage());
-                //throw new RuntimeException(e);
-            }*/
+
         if (requestQueue != null && binding != null) {
+            if (Objects.equals(location, "Georgia")) {
+                georgiaLayout.setVisibility(View.VISIBLE);
+                georgiaTarde.setText(getString(R.string.tarde));
+                georgiaFecha.setText("--/--/----");
+                georgiaDiaSemana.setText("");
+                georgiaFijo1.setText("-");
+                georgiaFijo2.setText("--");
+                georgiaCorrido1.setText("--");
+                georgiaCorrido2.setText("--");
+            } else {
+                georgiaLayout.setVisibility(View.GONE);
+            }
 
             binding.progressBar4.setProgress(0);
 
             binding.progressBar4.setVisibility(View.VISIBLE);
+            locState = location;
+            binding.titlefl2.setText(location);
+
+            binding.D1s.setText("--/--/----");
+            binding.Ds.setText(getString(R.string.dia));
+            binding.SDs.setText("");
+            binding.F10s.setText("-");
+            binding.F11s.setText("--");
+            binding.C11s.setText("--");
+            binding.C12s.setText("--");
+            binding.N1s.setText("--/--/----");
+            binding.Ns.setText(getString(R.string.noche));
+            binding.SNs.setText("");
+            binding.F20s.setText("-");
+            binding.F21s.setText("--");
+            binding.C21s.setText("--");
+            binding.C22s.setText("--");
+
+
             String url;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                url = "https://cubanapp.info/api/searchcache/index.php";
-            } else {
-                url = "http://cubanapp.info/api/searchcache/index.php";
-            }
+            url = "https://cubanapp.info/api/searchcache/index.php";
             JSONObject json = new JSONObject();
 
             try {
                 json.put("apiKey", apiKey);
                 json.put("f", dateString);
+                json.put("loc", location);
                 Log.d(DEBUG_TAG, "Date to Search: " + dateString);
             } catch (JSONException e) {
                 if (getActivity() != null) {
                     mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                            getString(R.string.errorData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
+                            getString(R.string.errorData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date, location));
                     mySnackbar.show();
                 }
                 if (e.getMessage() != null) {
                     Log.e(DEBUG_TAG, e.getMessage());
                 }
-                if (Build.VERSION.SDK_INT >= 19) {
-                    FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
-                    firebaseCrashlytics.sendUnsentReports();
-                    firebaseCrashlytics.recordException(e);
-                }
+                FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                firebaseCrashlytics.sendUnsentReports();
+                firebaseCrashlytics.recordException(e);
                 if (binding != null)
                     binding.progressBar4.setVisibility(View.GONE);
             }
@@ -186,9 +240,48 @@ public class SearchFragment extends Fragment {
 
                                     String fijos = (String) response.get("fijos");
                                     String corridos = (String) response.get("corridos");
+                                    if (Objects.equals(location, "Georgia")) {
+                                        georgiaFecha.setText((String) response.get("date"));
+                                        //georgiaTarde.setText(getString(R.string.tarde));
+                                        georgiaDiaSemana.setText((String) response.get("semana"));
+                                        Log.e(DEBUG_TAG, "FIJO: " + fijos);
+                                        try {
+                                            georgiaFijo1.setText(fijos.substring(6, 7));
+                                            georgiaFijo2.setText(fijos.substring(7, 9));
+                                        } catch (StringIndexOutOfBoundsException e) {
+                                            if (e.getMessage() != null) {
+                                                Log.e(DEBUG_TAG, e.getMessage());
+                                            }
+                                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                            firebaseCrashlytics.sendUnsentReports();
+                                            firebaseCrashlytics.recordException(e);
+                                            launchError();
+                                            return;
+                                        }
+
+
+                                        try {
+                                            /*
+                                             * 0-1-2-3-4
+                                             * 4-5-6-7-8
+                                             * 8-9-10-11-12
+                                             */
+                                            georgiaCorrido1.setText(corridos.substring(8, 10));
+                                            georgiaCorrido2.setText(corridos.substring(10, 12));
+                                        } catch (StringIndexOutOfBoundsException e) {
+                                            if (e.getMessage() != null) {
+                                                Log.e(DEBUG_TAG, e.getMessage());
+                                            }
+                                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                            firebaseCrashlytics.sendUnsentReports();
+                                            firebaseCrashlytics.recordException(e);
+                                            launchError();
+                                            return;
+                                        }
+                                    }
 
                                     binding.D1s.setText((String) response.get("date"));
-                                    binding.Ds.setText(getString(R.string.dia));
+                                    //binding.Ds.setText(getString(R.string.dia));
                                     binding.SDs.setText((String) response.get("semana"));
                                     Log.e(DEBUG_TAG, "FIJO: " + fijos);
                                     try {
@@ -198,11 +291,9 @@ public class SearchFragment extends Fragment {
                                         if (e.getMessage() != null) {
                                             Log.e(DEBUG_TAG, e.getMessage());
                                         }
-                                        if (Build.VERSION.SDK_INT >= 19) {
-                                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
-                                            firebaseCrashlytics.sendUnsentReports();
-                                            firebaseCrashlytics.recordException(e);
-                                        }
+                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                        firebaseCrashlytics.sendUnsentReports();
+                                        firebaseCrashlytics.recordException(e);
                                         launchError();
                                         return;
                                     }
@@ -215,17 +306,15 @@ public class SearchFragment extends Fragment {
                                         if (e.getMessage() != null) {
                                             Log.e(DEBUG_TAG, e.getMessage());
                                         }
-                                        if (Build.VERSION.SDK_INT >= 19) {
-                                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
-                                            firebaseCrashlytics.sendUnsentReports();
-                                            firebaseCrashlytics.recordException(e);
-                                        }
+                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                        firebaseCrashlytics.sendUnsentReports();
+                                        firebaseCrashlytics.recordException(e);
                                         launchError();
                                         return;
                                     }
 
                                     binding.N1s.setText((String) response.get("date"));
-                                    binding.Ns.setText(getString(R.string.noche));
+                                    //binding.Ns.setText(getString(R.string.noche));
                                     binding.SNs.setText((String) response.get("semana"));
 
                                     try {
@@ -235,11 +324,9 @@ public class SearchFragment extends Fragment {
                                         if (e.getMessage() != null) {
                                             Log.e(DEBUG_TAG, e.getMessage());
                                         }
-                                        if (Build.VERSION.SDK_INT >= 19) {
-                                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
-                                            firebaseCrashlytics.sendUnsentReports();
-                                            firebaseCrashlytics.recordException(e);
-                                        }
+                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                        firebaseCrashlytics.sendUnsentReports();
+                                        firebaseCrashlytics.recordException(e);
                                         launchError();
                                         return;
                                     }
@@ -251,11 +338,9 @@ public class SearchFragment extends Fragment {
                                         if (e.getMessage() != null) {
                                             Log.e(DEBUG_TAG, e.getMessage());
                                         }
-                                        if (Build.VERSION.SDK_INT >= 19) {
-                                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
-                                            firebaseCrashlytics.sendUnsentReports();
-                                            firebaseCrashlytics.recordException(e);
-                                        }
+                                        FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                                        firebaseCrashlytics.sendUnsentReports();
+                                        firebaseCrashlytics.recordException(e);
                                         launchError();
                                         return;
                                     }
@@ -266,7 +351,7 @@ public class SearchFragment extends Fragment {
                                     binding.progressBar4.setVisibility(View.GONE);
                                 if (getActivity() != null) {
                                     mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                            getString(R.string.internalerror), Snackbar.LENGTH_LONG);
+                                            getString(R.string.noresults), Snackbar.LENGTH_LONG);
                                     mySnackbar.show();
                                 }
                             }
@@ -276,17 +361,15 @@ public class SearchFragment extends Fragment {
                                 binding.progressBar4.setVisibility(View.GONE);
                             if (getActivity() != null) {
                                 mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                        getString(R.string.generateData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
+                                        getString(R.string.generateData), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date, location));
                                 mySnackbar.show();
                             }
                             if (e.getMessage() != null) {
                                 Log.e(DEBUG_TAG, e.getMessage());
                             }
-                            if (Build.VERSION.SDK_INT >= 19) {
-                                FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
-                                firebaseCrashlytics.sendUnsentReports();
-                                firebaseCrashlytics.recordException(e);
-                            }
+                            FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.getInstance();
+                            firebaseCrashlytics.sendUnsentReports();
+                            firebaseCrashlytics.recordException(e);
                         }
                     }, error -> {
                 if (binding != null)
@@ -295,14 +378,14 @@ public class SearchFragment extends Fragment {
                 if (error instanceof TimeoutError) {
                     if (getActivity() != null) {
                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                getString(R.string.slowconn), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
+                                getString(R.string.slowconn), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date, location));
                         mySnackbar.show();
                     }
 
                 } else {
                     if (getActivity() != null) {
                         mySnackbar = Snackbar.make(getActivity().findViewById(R.id.container),
-                                getString(R.string.lostsvr), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date));
+                                getString(R.string.lostsvr), Snackbar.LENGTH_LONG).setAction(getString(R.string.retry), v -> searchDate(date, location));
                         mySnackbar.show();
                     }
                 }
@@ -310,8 +393,8 @@ public class SearchFragment extends Fragment {
             }
 
             );
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(60000,
-                    3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
             requestQueue.add(stringRequest);
             if (binding != null)
@@ -357,6 +440,17 @@ public class SearchFragment extends Fragment {
                 outState.putString("F21s", binding.F21s.getText().toString());
                 outState.putString("C21s", binding.C21s.getText().toString());
                 outState.putString("C22s", binding.C22s.getText().toString());
+                outState.putString("titleText", binding.titlefl2.getText().toString());
+                outState.putString("locState", locState);
+                if (Objects.equals(locState, "Georgia")) {
+                    outState.putString("georgiaTarde", georgiaTarde.getText().toString());
+                    outState.putString("georgiaFecha", georgiaFecha.getText().toString());
+                    outState.putString("georgiaDiaSemana", georgiaDiaSemana.getText().toString());
+                    outState.putString("georgiaFijo1", georgiaFijo1.getText().toString());
+                    outState.putString("georgiaFijo2", georgiaFijo2.getText().toString());
+                    outState.putString("georgiaCorrido1", georgiaCorrido1.getText().toString());
+                    outState.putString("georgiaCorrido2", georgiaCorrido2.getText().toString());
+                }
             } catch (NullPointerException e) { //
             }
         }
@@ -371,20 +465,33 @@ public class SearchFragment extends Fragment {
 
     private void buildView(@Nullable Bundle bundle) {
         if (bundle != null && binding != null) {
-            binding.D1s.setText(bundle.getString("D1s", ""));
-            binding.Ds.setText(bundle.getString("Ds", ""));
+            if (Objects.equals(bundle.getString("locState", "Florida"), "Georgia")) {
+                locState = "Georgia";
+                georgiaLayout.setVisibility(View.VISIBLE);
+                georgiaTarde.setText(bundle.getString("georgiaTarde", getString(R.string.tarde)));
+                georgiaFecha.setText(bundle.getString("georgiaFecha", "--/--/----"));
+                georgiaDiaSemana.setText(bundle.getString("georgiaDiaSemana", ""));
+                georgiaFijo1.setText(bundle.getString("georgiaFijo1", "-"));
+                georgiaFijo2.setText(bundle.getString("georgiaFijo2", "--"));
+                georgiaCorrido1.setText(bundle.getString("georgiaCorrido1", "--"));
+                georgiaCorrido2.setText(bundle.getString("georgiaCorrido2", "--"));
+            } else georgiaLayout.setVisibility(View.GONE);
+
+            binding.titlefl2.setText(bundle.getString("titleText", bundle.getString("locState", "Florida")));
+            binding.D1s.setText(bundle.getString("D1s", "--/--/----"));
+            binding.Ds.setText(bundle.getString("Ds", getString(R.string.dia)));
             binding.SDs.setText(bundle.getString("SDs", ""));
-            binding.F10s.setText(bundle.getString("F10s", ""));
-            binding.F11s.setText(bundle.getString("F11s", ""));
-            binding.C11s.setText(bundle.getString("C11s", ""));
-            binding.C12s.setText(bundle.getString("C12s", ""));
-            binding.N1s.setText(bundle.getString("N1s", ""));
-            binding.Ns.setText(bundle.getString("Ns", ""));
+            binding.F10s.setText(bundle.getString("F10s", "-"));
+            binding.F11s.setText(bundle.getString("F11s", "--"));
+            binding.C11s.setText(bundle.getString("C11s", "--"));
+            binding.C12s.setText(bundle.getString("C12s", "--"));
+            binding.N1s.setText(bundle.getString("N1s", "--/--/----"));
+            binding.Ns.setText(bundle.getString("Ns", getString(R.string.noche)));
             binding.SNs.setText(bundle.getString("SNs", ""));
-            binding.F20s.setText(bundle.getString("F20s", ""));
-            binding.F21s.setText(bundle.getString("F21s", ""));
-            binding.C21s.setText(bundle.getString("C21s", ""));
-            binding.C22s.setText(bundle.getString("C22s", ""));
+            binding.F20s.setText(bundle.getString("F20s", "-"));
+            binding.F21s.setText(bundle.getString("F21s", "--"));
+            binding.C21s.setText(bundle.getString("C21s", "--"));
+            binding.C22s.setText(bundle.getString("C22s", "--"));
         }
     }
 

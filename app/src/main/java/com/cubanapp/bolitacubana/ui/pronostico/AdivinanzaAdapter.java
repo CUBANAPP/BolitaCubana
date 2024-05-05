@@ -1,5 +1,5 @@
 /*
- * Copyright (c) CUBANAPP LLC 2019-2023 .
+ * Copyright (c) CUBANAPP LLC 2019-2024 .
  */
 
 package com.cubanapp.bolitacubana.ui.pronostico;

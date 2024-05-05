@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) CUBANAPP LLC 2019-2023 .
+  ~ Copyright (c) CUBANAPP LLC 2019-2024 .
   -->
-<DatePicker
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/datepicker"
-    style="@android:style/Widget.DatePicker"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:minDate="01/01/1998"
-    tools:context=".ui.search.SearchFragment"/>
+    android:orientation="vertical">
+
+    <!-- Spinner para seleccionar la ubicación -->
+    <Spinner
+        android:padding="6dp"
+        android:theme="@style/Theme.BolitaCubana"
+        android:gravity="left|start"
+        android:layout_gravity="center"
+        android:id="@+id/locationSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/location_options" />
+
+    <!-- DatePicker estándar -->
+    <DatePicker
+        android:theme="@style/Theme.BolitaCubana"
+        android:layout_gravity="center"
+        android:id="@+id/datepicker"
+        style="@android:style/Widget.DatePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minDate="01/01/1998" />
+</LinearLayout>

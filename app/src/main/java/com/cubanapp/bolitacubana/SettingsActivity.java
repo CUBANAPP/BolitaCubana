@@ -1,5 +1,5 @@
 /*
- * Copyright (c) CUBANAPP LLC 2019-2023 .
+ * Copyright (c) CUBANAPP LLC 2019-2024 .
  */
 
 package com.cubanapp.bolitacubana;
@@ -282,46 +282,38 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                     mLastClickTime2 = SystemClock.elapsedRealtime();
 
-                    if (Build.VERSION.SDK_INT >= 19) {
-                        FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
-                        if (Objects.equals(preference.getKey(), getString(R.string.cubanapp_channel_name_topic))) {
-                            if (newValue.equals(false)) {
-                                if (getActivity() != null) {
-                                    mFirebaseMessages.unsubscribeFromTopic(getString(R.string.cubanapp_channel_name_topic)).addOnCompleteListener(task -> {
+                    FirebaseMessaging mFirebaseMessages = FirebaseMessaging.getInstance();
+                    if (Objects.equals(preference.getKey(), getString(R.string.cubanapp_channel_name_topic))) {
+                        if (newValue.equals(false)) {
+                            if (getActivity() != null) {
+                                mFirebaseMessages.unsubscribeFromTopic(getString(R.string.cubanapp_channel_name_topic)).addOnCompleteListener(task -> {
 
-                                        String msg = getString(R.string.msg_subscribed);
-                                        if (!task.isSuccessful()) {
-                                            msg = getString(R.string.msg_subscribe_failed);
-                                        }
-                                        Log.d(TAG, msg);
+                                    String msg = getString(R.string.msg_subscribed);
+                                    if (!task.isSuccessful()) {
+                                        msg = getString(R.string.msg_subscribe_failed);
+                                    }
+                                    Log.d(TAG, msg);
 
-                                        //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-                                    });
-                                }
-                            } else {
-                                if (getActivity() != null) {
-                                    mFirebaseMessages.subscribeToTopic(getString(R.string.cubanapp_channel_name_topic)).addOnCompleteListener(task -> {
+                                    //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                                });
+                            }
+                        } else {
+                            if (getActivity() != null) {
+                                mFirebaseMessages.subscribeToTopic(getString(R.string.cubanapp_channel_name_topic)).addOnCompleteListener(task -> {
 
-                                        String msg = getString(R.string.msg_subscribed);
-                                        if (!task.isSuccessful()) {
-                                            msg = getString(R.string.msg_subscribe_failed);
-                                        }
-                                        Log.d(TAG, msg);
+                                    String msg = getString(R.string.msg_subscribed);
+                                    if (!task.isSuccessful()) {
+                                        msg = getString(R.string.msg_subscribe_failed);
+                                    }
+                                    Log.d(TAG, msg);
 
-                                        //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-                                    });
-                                }
+                                    //Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                                });
                             }
                         }
-                        Log.d(TAG, "Config Changed: " + preference.getKey());
-                        return true;
-
-                    } else {
-                        if (getActivity() != null) {
-                            Toast.makeText(getActivity(), R.string.sdk19, Toast.LENGTH_LONG).show();
-                        }
-                        return false;
                     }
+                    Log.d(TAG, "Config Changed: " + preference.getKey());
+                    return true;
                 });
             }
             if (mpromoChannel != null) {

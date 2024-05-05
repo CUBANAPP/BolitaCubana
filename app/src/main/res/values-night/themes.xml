@@ -1,8 +1,8 @@
 <!--
-  ~ Copyright (c) CUBANAPP LLC 2019-2023 .
+  ~ Copyright (c) CUBANAPP LLC 2019-2024 .
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.BolitaCubana" parent="Theme.Material3.DayNight">
         <!-- Fondo Botones. -->
@@ -49,7 +49,7 @@
         <!-- StatusBar-->
         <item name="colorSurface">#10141A</item>
         <item name="colorSurfaceContainer">#080A0D</item>
-        <item name="android:statusBarColor" tools:targetApi="21">?attr/colorSurface</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
     </style>
     <style name="Theme.BolitaCubana.Full" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Fondo Botones. -->

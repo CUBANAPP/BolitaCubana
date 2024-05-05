@@ -1,8 +1,8 @@
 <!--
-  ~ Copyright (c) CUBANAPP LLC 2019-2023 .
+  ~ Copyright (c) CUBANAPP LLC 2019-2024 .
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name" translatable="true">Bolita Cubana</string>
     <string name="title_activity_main" translatable="true">Popular Lotteries</string>
     <string name="title_home" translatable="true">Lottery</string>
@@ -145,4 +145,5 @@
     <string name="googleplay" translatable="false">Google Play</string>
     <string name="updatalt" translatable="true">Download APK</string>
     <string name="opensettings" translatable="true">Open Settings</string>
+    <string name="noresults" translatable="true">This date does not contain results</string>
 </resources>

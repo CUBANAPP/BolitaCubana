@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) CUBANAPP LLC 2019-2023 .
+  ~ Copyright (c) CUBANAPP LLC 2019-2024 .
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -61,6 +61,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left|start"
                     android:text=""
+                    android:textStyle="bold|normal"
                     android:textColor="@color/light_yellow"
                     android:textSize="20sp" />
 
@@ -137,6 +138,105 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearGeorgia"
+            android:visibility="gone"
+            android:layout_marginStart="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/MD"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/light_red"
+                    android:gravity="left|start"
+                    android:text="@string/tarde" />
+                <TextView
+                    android:id="@+id/MSD"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold|normal"
+                    android:textColor="@color/light_red"
+                    android:gravity="left|start"
+                    android:text="" />
+                <TextView
+                    android:id="@+id/MD1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:gravity="left|start"
+                    android:text="@string/fechaempty" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/MF1_0"
+                        android:textSize="34sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black_yellow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/MF1_1"
+                        android:textSize="34sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/yellow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/MC1_1"
+                        android:textSize="34sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/light_blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/MC1_2"
+                        android:textSize="34sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/light_green"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
             android:layout_marginStart="2dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -163,7 +263,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left|start"
                     android:text=""
-                    android:textStyle="normal"
+                    android:textStyle="bold|normal"
                     android:textColor="@color/navy_blue"
                     android:textSize="20sp" />
 

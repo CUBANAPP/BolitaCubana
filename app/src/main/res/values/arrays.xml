@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) CUBANAPP LLC 2019-2023 .
+  ~ Copyright (c) CUBANAPP LLC 2019-2024 .
   -->
 
 <resources>
@@ -26,5 +26,10 @@
         <item>light</item>
         <item>dark</item>
         <item>system</item>
+    </string-array>
+    <string-array name="location_options">
+        <item>@string/fltittle</item>
+        <item>@string/getittle</item>
+        <item>@string/nytittle</item>
     </string-array>
 </resources>
