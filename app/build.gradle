@@ -41,7 +41,7 @@ android {
         minSdk 21
         targetSdk 34
         versionCode 129
-        versionName "2.2.0 Debug"
+        versionName "2.2.1 Alpha"
         resourceConfigurations += ['en', 'es']
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug

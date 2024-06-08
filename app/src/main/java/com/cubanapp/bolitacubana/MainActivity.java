@@ -506,10 +506,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeMobileAdsSdk() {
         if (binding != null) {
-            if (isMobileAdsInitializeCalled.getAndSet(true)) {
+            if(BuildConfig.DEBUG) return;
+
+            if (isMobileAdsInitializeCalled.get()) {
                 adView.setVisibility(View.VISIBLE);
                 return;
             }
+            isMobileAdsInitializeCalled.set(true);
 
             MobileAds.initialize(this, initializationStatus -> {
                 Log.d(DEBUG_TAG, "Ads Running");
@@ -549,6 +552,7 @@ public class MainActivity extends AppCompatActivity {
                             // Handle the error
                             if (binding != null) {
                                 Log.d(DEBUG_TAG, loadAdError.toString());
+                                isMobileAdsInitializeCalled.set(false);
                                 //mInterstitialAd = null;
                             }
                         }
@@ -582,6 +586,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onAdFailedToLoad(@NonNull LoadAdError adError) {
                     // Code to be executed when an ad request fails.
                     Log.w(DEBUG_TAG, "Ads Error");
+                    isMobileAdsInitializeCalled.set(false);
                 }
 
                 @Override
