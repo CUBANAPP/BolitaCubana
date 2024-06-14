@@ -629,23 +629,23 @@ public class LauncherActivity extends AppCompatActivity {
                 }
             } else {
                 if (ConnSuccess) {
-                    if (Build.VERSION.SDK_INT >= 19) {
-                        if (BuildConfig.VERSION_CODE > preferences.getInt("version_install", 100)) {
-                            if (preferences.getInt("version_install", 100) > 107 && BuildConfig.VERSION_CODE == 112) {
+                    if (Build.VERSION.SDK_INT >= 19) { //TODO: FIX for old versions upgrading
+                        if (BuildConfig.VERSION_CODE > preferences.getInt("version_install", 125)) {
+                            if (preferences.getInt("version_install", 125) > 107 && BuildConfig.VERSION_CODE == 112) {
                                 SharedPreferences.Editor sharedPrefEditor = preferences.edit();
                                 sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
                                 sharedPrefEditor.putInt("gad_rdp", 1);
                                 sharedPrefEditor.putInt("rdp", 1);
                                 sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
                                 sharedPrefEditor.apply();
-                            } else if (preferences.getInt("version_install", 100) == 107) {
+                            } else if (preferences.getInt("version_install", 125) == 107) {
                                 SharedPreferences.Editor sharedPrefEditor = preferences.edit();
                                 sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
                                 mFirebaseMessages.unsubscribeFromTopic("Default");
                                 sharedPrefEditor.putInt("rdp", 1);
                                 Log.d(DEBUG_TAG, "Update DEBUG");
                                 sharedPrefEditor.apply();
-                            } else if (preferences.getInt("version_install", 100) < 107 && preferences.getInt("version_install", 100) > 100) {
+                            } else if (preferences.getInt("version_install", 125) < 107 && preferences.getInt("version_install", 125) > 100) {
                                 SharedPreferences.Editor sharedPrefEditor = preferences.edit();
                                 sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
                                 sharedPrefEditor.putInt("gad_rdp", 1);
@@ -656,15 +656,15 @@ public class LauncherActivity extends AppCompatActivity {
                                 mFirebaseMessages.unsubscribeFromTopic("Default");
                                 if (BuildConfig.DEBUG)
                                     mFirebaseMessages.subscribeToTopic("Debug");
-                                if (preferences.getBoolean("floridaChannel", false))
+                                if (preferences.getBoolean("floridaChannel", true))
                                     mFirebaseMessages.subscribeToTopic("Florida");
-                                if (preferences.getBoolean("georgiaChannel", false))
+                                if (preferences.getBoolean("georgiaChannel", true))
                                     mFirebaseMessages.subscribeToTopic("Georgia");
-                                if (preferences.getBoolean("newyorkChannel", false))
+                                if (preferences.getBoolean("newyorkChannel", true))
                                     mFirebaseMessages.subscribeToTopic("NewYork");
-                                if (preferences.getBoolean(getString(R.string.cubanapp_channel_name_topic), false))
+                                if (preferences.getBoolean(getString(R.string.cubanapp_channel_name_topic), true))
                                     mFirebaseMessages.subscribeToTopic(getString(R.string.cubanapp_channel_name_topic));
-                                if (preferences.getBoolean(getString(R.string.promotional_topic), false))
+                                if (preferences.getBoolean(getString(R.string.promotional_topic), true))
                                     mFirebaseMessages.subscribeToTopic(getString(R.string.promotional_topic));
                                 Log.d(DEBUG_TAG, "Update DEBUG");
                             }
