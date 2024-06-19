@@ -21,7 +21,6 @@
 package com.cubanapp.bolitacubana;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -34,7 +33,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,7 +48,6 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
@@ -77,7 +74,9 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.ump.ConsentForm;
 import com.google.android.ump.ConsentInformation;
@@ -89,20 +88,12 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
-import java.security.KeyStore;
 import java.security.KeyStoreException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -114,18 +105,6 @@ import java.util.Objects;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509TrustManager;
-
-import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -154,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPref;
     private ActivityMainBinding binding;
     private AppBarConfiguration appBarConfiguration;
-    private AlertDialog builder;
+    private MaterialAlertDialogBuilder builder;
     private String apiKey;
     private boolean first;
 
@@ -172,7 +151,10 @@ public class MainActivity extends AppCompatActivity {
     private ConsentInformation consentInformation;
     private ConsentForm consentForm;
 
+    private int gPlayAvalible;
+
     private boolean webviewOpen;
+    private GoogleApiAvailability myGoogleApi;
 
     private static final String IAB_STRING = "1---";
 
@@ -190,11 +172,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         if (BuildConfig.DEBUG) {
-            RequestConfiguration.Builder builder = new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("B3EEABB8EE11C2BE770B684D95219ECB"));
-            builder.build();
+            RequestConfiguration.Builder builderConfiguration = new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("B3EEABB8EE11C2BE770B684D95219ECB"));
+            builderConfiguration.build();
         }
 
         context = getApplicationContext();
+        myGoogleApi = GoogleApiAvailability.getInstance();
+        gPlayAvalible = myGoogleApi.isGooglePlayServicesAvailable(context);
+        myGoogleApi.setDefaultNotificationChannelId(context, getString(R.string.default_notification_channel_id));
+
         sharedPref = context.getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
@@ -298,9 +284,12 @@ public class MainActivity extends AppCompatActivity {
         apiKey = BuildConfig.API_KEY;
 
         //adView.setVisibility(View.GONE);
-
-        builder = new AlertDialog.Builder(this)
-                .create();
+        builder = new MaterialAlertDialogBuilder(this, R.style.Theme_BolitaCubana_Dialog);
+        //builder = new MaterialAlertDialogBuilder(context, R.style.Theme_BolitaCubana_Dialog);
+        builder.setTitle("Test");
+        builder.setMessage("Test");
+        builder.setNegativeButton(getString(R.string.dismiss), null);
+        builder.create();
         first = false;
         Bundle bundle = getIntent().getExtras();
 
@@ -316,26 +305,29 @@ public class MainActivity extends AppCompatActivity {
                         String su = getString(R.string.link);
                         su += message;
                         builder.setMessage(su);
-                        builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.open), (dialog, which) -> openlink(message));
+                        builder.setPositiveButton(getString(R.string.open), (dialog, which) -> openlink(message));
+                        builder.setNegativeButton(getString(R.string.dismiss), null);
+                        /*builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.open), (dialog, which) -> openlink(message));
                         builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
                             if (builder != null) {
                                 if (builder.isShowing())
                                     builder.dismiss();
                             }
-                        });
+                        });*/
                         builder.show();
                     }
                 } else {
                     if (builder != null) {
                         builder.setTitle(getString(R.string.important));
                         builder.setMessage(message);
-                        builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
+                        builder.setNegativeButton(getString(R.string.dismiss), null);
+                        /*builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
                             if (builder != null) {
 
                                 if (builder.isShowing())
                                     builder.dismiss();
                             }
-                        });
+                        });*/
                         builder.show();
                     }
                 }
@@ -486,6 +478,7 @@ public class MainActivity extends AppCompatActivity {
             if (night) {
                 try {
                     clearTempData(fechaString);
+                    recreate();
                 } catch (IllegalStateException | IllegalArgumentException e) {
                     if (e.getMessage() != null) {
                         Log.e(DEBUG_TAG, e.getMessage());
@@ -522,7 +515,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeMobileAdsSdk() {
         if (binding != null) {
-            if(BuildConfig.DEBUG) return;
+            if (BuildConfig.DEBUG) return;
+            if (gPlayAvalible != 0) return;
 
             if (isMobileAdsInitializeCalled.get()) {
                 adView.setVisibility(View.VISIBLE);
@@ -671,11 +665,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void startSync() throws CertificateException, IOException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
 
-        if (builder != null) {
-
+        /*if (builder != null) {
             if (builder.isShowing())
                 builder.dismiss();
-        }
+        }*/
         //ExecutorService executor = Executors.newSingleThreadExecutor();
         //Handler handler = new Handler(Looper.getMainLooper());
 
@@ -811,17 +804,22 @@ public class MainActivity extends AppCompatActivity {
                                     return;
                                 }
                                 if (version.get() > BuildConfig.VERSION_CODE) {
-                                    if (builder != null) {
-                                        builder.setTitle(getString(R.string.obsolete));
-                                        builder.setMessage(getString(R.string.update));
-                                        builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.open), (dialog, which) -> updateApp());
+                                    if(binding !=null) {
+                                        if (builder != null) {
+                                            Log.e(DEBUG_TAG, "Update version: " + version.get());
+                                            builder.setTitle(getString(R.string.obsolete));
+                                            builder.setMessage(getString(R.string.update));
+                                            builder.setPositiveButton(getString(R.string.open), (dialog, which) -> updateApp());
+                                            builder.setNegativeButton(getString(R.string.dismiss), null);
+                                        /*builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.open), (dialog, which) -> updateApp());
                                         builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
                                             if (builder != null) {
                                                 if (builder.isShowing())
                                                     builder.dismiss();
                                             }
-                                        });
-                                        builder.show();
+                                        });*/
+                                            builder.show();
+                                        }
                                     }
                                 } else if (!Objects.equals(message, "")) {
                                     if (message.contains("https://")) {
@@ -830,25 +828,28 @@ public class MainActivity extends AppCompatActivity {
                                             String s = getString(R.string.link);
                                             s += message;
                                             builder.setMessage(s);
-                                            builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.open), (dialog, which) -> openlink(message));
+                                            builder.setPositiveButton(getString(R.string.open), (dialog, which) -> openlink(message));
+                                            builder.setNegativeButton(getString(R.string.dismiss), null);
+                                            /*builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.open), (dialog, which) -> openlink(message));
                                             builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
                                                 if (builder != null) {
                                                     if (builder.isShowing())
                                                         builder.dismiss();
                                                 }
-                                            });
+                                            });*/
                                             builder.show();
                                         }
                                     } else {
                                         if (builder != null) {
                                             builder.setTitle(getString(R.string.important));
                                             builder.setMessage(message);
-                                            builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
+                                            builder.setNegativeButton(getString(R.string.dismiss), null);
+                                            /*builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
                                                 if (builder != null) {
                                                     if (builder.isShowing())
                                                         builder.dismiss();
                                                 }
-                                            });
+                                            });*/
                                             builder.show();
                                         }
                                     }
@@ -928,7 +929,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void syncRetrofit() throws IOException, CertificateException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+    /*private void syncRetrofit() throws IOException, CertificateException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
 // Read the contents of the .PEM file
         byte[] caCertBytes = readCertificateFile();
 
@@ -1091,7 +1092,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
-    }
+    }*/
 
     @Override
     protected void onStart() {
@@ -1211,7 +1212,14 @@ public class MainActivity extends AppCompatActivity {
             if (builder != null) {
                 builder.setTitle(getString(R.string.app_name));
                 builder.setMessage(getString(R.string.aboutinfo1) + BuildConfig.VERSION_NAME + getString(R.string.aboutinfo2));
-                builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
+                builder.setNegativeButton(getString(R.string.dismiss), null);
+                builder.setPositiveButton(getString(R.string.openprivacy), (dialog, which) -> {
+                    if (!webviewOpen) {
+                        loadToS();
+                    }
+                });
+
+                /*builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
                     if (builder != null)
                         if (builder.isShowing())
                             builder.dismiss();
@@ -1220,7 +1228,7 @@ public class MainActivity extends AppCompatActivity {
                     if (!webviewOpen) {
                         loadToS();
                     }
-                });
+                });*/
                 builder.show();
             }
             return true;
@@ -1266,21 +1274,23 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        if (mySnackbar != null) {
-            if (mySnackbar.isShown())
-                mySnackbar.dismiss();
-        }
-        if (builder != null) {
-            if (builder.isShowing())
-                builder.dismiss();
-        }
-        if (requestQueue != null) {
-            requestQueue.stop();
-            if (stringRequest != null) {
-                stringRequest.cancel();
+        if (binding != null) {
+            if (mySnackbar != null) {
+                if (mySnackbar.isShown())
+                    mySnackbar.dismiss();
             }
+            /*if (builder != null) {
+                if (builder.isShowing())
+                    builder.dismiss();
+            }*/
+            if (requestQueue != null) {
+                requestQueue.stop();
+                if (stringRequest != null) {
+                    stringRequest.cancel();
+                }
+            }
+            mLastSyncClickTime = 0;
         }
-        mLastSyncClickTime = 0;
         super.onStop();
     }
 
@@ -1295,23 +1305,27 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (builder != null) {
-            bundle = getIntent().getExtras();
-            if (bundle != null) {
-                if (bundle.getString("notifMsg") != null) {
-                    if (bundle.getString("notifTitle") != null) {
-                        builder.setTitle(bundle.getString("notifTitle"));
-                    }
-                    builder.setMessage(bundle.getString("notifMsg"));
-                    builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
-                        if (builder != null) {
-                            if (builder.isShowing())
-                                builder.dismiss();
+        if (binding != null) {
+            gPlayAvalible = myGoogleApi.isGooglePlayServicesAvailable(context);
+            if (builder != null) {
+                bundle = getIntent().getExtras();
+                if (bundle != null) {
+                    if (bundle.getString("notifMsg") != null) {
+                        if (bundle.getString("notifTitle") != null) {
+                            builder.setTitle(bundle.getString("notifTitle"));
                         }
-                    });
-                    builder.show();
+                        builder.setMessage(bundle.getString("notifMsg"));
+                        builder.setNegativeButton(getString(R.string.dismiss), null);
+                        /*builder.setButton(Dialog.BUTTON_NEUTRAL, getString(R.string.dismiss), (dialog, which) -> {
+                            if (builder != null) {
+                                if (builder.isShowing())
+                                    builder.dismiss();
+                            }
+                        });*/
+                        builder.show();
+                    }
+                    bundle.clear();
                 }
-                bundle.clear();
             }
         }
     }
@@ -1500,7 +1514,7 @@ public class MainActivity extends AppCompatActivity {
 
             fecha.add(Calendar.SECOND, 5);
 
-            edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
+            //edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
             edit.apply();
             SharedPreferences.Editor ditor = sharedPref.edit();
             ditor.putString("removeTemp", dateString);

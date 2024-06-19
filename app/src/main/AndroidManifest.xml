@@ -83,6 +83,7 @@
             android:exported="false"
             android:singleUser="true"
             android:hardwareAccelerated="true"
+            android:theme="@style/Theme.BolitaCubana"
             android:label="@string/updat2"
             tools:ignore="LockedOrientationActivity">
         </activity>
@@ -93,6 +94,7 @@
             android:exported="false"
             android:singleUser="true"
             android:hardwareAccelerated="true"
+            android:theme="@style/Theme.BolitaCubana"
             android:label="@string/title_activity_main"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>

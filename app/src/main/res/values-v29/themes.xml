@@ -71,6 +71,56 @@
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="Theme.BolitaCubana.Dialog" parent="Theme.Material3.DayNight.Dialog.Alert">
+        <item name="colorPrimary">#1A1A1A</item>
+        <item name="colorPrimaryVariant">#DB0101</item>
+
+        <!-- Texto opciones. -->
+        <item name="android:textColorPrimary">#003C56</item>
+        <!-- Texto Lista -->
+        <item name="textColorAlertDialogListItem">#001E2C</item>
+        <!-- Fondo. -->
+        <item name="android:colorBackground">?attr/colorOnSecondaryContainer</item>
+
+        <!-- Color Tick. -->
+        <item name="colorPrimaryContainer">#A90000</item>
+
+        <!-- Navigation. -->
+        <item name="colorSecondaryContainer">#1A1A1A</item>
+        <item name="colorOnSecondaryContainer">#FFFFFF</item>
+
+        <!-- Texto Botones. -->
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <!-- Secondary brand color. -->
+        <!-- Titulo texto opciones. -->
+        <item name="colorSecondary">#DB0101</item>
+        <item name="colorSecondaryVariant">#A90000</item>
+        <item name="colorOnSecondary">#001E2C</item>
+
+        <item name="colorTertiary">#1A1A1A</item>
+        <item name="colorTertiaryContainer">#FFFFFF</item>
+        <item name="colorOnTertiary">#003C56</item>
+
+        <!-- Navigation others. -->
+        <item name="colorOnSurfaceVariant">#333333</item>
+
+        <!-- Status bar color. 66FFFB C1E8FF-->
+        <item name="elevationOverlayColor">#F2F2F2</item>
+        <!-- Titulo APP -->
+        <item name="colorPrimaryInverse">#FFFFFF</item>
+
+        <item name="android:textColorHighlight">#001E2C</item>
+        <item name="android:textColorHighlightInverse">#FFFFFF</item>
+
+        <!-- StatusBar-->
+        <item name="colorSurface">#EEEEEE</item>
+        <item name="colorSurfaceContainer">#F5F5F5</item>
+        <!-- Transparent system bars for edge-to-edge. -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+
+    </style>
     <style name="Theme.BolitaCubana.Full" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <!-- Fondo Botones. -->

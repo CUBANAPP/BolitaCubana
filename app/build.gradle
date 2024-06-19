@@ -40,8 +40,8 @@ android {
         applicationId "com.cubanapp.bolitacubana"
         minSdk 21
         targetSdk 34
-        versionCode 130
-        versionName "2.2.1 Debug"
+        versionCode 132
+        versionName "2.2.2 Debug"
         resourceConfigurations += ['en', 'es']
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
@@ -153,33 +153,35 @@ android {
 }
 
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:latest.release')
-    implementation 'androidx.multidex:multidex:latest.release'
-    implementation 'androidx.appcompat:appcompat:latest.release'
-    implementation 'com.google.android.material:material:latest.release' //1.11.0
-    implementation 'androidx.constraintlayout:constraintlayout:latest.release'
-    implementation 'androidx.vectordrawable:vectordrawable:latest.release'
+    implementation platform('com.google.firebase:firebase-bom:33.1.0')
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.appcompat:appcompat-resources:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0' //1.11.0
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.vectordrawable:vectordrawable:1.2.0'
+    implementation 'androidx.vectordrawable:vectordrawable-animated:1.2.0'
     //implementation 'androidx.lifecycle:lifecycle-livedata:latest.release'
     //implementation 'androidx.lifecycle:lifecycle-viewmodel:latest.release'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.7.7'
     implementation 'androidx.navigation:navigation-ui-ktx:2.7.7' //2.7.7
-    implementation 'androidx.preference:preference:latest.release'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation 'androidx.core:core-ktx:1.13.1' // 1.13.1
 
-    //Opcional?
-    //implementation 'androidx.core:core:latest.release'
+    //Compatibilidad con nestedScroll
+    //implementation 'androidx.core:core:1.12.0'
 
     //testImplementation 'junit:junit:4.13.2'
     //androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     //androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    implementation 'com.android.volley:volley:latest.release'
+    implementation 'com.android.volley:volley:1.2.1'
 
-    implementation 'com.google.android.gms:play-services-ads:latest.release'
-    implementation 'com.google.android.gms:play-services-base:latest.release'
-    implementation 'com.google.android.gms:play-services-ads-identifier:latest.release'
+    implementation 'com.google.android.gms:play-services-ads:23.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
+    implementation 'com.google.android.gms:play-services-ads-identifier:18.1.0'
     //replace ads config
-    implementation 'com.google.android.gms:play-services-measurement-api:latest.release' //problem with 21.6.2
+    implementation 'com.google.android.gms:play-services-measurement-api:22.0.1' //problem with 21.6.2
 
     //Chartboost
     //implementation 'com.chartboost:chartboost-sdk:9.2.0'
@@ -193,10 +195,10 @@ dependencies {
     //implementation 'com.github.bumptech.glide:glide:4.15.1'
 
     //refresh loading
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:latest.release'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     // Nuevas politicas
-    implementation 'com.google.android.ump:user-messaging-platform:latest.release'
+    implementation 'com.google.android.ump:user-messaging-platform:2.2.0'
     // Firebase
     //implementation 'com.google.firebase:firebase-appindexing'
     implementation 'com.google.firebase:firebase-analytics'
@@ -208,12 +210,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-perf'
     implementation 'com.google.firebase:firebase-messaging-directboot'
 
-    implementation 'com.squareup.retrofit2:retrofit:latest.release'
-    implementation 'com.squareup.retrofit2:converter-gson:latest.release'
-    implementation 'com.squareup.okhttp3:okhttp:latest.release'
-    implementation 'com.squareup.okhttp3:logging-interceptor:latest.release'
+    /*implementation 'com.squareup.retrofit2:retrofit:2.11.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'*/
 
 
     //Java
-    implementation 'org.openjfx:javafx-web:latest.release'
+    implementation 'org.openjfx:javafx-web:22.0.1'
 }

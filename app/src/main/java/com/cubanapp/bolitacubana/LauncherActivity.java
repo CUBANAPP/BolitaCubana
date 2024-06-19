@@ -21,7 +21,6 @@
 package com.cubanapp.bolitacubana;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -44,7 +43,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
@@ -60,6 +58,7 @@ import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.security.ProviderInstaller;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -85,7 +84,7 @@ public class LauncherActivity extends AppCompatActivity {
     private long mLastClickTime = 0;
     private long mLastStartSyncTime = 0;
     private FirebaseAnalytics mFirebaseAnalytics;
-    private AlertDialog builder;
+    private MaterialAlertDialogBuilder builder;
     //DialogNew2 permissionDialog2;
     private ProgressBar progressBar;
     boolean ConnSuccess;
@@ -126,8 +125,8 @@ public class LauncherActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         if (BuildConfig.DEBUG) {
-            RequestConfiguration.Builder builder = new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("B3EEABB8EE11C2BE770B684D95219ECB"));
-            builder.build();
+            RequestConfiguration.Builder builderConfig = new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("B3EEABB8EE11C2BE770B684D95219ECB"));
+            builderConfig.build();
         }
 
         //setContentView(R.layout.activity_launcher);
@@ -223,11 +222,12 @@ public class LauncherActivity extends AppCompatActivity {
         sharedPref = context.getSharedPreferences(
                 getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
-        builder = new AlertDialog.Builder(this)
+        builder = new MaterialAlertDialogBuilder(this, R.style.Theme_BolitaCubana_Dialog)
                 .setMessage(R.string.dialog_permission)
                 .setPositiveButton(getString(R.string.open), (dialog, id) -> openSettings())
-                .setNegativeButton(getString(R.string.cancel), (dialog, id) -> finish())
-                .create();
+                .setNegativeButton(getString(R.string.cancel), (dialog, id) -> finish());
+        builder.create();
+        //builder.show();
 
         if (Build.VERSION.SDK_INT >= 19) {
             mFirebaseMessages = FirebaseMessaging.getInstance();
@@ -589,38 +589,13 @@ public class LauncherActivity extends AppCompatActivity {
             } else if (firstTime) {
                 if (builder != null) {
                     builder.setMessage(getString(R.string.connection));
-                    builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.retry), (dialog, which) -> {
+                    builder.setPositiveButton(getString(R.string.retry), (dialog, which) -> {
+                        //builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.retry), (dialog, which) -> {
                         try {
                             startSync();
-                        } catch (CertificateException e) {
-                            if (Build.VERSION.SDK_INT >= 19) {
-                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
-                            }
-                            System.out.println(Objects.requireNonNull(e.getMessage()));
-                            throw new RuntimeException(e);
-                        } catch (IOException e) {
-                            if (Build.VERSION.SDK_INT >= 19) {
-                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
-                            }
-                            System.out.println(Objects.requireNonNull(e.getMessage()));
-                            throw new RuntimeException(e);
-                        } catch (KeyStoreException e) {
-                            if (Build.VERSION.SDK_INT >= 19) {
-                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
-                            }
-                            System.out.println(Objects.requireNonNull(e.getMessage()));
-
-                            throw new RuntimeException(e);
-                        } catch (NoSuchAlgorithmException e) {
-                            if (Build.VERSION.SDK_INT >= 19) {
-                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
-                            }
-                            System.out.println(Objects.requireNonNull(e.getMessage()));
-                            throw new RuntimeException(e);
-                        } catch (KeyManagementException e) {
-                            if (Build.VERSION.SDK_INT >= 19) {
-                                FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
-                            }
+                        } catch (CertificateException | KeyManagementException |
+                                 NoSuchAlgorithmException | KeyStoreException | IOException e) {
+                            FirebaseCrashlytics.getInstance().log(Objects.requireNonNull(e.getMessage()));
                             System.out.println(Objects.requireNonNull(e.getMessage()));
                             throw new RuntimeException(e);
                         }
@@ -629,48 +604,47 @@ public class LauncherActivity extends AppCompatActivity {
                 }
             } else {
                 if (ConnSuccess) {
-                    if (Build.VERSION.SDK_INT >= 19) { //TODO: FIX for old versions upgrading
-                        if (BuildConfig.VERSION_CODE > preferences.getInt("version_install", 125)) {
-                            if (preferences.getInt("version_install", 125) > 107 && BuildConfig.VERSION_CODE == 112) {
-                                SharedPreferences.Editor sharedPrefEditor = preferences.edit();
-                                sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
-                                sharedPrefEditor.putInt("gad_rdp", 1);
-                                sharedPrefEditor.putInt("rdp", 1);
-                                sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
-                                sharedPrefEditor.apply();
-                            } else if (preferences.getInt("version_install", 125) == 107) {
-                                SharedPreferences.Editor sharedPrefEditor = preferences.edit();
-                                sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
-                                mFirebaseMessages.unsubscribeFromTopic("Default");
-                                sharedPrefEditor.putInt("rdp", 1);
-                                Log.d(DEBUG_TAG, "Update DEBUG");
-                                sharedPrefEditor.apply();
-                            } else if (preferences.getInt("version_install", 125) < 107 && preferences.getInt("version_install", 125) > 100) {
-                                SharedPreferences.Editor sharedPrefEditor = preferences.edit();
-                                sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
-                                sharedPrefEditor.putInt("gad_rdp", 1);
-                                sharedPrefEditor.putInt("rdp", 1);
-                                sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
-                                sharedPrefEditor.apply();
-                                //mFirebaseMessages = FirebaseMessaging.getInstance();
-                                mFirebaseMessages.unsubscribeFromTopic("Default");
-                                if (BuildConfig.DEBUG)
-                                    mFirebaseMessages.subscribeToTopic("Debug");
-                                if (preferences.getBoolean("floridaChannel", true))
-                                    mFirebaseMessages.subscribeToTopic("Florida");
-                                if (preferences.getBoolean("georgiaChannel", true))
-                                    mFirebaseMessages.subscribeToTopic("Georgia");
-                                if (preferences.getBoolean("newyorkChannel", true))
-                                    mFirebaseMessages.subscribeToTopic("NewYork");
-                                if (preferences.getBoolean(getString(R.string.cubanapp_channel_name_topic), true))
-                                    mFirebaseMessages.subscribeToTopic(getString(R.string.cubanapp_channel_name_topic));
-                                if (preferences.getBoolean(getString(R.string.promotional_topic), true))
-                                    mFirebaseMessages.subscribeToTopic(getString(R.string.promotional_topic));
-                                Log.d(DEBUG_TAG, "Update DEBUG");
-                            }
-                        } else {
-                            Log.d(DEBUG_TAG, "VERSION_CODE " + BuildConfig.VERSION_CODE);
+                    //TODO: FIX for old versions upgrading
+                    if (BuildConfig.VERSION_CODE > preferences.getInt("version_install", 125)) {
+                        if (preferences.getInt("version_install", 125) > 107 && BuildConfig.VERSION_CODE == 112) {
+                            SharedPreferences.Editor sharedPrefEditor = preferences.edit();
+                            sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
+                            sharedPrefEditor.putInt("gad_rdp", 1);
+                            sharedPrefEditor.putInt("rdp", 1);
+                            sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
+                            sharedPrefEditor.apply();
+                        } else if (preferences.getInt("version_install", 125) == 107) {
+                            SharedPreferences.Editor sharedPrefEditor = preferences.edit();
+                            sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
+                            mFirebaseMessages.unsubscribeFromTopic("Default");
+                            sharedPrefEditor.putInt("rdp", 1);
+                            Log.d(DEBUG_TAG, "Update DEBUG");
+                            sharedPrefEditor.apply();
+                        } else if (preferences.getInt("version_install", 125) < 107 && preferences.getInt("version_install", 125) > 100) {
+                            SharedPreferences.Editor sharedPrefEditor = preferences.edit();
+                            sharedPrefEditor.putInt("version_install", BuildConfig.VERSION_CODE);
+                            sharedPrefEditor.putInt("gad_rdp", 1);
+                            sharedPrefEditor.putInt("rdp", 1);
+                            sharedPrefEditor.putString("IABUSPrivacy_String", IAB_STRING);
+                            sharedPrefEditor.apply();
+                            //mFirebaseMessages = FirebaseMessaging.getInstance();
+                            mFirebaseMessages.unsubscribeFromTopic("Default");
+                            if (BuildConfig.DEBUG)
+                                mFirebaseMessages.subscribeToTopic("Debug");
+                            if (preferences.getBoolean("floridaChannel", true))
+                                mFirebaseMessages.subscribeToTopic("Florida");
+                            if (preferences.getBoolean("georgiaChannel", true))
+                                mFirebaseMessages.subscribeToTopic("Georgia");
+                            if (preferences.getBoolean("newyorkChannel", true))
+                                mFirebaseMessages.subscribeToTopic("NewYork");
+                            if (preferences.getBoolean(getString(R.string.cubanapp_channel_name_topic), true))
+                                mFirebaseMessages.subscribeToTopic(getString(R.string.cubanapp_channel_name_topic));
+                            if (preferences.getBoolean(getString(R.string.promotional_topic), true))
+                                mFirebaseMessages.subscribeToTopic(getString(R.string.promotional_topic));
+                            Log.d(DEBUG_TAG, "Update DEBUG");
                         }
+                    } else {
+                        Log.d(DEBUG_TAG, "VERSION_CODE " + BuildConfig.VERSION_CODE);
                     }
                 }
                 startLaunch(ConnSuccess, false, "");
@@ -691,10 +665,10 @@ public class LauncherActivity extends AppCompatActivity {
         //progressBar.animate();
         if (progressBar != null)
             progressBar.setProgress(50);
-        if (builder != null) {
+        /*if (builder != null) {
             if (builder.isShowing())
                 builder.dismiss();
-        }
+        }*/
         //Drawable photo = getDrawable(R.drawable.habana2);// this is your image.
         //photo.to
         //ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -802,8 +776,8 @@ public class LauncherActivity extends AppCompatActivity {
                                 editor.putBoolean("root", false);
                                 int version = (Integer) response.get("version");
                                 if (BuildConfig.DEBUG) {
-                                    version = (Integer) response.get("vtest");
-                                    editor.putInt("version", version);
+                                    int version2 = (Integer) response.get("vtest");
+                                    editor.putInt("version", version2);
                                 } else {
                                     editor.putInt("version", version);
                                 }
@@ -821,9 +795,9 @@ public class LauncherActivity extends AppCompatActivity {
                                 Log.d(DEBUG_TAG, "Version is: " + version);
                                 editor.apply();
 
-                                if (builder != null)
+                                /*if (builder != null)
                                     if (builder.isShowing())
-                                        builder.dismiss();
+                                        builder.dismiss();*/
                                 progressBar.setProgress(100);
                                 Log.d(DEBUG_TAG, "UPDATED Launcher");
                                 startLaunch(true, true, msg);
@@ -831,7 +805,7 @@ public class LauncherActivity extends AppCompatActivity {
                             } else {
                                 if (builder != null) {
                                     builder.setMessage(msg);
-                                    builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.retry), (dialog, which) -> {
+                                    builder.setPositiveButton(getString(R.string.retry), (dialog, which) -> {
                                         try {
                                             startSync();
                                         } catch (CertificateException e) {
@@ -894,7 +868,7 @@ public class LauncherActivity extends AppCompatActivity {
                 if (volleyerror instanceof TimeoutError) {
                     if (builder != null) {
                         builder.setMessage(getString(R.string.connslow));
-                        builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.retry), (dialog, which) -> {
+                        builder.setPositiveButton(getString(R.string.retry), (dialog, which) -> {
                             try {
                                 startSync();
                             } catch (CertificateException e) {
@@ -934,7 +908,7 @@ public class LauncherActivity extends AppCompatActivity {
                 } else {
                     if (builder != null) {
                         builder.setMessage(getString(R.string.lostconn));
-                        builder.setButton(Dialog.BUTTON_POSITIVE, getString(R.string.retry), (dialog, which) -> {
+                        builder.setPositiveButton(getString(R.string.retry), (dialog, which) -> {
                             try {
                                 startSync();
                             } catch (CertificateException e) {
@@ -1031,10 +1005,10 @@ public class LauncherActivity extends AppCompatActivity {
             if (mySnackbar.isShown())
                 mySnackbar.dismiss();
         }
-        if (builder != null) {
+        /*if (builder != null) {
             if (builder.isShowing())
                 builder.dismiss();
-        }
+        }*/
         if (requestQueue != null) {
             requestQueue.stop();
             if (stringRequest != null) {

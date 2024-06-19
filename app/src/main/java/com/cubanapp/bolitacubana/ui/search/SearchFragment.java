@@ -260,7 +260,7 @@ public class SearchFragment extends Fragment {
                                         georgiaFecha.setText((String) response.get("date"));
                                         //georgiaTarde.setText(getString(R.string.tarde));
                                         georgiaDiaSemana.setText((String) response.get("semana"));
-                                        Log.e(DEBUG_TAG, "FIJO: " + fijos);
+                                        //Log.e(DEBUG_TAG, "FIJO: " + fijos);
                                         try {
                                             georgiaFijo1.setText(fijos.substring(6, 7));
                                             georgiaFijo2.setText(fijos.substring(7, 9));
@@ -299,7 +299,7 @@ public class SearchFragment extends Fragment {
                                     binding.D1s.setText((String) response.get("date"));
                                     //binding.Ds.setText(getString(R.string.dia));
                                     binding.SDs.setText((String) response.get("semana"));
-                                    Log.e(DEBUG_TAG, "FIJO: " + fijos);
+                                    //Log.e(DEBUG_TAG, "FIJO: " + fijos);
                                     try {
                                         binding.F10s.setText(fijos.substring(0, 1));
                                         binding.F11s.setText(fijos.substring(1, 3));

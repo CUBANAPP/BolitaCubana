@@ -213,9 +213,10 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                     }
                     if (getActivity() != null) {
-                        if (response.get())
+                        if (response.get()) {
                             Toast.makeText(getActivity(), R.string.completed, Toast.LENGTH_SHORT).show();
-                        else
+                            getActivity().recreate();
+                        } else
                             Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
                     }
                     return response.get();
@@ -559,8 +560,8 @@ public class SettingsActivity extends AppCompatActivity {
 
                     fecha.add(Calendar.SECOND, 5);
 
-                    edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
-                    edit.commit();
+                    //edit.putLong("checkUpdateImages", fecha.getTimeInMillis());
+                    //edit.commit();
                     SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences(
                             getString(R.string.preference_file_key), Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit2 = sharedPreferences2.edit();

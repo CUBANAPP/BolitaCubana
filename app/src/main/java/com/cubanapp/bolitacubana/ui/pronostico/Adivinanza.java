@@ -256,6 +256,7 @@ public class Adivinanza extends Fragment implements AdivinanzaAdapter.Adivinanza
         Calendar fecha = Calendar.getInstance(TimeZone.getTimeZone(TimeZone.getDefault().getID()), Locale.US);
 
         long i = sharedPref.getLong("checkUpdateImages", 0);
+        Log.i(DEBUG_TAG, "checkUpdateImages: " + i);
         if (fecha.getTimeInMillis() > i) {
             Log.i(DEBUG_TAG, "YA PASO 15m");
             if (binding != null)
