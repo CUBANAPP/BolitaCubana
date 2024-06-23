@@ -1,0 +1,115 @@
+<!--
+  ~      Bolita Cubana
+  ~      Copyright (C) 2019-2024 CUBANAPP LLC
+  ~
+  ~      This program is free software: you can redistribute it and/or modify
+  ~      it under the terms of the GNU Affero General Public License as
+  ~      published by the Free Software Foundation, either version 3 of the
+  ~      License, or (at your option) any later version.
+  ~
+  ~      This program is distributed in the hope that it will be useful,
+  ~      but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~      GNU Affero General Public License for more details.
+  ~
+  ~      You should have received a copy of the GNU Affero General Public License
+  ~      along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~      Email contact: help@cubanapp.info
+  -->
+
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.BolitaCubana" parent="Theme.AppCompat.DayNight">
+        <!-- Fondo Botones. -->
+        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorPrimaryVariant">#DB0101</item>
+
+        <!-- Texto opciones. -->
+        <item name="android:textColorPrimary">#66FFFB</item>
+        <!-- Texto Lista -->
+        <item name="textColorAlertDialogListItem">#FFFFFF</item>
+        <!-- Fondo. -->
+        <item name="android:colorBackground">#1A1A1A</item>
+
+        <!-- Texto Botones. -->
+        <item name="colorOnPrimary">#000000</item>
+        <!-- Secondary brand color. -->
+        <!-- Titulo texto opciones. -->
+        <item name="colorSecondary">#DB0101</item>
+        <item name="colorSecondaryVariant">#A90000</item>
+        <item name="colorOnSecondary">#003C56</item>
+
+        <!-- Status bar color. 66FFFB C1E8FF-->
+        <item name="elevationOverlayColor">#1A1A1A</item>
+        <!-- Titulo APP -->
+
+        <item name="android:textColorHighlight">#003C56</item>
+        <item name="android:textColorHighlightInverse">#080A0D</item>
+
+        <!-- StatusBar-->
+        <item name="colorSurface">#10141A</item>
+    </style>
+    <style name="Theme.BolitaCubana.Dialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <!-- Fondo Botones. -->
+        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorPrimaryVariant">#DB0101</item>
+
+        <!-- Texto opciones. -->
+        <item name="android:textColorPrimary">#818181</item>
+        <!-- Texto Lista -->
+        <item name="textColorAlertDialogListItem">#FFFFFF</item>
+        <!-- Fondo. -->
+        <item name="android:colorBackground">#1A1A1A</item>
+
+        <!-- Texto Botones. -->
+        <item name="colorOnPrimary">#000000</item>
+        <!-- Secondary brand color. -->
+        <!-- Titulo texto opciones. -->
+        <item name="colorSecondary">#DB0101</item>
+        <item name="colorSecondaryVariant">#A90000</item>
+        <item name="colorOnSecondary">#003C56</item>
+
+
+        <!-- Status bar color. 66FFFB C1E8FF-->
+        <item name="elevationOverlayColor">#1A1A1A</item>
+
+
+        <item name="android:textColorHighlight">#003C56</item>
+        <item name="android:textColorHighlightInverse">#080A0D</item>
+
+        <!-- StatusBar-->
+        <item name="colorSurface">#10141A</item>
+    </style>
+    <style name="Theme.BolitaCubana.Full" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Fondo Botones. -->
+        <item name="colorPrimary">#A90000</item>
+        <item name="colorPrimaryVariant">#DB0101</item>
+
+        <!-- Texto opciones. -->
+        <item name="android:textColorPrimary">#66FFFB</item>
+        <!-- Texto Lista -->
+        <item name="textColorAlertDialogListItem">#FFFFFF</item>
+        <!-- Fondo. -->
+        <item name="android:colorBackground">#1A1A1A</item>
+
+        <!-- Texto Botones. -->
+        <item name="colorOnPrimary">#000000</item>
+        <!-- Secondary brand color. -->
+        <!-- Titulo texto opciones. -->
+        <item name="colorSecondary">#DB0101</item>
+        <item name="colorSecondaryVariant">#A90000</item>
+        <item name="colorOnSecondary">#003C56</item>
+
+        <!-- Status bar color. 66FFFB C1E8FF-->
+        <item name="elevationOverlayColor">#1A1A1A</item>
+        <!-- Titulo APP -->
+
+
+        <item name="android:textColorHighlight">#003C56</item>
+        <item name="android:textColorHighlightInverse">#080A0D</item>
+
+        <!-- StatusBar-->
+        <item name="colorSurface">#10141A</item>
+    </style>
+</resources>
