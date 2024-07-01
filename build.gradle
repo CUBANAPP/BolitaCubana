@@ -1,17 +1,4 @@
-buildscript {
-    repositories {
-        //noinspection JcenterRepositoryObsolete
-        //jcenter()
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        mavenLocal()
-        maven { url "https://plugins.gradle.org/m2/" }
-        maven { url "https://mvnrepository.com/artifact/com.google.guava/guava" }
-        maven { url "https://mvnrepository.com/artifact/com.google.firebase/firebase-bom" }
-        maven { url "https://mvnrepository.com/artifact/com.android.application/com.android.application.gradle.plugin" }
-    }
-}/*
+/*
  *      Bolita Cubana
  *      Copyright (C) 2019-2024 CUBANAPP LLC
  *
@@ -30,7 +17,20 @@ buildscript {
  *
  *      Email contact: help@cubanapp.info
  */
-
+buildscript {
+    repositories {
+        //noinspection JcenterRepositoryObsolete
+        //jcenter()
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        mavenLocal()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://mvnrepository.com/artifact/com.google.guava/guava" }
+        maven { url "https://mvnrepository.com/artifact/com.google.firebase/firebase-bom" }
+        maven { url "https://mvnrepository.com/artifact/com.android.application/com.android.application.gradle.plugin" }
+    }
+}
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     id 'com.android.application' version '8.5.0' apply false
